@@ -1,0 +1,17 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "Download for macOS", class: className } = Astro.props;
+---
+
+<button
+  class:list={["btn", "btn-wait", className]}
+  type="button"
+  aria-disabled="true"
+>
+  <span class="btn-idle">{label}</span>
+  <span class="btn-alt">In development</span>
+</button>

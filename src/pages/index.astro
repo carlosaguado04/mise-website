@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import SetMark from "../components/SetMark.astro";
 import KeyChip from "../components/KeyChip.astro";
+import DownloadWait from "../components/DownloadWait.astro";
 import { site, jsonLd } from "../site";
 
 const sets = [
@@ -45,10 +46,9 @@ const terminals = [
       <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
       <p class="hero-sub">{site.description}</p>
       <div class="hero-actions">
-        <a class="btn btn-acid" href={site.downloadUrl}>Download for macOS</a>
+        <DownloadWait />
         <button class="btn btn-ghost" type="button" data-open-demo>Watch 30s demo</button>
       </div>
-      <p class="hero-meta">Free · {site.minOs} · Apple silicon & Intel</p>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
         <figure class="shot hero-stage">
@@ -190,21 +190,11 @@ const terminals = [
     </ul>
   </section>
 
-  <section class="pricing wrap" id="pricing">
-    <h2 data-reveal>Pricing</h2>
-    <div class="pricing-grid" data-reveal-group>
-      <article class="price-card" data-reveal>
-        <h3>Free</h3>
-        <p>Unlimited Sets on one display, all shortcuts.</p>
-      </article>
-      <article class="price-card" data-reveal>
-        <h3>Mise Pro · $24 once</h3>
-        <p>
-          Multi-display Sets, per-app launch rules, config sync. Perpetual license, one year of
-          updates included, no subscription.
-        </p>
-      </article>
-    </div>
+  <section class="status wrap" id="status">
+    <h2 data-reveal>In development.</h2>
+    <p data-reveal>
+      Follow <a href={site.xUrl}>@AppMise</a> for updates.
+    </p>
   </section>
 
   <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">

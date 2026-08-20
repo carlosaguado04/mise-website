@@ -298,6 +298,62 @@ button {
   border-radius: var(--r-sm);
 }
 
+.btn-wait {
+  display: inline-grid;
+  justify-items: center;
+  align-items: center;
+  background: var(--ink-raised);
+  color: var(--paper-mute);
+  border-color: var(--ink-edge);
+  cursor: not-allowed;
+}
+
+.btn-wait .btn-idle,
+.btn-wait .btn-alt {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  transition: opacity 150ms var(--ease);
+}
+
+.btn-wait .btn-alt {
+  opacity: 0;
+}
+
+.btn-wait:hover .btn-idle,
+.btn-wait:focus-visible .btn-idle {
+  opacity: 0;
+}
+
+.btn-wait:hover .btn-alt,
+.btn-wait:focus-visible .btn-alt {
+  opacity: 1;
+}
+
+.footer-wait {
+  display: inline-grid;
+  color: var(--paper-mute);
+  cursor: not-allowed;
+}
+
+.footer-wait .btn-idle,
+.footer-wait .btn-alt {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  transition: opacity 150ms var(--ease);
+}
+
+.footer-wait .btn-alt {
+  opacity: 0;
+}
+
+.footer-wait:hover .btn-idle {
+  opacity: 0;
+}
+
+.footer-wait:hover .btn-alt {
+  opacity: 1;
+}
+
 /* Keys */
 
 .key {
@@ -351,12 +407,6 @@ button {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 32px;
-}
-
-.hero-meta {
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--paper-mute);
 }
 
 .hero-visual {
@@ -607,7 +657,7 @@ button {
 #features,
 #terminals,
 #keys,
-#pricing,
+#status,
 #accessibility {
   scroll-margin-top: 24px;
 }
@@ -747,49 +797,25 @@ button {
   color: var(--paper-dim);
 }
 
-/* Pricing */
+/* Status */
 
-.pricing {
+.status {
   margin-top: 120px;
+  max-width: 36rem;
+  margin-inline: auto;
+  text-align: center;
 }
 
-.pricing h2 {
+.status h2 {
   font-size: clamp(28px, 3.4vw, 40px);
-  margin-bottom: 32px;
 }
 
-.pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+.status p {
+  margin-top: 16px;
 }
 
-.price-card {
-  padding: 24px;
-  background: var(--ink-raised);
-  border: 1px solid var(--ink-edge);
-  border-radius: var(--r-lg);
-  corner-shape: squircle;
-}
-
-.price-card h3 {
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.price-card p {
-  margin-top: 12px;
-}
-
-@media (min-width: 768px) {
-  .pricing-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .price-card {
-    padding: 32px;
-  }
+.status a {
+  color: var(--paper);
 }
 
 /* Footer */
@@ -1190,7 +1216,7 @@ dialog[open]::backdrop {
   .features,
   .terminals,
   .keys,
-  .pricing,
+  .status,
   .footer {
     margin-top: 80px;
   }

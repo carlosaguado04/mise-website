@@ -6,6 +6,7 @@ export const site = {
     "Mise remembers how your windows were arranged and puts them back — apps launched, sized, and placed across every display. Press a key, start working.",
   url: "https://mise.app",
   downloadUrl: "/Mise.dmg",
+  xUrl: "https://x.com/AppMise",
   email: "hello@mise.app",
   minOs: "macOS 14+",
 } as const;
@@ -19,11 +20,4 @@ export const jsonLd = {
   description: site.description,
   url: site.url,
   image: `${site.url}/og.png`,
-  offers: {
-    "@type": "AggregateOffer",
-    lowPrice: "0",
-    highPrice: "24",
-    priceCurrency: "USD",
-    offerCount: "2",
-  },
 };
