@@ -33,6 +33,46 @@ if (!reduce) {
 const shot = document.querySelector<HTMLImageElement>("[data-demo-shot]");
 const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
 
+const figure = shot?.closest(".demo-shot");
+
+function swapShot(card: HTMLButtonElement) {
+  if (!shot) return;
+  const next = card.dataset.src;
+  const nextAlt = card.dataset.alt;
+  if (nextAlt) shot.alt = nextAlt;
+  if (!next || shot.getAttribute("src") === next) return;
+
+  if (reduce) {
+    shot.src = next;
+    return;
+  }
+
+  let done = false;
+  const apply = () => {
+    if (done) return;
+    done = true;
+    shot.src = next;
+    figure?.classList.remove("is-fading");
+  };
+
+  figure?.classList.add("is-fading");
+  shot.addEventListener("transitionend", apply, { once: true });
+  window.setTimeout(apply, 220);
+}
+
+function pulse(card: HTMLButtonElement) {
+  if (reduce) return;
+  card.classList.remove("is-pulsing");
+  void card.offsetWidth;
+  card.classList.add("is-pulsing");
+  const onEnd = (event: AnimationEvent) => {
+    if (event.animationName !== "set-pulse") return;
+    card.classList.remove("is-pulsing");
+    card.removeEventListener("animationend", onEnd);
+  };
+  card.addEventListener("animationend", onEnd);
+}
+
 cards.forEach((card) => {
   const src = card.dataset.src;
   if (src) {
@@ -46,9 +86,8 @@ cards.forEach((card) => {
       c.classList.toggle("is-active", on);
       c.setAttribute("aria-pressed", on ? "true" : "false");
     });
-    if (!shot) return;
-    if (card.dataset.src) shot.src = card.dataset.src;
-    if (card.dataset.alt) shot.alt = card.dataset.alt;
+    pulse(card);
+    swapShot(card);
   });
 });
 

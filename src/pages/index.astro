@@ -32,7 +32,6 @@ const sets = [
 <Base jsonLd={jsonLd} preloadHero>
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">macOS · Menu bar</p>
       <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
       <p class="hero-sub">{site.description}</p>
       <div class="hero-actions">
@@ -42,14 +41,20 @@ const sets = [
       <p class="hero-meta">Free · {site.minOs} · Apple silicon & Intel</p>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
-        <figure class="shot">
+        <figure class="shot hero-stage">
           <img
+            class="hero-photo"
             src="/hero-popover.png"
             width="1200"
             height="750"
             alt="Mise menu-bar popover floating over a desktop, listing saved window Sets."
             fetchpriority="high"
           />
+          <div class="hero-desktop" aria-hidden="true">
+            <span class="hero-window hero-window--main"></span>
+            <span class="hero-window hero-window--tr"></span>
+            <span class="hero-window hero-window--br"></span>
+          </div>
         </figure>
       </div>
     </div>
@@ -130,42 +135,24 @@ const sets = [
         />
       </figure>
     </article>
-
-    <article class="feature" data-reveal-group>
-      <div class="feature-copy" data-reveal>
-        <h2>Launches what isn't running.</h2>
-        <p>Missing apps open first, then get placed. If one never shows, the rest still land.</p>
-      </div>
-      <figure class="shot feature-visual" data-reveal>
-        <img
-          src="/feature-launch.png"
-          width="640"
-          height="480"
-          alt="Mise launching a missing app, then placing it into the saved frame."
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-    </article>
   </section>
 
-  <section class="keys wrap" id="keys" data-reveal>
-    <h2>A key for each Set.</h2>
-    <ul class="shortcuts">
-      <li>
+  <section class="keys wrap" id="keys">
+    <h2 data-reveal>A key for each Set.</h2>
+    <ul class="shortcuts" data-reveal-group>
+      <li data-reveal>
         <KeyChip k="⌃⌥1–9" />
         <span>run a set</span>
       </li>
-      <li>
+      <li data-reveal>
         <KeyChip k="⌃⌥C" />
         <span>capture current windows</span>
       </li>
-      <li>
+      <li data-reveal>
         <KeyChip k="⌃⌥E" />
         <span>edit the active set</span>
       </li>
     </ul>
-    <p class="keys-note">All remappable. Mise has no Dock icon unless you want one.</p>
   </section>
 
   <section class="pricing wrap" id="pricing">

@@ -261,11 +261,23 @@ button {
 .btn-acid {
   background: var(--acid);
   color: var(--on-acid);
+  transition:
+    background-color 150ms var(--ease),
+    border-color 150ms var(--ease),
+    color 150ms var(--ease),
+    transform 150ms var(--ease),
+    filter 150ms var(--ease);
 }
 
 .btn-acid:hover {
   color: var(--on-acid);
-  opacity: 0.92;
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.btn-acid:active {
+  transform: translateY(0) scale(0.98);
+  filter: none;
 }
 
 .btn-ghost {
@@ -317,16 +329,6 @@ button {
   }
 }
 
-.eyebrow {
-  margin: 0 0 16px;
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--paper-mute);
-}
-
 .hero h1 {
   font-size: clamp(44px, 6vw, 76px);
   letter-spacing: -0.025em;
@@ -364,20 +366,63 @@ button {
 
 .hero-glow {
   position: absolute;
-  inset: -14% -10%;
+  inset: -18% -12%;
   background: radial-gradient(
     ellipse,
-    color-mix(in srgb, var(--acid) 7%, transparent),
+    color-mix(in srgb, var(--acid) 28%, transparent),
     transparent 70%
   );
   pointer-events: none;
   z-index: 0;
+  transform-origin: center;
 }
 
 .hero-visual .shot {
   position: relative;
   z-index: 1;
   box-shadow: var(--shadow);
+}
+
+.hero-stage {
+  aspect-ratio: 8 / 5;
+  background: #101218;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-stage.is-photo .hero-photo {
+  opacity: 1;
+}
+
+.hero-stage.is-photo .hero-desktop {
+  display: none;
+}
+
+.hero-desktop {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: clamp(8px, 1.5vw, 16px);
+  padding: clamp(20px, 6%, 52px);
+  height: 100%;
+}
+
+.hero-window {
+  display: block;
+  border-radius: clamp(8px, 1.4vw, 16px);
+  background: color-mix(in srgb, var(--paper) 16%, transparent);
+}
+
+.hero-window--main {
+  grid-row: 1 / 3;
 }
 
 /* Shots */
@@ -424,19 +469,25 @@ button {
   color: var(--paper);
   corner-shape: squircle;
   transition:
-    background-color 150ms var(--ease),
-    border-color 150ms var(--ease),
-    color 150ms var(--ease);
+    background-color 220ms var(--ease),
+    border-color 220ms var(--ease),
+    color 220ms var(--ease),
+    transform 150ms var(--ease);
 }
 
 .set-card:hover:not(.is-active) {
   background: color-mix(in srgb, var(--paper) 4%, var(--ink));
+  transform: translateY(-1px);
 }
 
 .set-card.is-active {
   background: var(--acid);
   border-color: transparent;
   color: var(--on-acid);
+}
+
+.set-card.is-pulsing {
+  animation: set-pulse 400ms var(--ease);
 }
 
 .set-card-top {
@@ -459,6 +510,14 @@ button {
 
 .demo-shot {
   margin-top: 16px;
+}
+
+.demo-shot img {
+  transition: opacity 180ms var(--ease);
+}
+
+.demo-shot.is-fading img {
+  opacity: 0;
 }
 
 .demo-caption {
@@ -491,10 +550,28 @@ button {
   display: block;
   background: color-mix(in srgb, var(--paper) 28%, transparent);
   border-radius: 5px;
+  transform-origin: center;
+  transition: background-color 220ms var(--ease);
 }
 
 .set-card.is-active .set-mark .pane {
   background: color-mix(in srgb, var(--on-acid) 55%, transparent);
+}
+
+.js .set-card.is-in.is-active .set-mark .pane {
+  animation: pane-land 220ms var(--ease) both;
+}
+
+.js .set-card.is-in.is-active .set-mark .a {
+  animation-delay: 0ms;
+}
+
+.js .set-card.is-in.is-active .set-mark .b {
+  animation-delay: 30ms;
+}
+
+.js .set-card.is-in.is-active .set-mark .c {
+  animation-delay: 60ms;
 }
 
 .set-mark--writing {
@@ -608,12 +685,6 @@ button {
   color: var(--paper-dim);
 }
 
-.keys-note {
-  margin-top: 24px;
-  font-size: 13px;
-  color: var(--paper-mute);
-}
-
 /* Pricing */
 
 .pricing {
@@ -702,18 +773,25 @@ button {
 
 .footer-end {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin-top: 48px;
   font-family: var(--mono);
   font-size: 13px;
   color: var(--paper-mute);
+  line-height: 1.45;
 }
 
 .footer-end img {
   width: 20px;
   height: 20px;
   border-radius: 5px;
+  margin-top: 1px;
+}
+
+.footer-end span {
+  display: block;
+  margin-top: 4px;
 }
 
 @media (min-width: 768px) {
@@ -794,10 +872,41 @@ dialog {
   border: 1px solid var(--ink-edge);
   border-radius: var(--r-lg);
   corner-shape: squircle;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    display 200ms allow-discrete,
+    overlay 200ms allow-discrete,
+    opacity 200ms var(--ease),
+    transform 200ms var(--ease);
+}
+
+dialog[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 dialog::backdrop {
   background: rgb(12 13 16 / 0.72);
+  opacity: 0;
+  transition: opacity 200ms var(--ease);
+}
+
+dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 .dialog-head {
@@ -849,6 +958,171 @@ dialog::backdrop {
   transform: none;
 }
 
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes word-pulse {
+  0%,
+  100% {
+    color: var(--acid-text);
+    text-shadow: 0 0 0 transparent;
+  }
+  50% {
+    color: var(--acid);
+    text-shadow: 0 0 40px color-mix(in srgb, var(--acid) 85%, transparent);
+  }
+}
+
+@keyframes glow-breathe {
+  from {
+    opacity: 0.45;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes window-main {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.9);
+    background: color-mix(in srgb, var(--paper) 16%, transparent);
+    box-shadow: none;
+  }
+  12% {
+    opacity: 1;
+    transform: none;
+    background: color-mix(in srgb, var(--paper) 16%, transparent);
+    box-shadow: none;
+  }
+  24%,
+  72% {
+    background: var(--acid);
+    box-shadow: 0 0 64px color-mix(in srgb, var(--acid) 45%, transparent);
+  }
+  86% {
+    background: color-mix(in srgb, var(--paper) 16%, transparent);
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+    background: color-mix(in srgb, var(--paper) 16%, transparent);
+  }
+}
+
+@keyframes window-side {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) scale(0.92);
+  }
+  14%,
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes set-pulse {
+  0% {
+    filter: brightness(1);
+  }
+  40% {
+    filter: brightness(1.16);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes pane-land {
+  from {
+    opacity: 0.35;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero .wrap > * {
+    animation: hero-rise 700ms var(--ease) both;
+  }
+
+  .hero .wrap > *:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  .hero .wrap > *:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .hero .wrap > *:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .hero .wrap > *:nth-child(4) {
+    animation-delay: 270ms;
+  }
+
+  .hero .wrap > *:nth-child(5) {
+    animation-delay: 340ms;
+  }
+
+  .hero .wrap > *:nth-child(6) {
+    animation-delay: 420ms;
+  }
+
+  .hero h1 em {
+    animation: word-pulse 1.8s var(--ease) 800ms infinite;
+  }
+
+  .hero-glow {
+    animation: glow-breathe 3.2s var(--ease) 400ms infinite alternate;
+  }
+
+  .hero-window--main {
+    animation: window-main 5.2s var(--ease) 500ms infinite both;
+  }
+
+  .hero-window--tr {
+    animation: window-side 5.2s var(--ease) 680ms infinite both;
+  }
+
+  .hero-window--br {
+    animation: window-side 5.2s var(--ease) 840ms infinite both;
+  }
+}
+
 @media (max-width: 720px) {
   .demo,
   .features,
@@ -879,5 +1153,9 @@ dialog::backdrop {
   .js [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  .hero-window--main {
+    background: var(--acid);
   }
 }
