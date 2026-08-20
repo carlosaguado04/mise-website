@@ -27,6 +27,15 @@ const sets = [
     alt: "Studio set: a timeline across the top, inspector and preview below.",
   },
 ] as const;
+
+const terminals = [
+  { name: "kitty", href: "https://sw.kovidgoyal.net/kitty/", icon: "/terminals/kitty.png" },
+  { name: "Alacritty", href: "https://alacritty.org/", icon: "/terminals/alacritty.svg" },
+  { name: "WezTerm", href: "https://wezterm.org/", icon: "/terminals/wezterm.svg" },
+  { name: "Terminal", href: "https://support.apple.com/guide/terminal/welcome/mac", icon: "/terminals/terminal.svg" },
+  { name: "Ghostty", href: "https://ghostty.org/", icon: "/terminals/ghostty.png" },
+  { name: "iTerm2", href: "https://iterm2.com/", icon: "/terminals/iterm2.png" },
+] as const;
 ---
 
 <Base jsonLd={jsonLd} preloadHero>
@@ -135,6 +144,31 @@ const sets = [
         />
       </figure>
     </article>
+  </section>
+
+  <section class="terminals wrap" id="terminals">
+    <h2 data-reveal>Restore the tmux session.</h2>
+    <p data-reveal>
+      Name a session on a terminal slot. Mise attaches if it's still running, or creates it and
+      runs the command if it isn't. Closing the window doesn't kill the work.
+    </p>
+    <ul class="term-list" data-reveal-group>
+      {
+        terminals.map((term) => (
+          <li data-reveal>
+            <a href={term.href} rel="noopener noreferrer" target="_blank">
+              <img src={term.icon} width="20" height="20" alt="" />
+              {term.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="term-note" data-reveal>
+      Other terminals still open and land in their frames, but without the saved command or
+      session. They have no way to open a new window with a command from the command line.
+      Warp and Hyper are two examples.
+    </p>
   </section>
 
   <section class="keys wrap" id="keys">
