@@ -10,6 +10,7 @@
     "assets": "python3 scripts/generate-assets.py"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "astro": "^7.2.4"
   },
   "allowScripts": {
