@@ -1,0 +1,64 @@
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!reduce) {
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.16, rootMargin: "0px 0px -6% 0px" },
+  );
+
+  document.querySelectorAll("[data-reveal-group]").forEach((group) => {
+    group.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el, i) => {
+      el.style.setProperty("--d", `${i * 60}ms`);
+      io.observe(el);
+    });
+  });
+
+  document
+    .querySelectorAll("[data-reveal]:not([data-reveal-group] [data-reveal])")
+    .forEach((el) => io.observe(el));
+
+  window.setTimeout(() => {
+    document.querySelectorAll("[data-reveal]:not(.is-in)").forEach((el) => {
+      el.classList.add("is-in");
+    });
+  }, 2500);
+}
+
+const shot = document.querySelector<HTMLImageElement>("[data-demo-shot]");
+const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
+
+cards.forEach((card) => {
+  const src = card.dataset.src;
+  if (src) {
+    const preload = new Image();
+    preload.src = src;
+  }
+
+  card.addEventListener("click", () => {
+    cards.forEach((c) => {
+      const on = c === card;
+      c.classList.toggle("is-active", on);
+      c.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    if (!shot) return;
+    if (card.dataset.src) shot.src = card.dataset.src;
+    if (card.dataset.alt) shot.alt = card.dataset.alt;
+  });
+});
+
+const dialog = document.querySelector<HTMLDialogElement>("#demo-dialog");
+document.querySelectorAll("[data-open-demo]").forEach((btn) => {
+  btn.addEventListener("click", () => dialog?.showModal());
+});
+document.querySelector("[data-close-demo]")?.addEventListener("click", () => {
+  dialog?.close();
+});
+dialog?.addEventListener("click", (event) => {
+  if (event.target === dialog) dialog.close();
+});

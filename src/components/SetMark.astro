@@ -1,0 +1,13 @@
+---
+interface Props {
+  variant?: "writing" | "review" | "studio";
+}
+
+const { variant = "writing" } = Astro.props;
+---
+
+<div class={`set-mark set-mark--${variant}`} aria-hidden="true">
+  <span class="pane a"></span>
+  <span class="pane b"></span>
+  <span class="pane c"></span>
+</div>

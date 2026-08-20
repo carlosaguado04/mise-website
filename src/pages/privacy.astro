@@ -1,0 +1,57 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+---
+
+<Base title={`Privacy — ${site.name}`} description="What Mise stores, what it asks for, and what it never collects.">
+  <article class="prose wrap">
+    <h1>Privacy</h1>
+    <p class="lede">
+      Mise is a macOS menu-bar app. It runs on your Mac. It does not have an account system, and
+      it does not include analytics, advertising, or crash reporters.
+    </p>
+
+    <h2>What Mise stores</h2>
+    <p>
+      Sets are stored as JSON on this Mac, in Application Support. Each Set is a name plus a list
+      of frames: the app, the display, and the position and size as fractions of that display.
+    </p>
+    <p>
+      Preferences (gap, shortcuts, whether to show a Dock icon) live in the app's standard
+      defaults. Nothing in that file is a document, a browsing history, or a keystroke log.
+    </p>
+
+    <h2 id="accessibility">Accessibility</h2>
+    <p>
+      Moving and resizing other apps' windows goes through macOS Accessibility. Mise asks for that
+      permission the first time it needs it, not at launch, and opens the exact System Settings
+      pane if it is missing. The permission is used to read window frames and to write them back.
+      It is not used to observe typing, to scrape other apps' contents, or to run in the
+      background as a recorder.
+    </p>
+
+    <h2>What Mise does not collect</h2>
+    <ul>
+      <li>No telemetry, usage stats, or unique identifiers sent anywhere.</li>
+      <li>No cookies, no website account, no mailing list.</li>
+      <li>No network calls in the current release. There is no Mise server.</li>
+    </ul>
+
+    <h2>Mise Pro</h2>
+    <p>
+      Config sync is a Pro feature. When it ships on a given build, it is opt-in, and this page
+      will name the path it uses. Until then, Sets never leave the Mac they were captured on.
+    </p>
+
+    <h2>This website</h2>
+    <p>
+      The marketing site is static files. It does not set cookies and does not load third-party
+      scripts. A download is a file. A page view is a page view.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy: <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  </article>
+</Base>

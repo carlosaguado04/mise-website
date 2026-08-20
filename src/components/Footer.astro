@@ -1,0 +1,37 @@
+---
+import { site } from "../site";
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href={site.downloadUrl}>Download</a></li>
+          <li><a href="/changelog">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>Contact</a></li>
+          <li><a href="/privacy#accessibility">Accessibility</a></li>
+          <li><a href="/#keys">Shortcuts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Legal</h2>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-end">
+      <img src="/icon.png" width="20" height="20" alt="" />
+      Made for people who keep 14 windows open.
+    </p>
+  </div>
+</footer>

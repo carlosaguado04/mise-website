@@ -1,0 +1,197 @@
+---
+import Base from "../layouts/Base.astro";
+import SetMark from "../components/SetMark.astro";
+import KeyChip from "../components/KeyChip.astro";
+import { site, jsonLd } from "../site";
+
+const sets = [
+  {
+    id: "writing",
+    name: "Writing",
+    shortcut: "⌃⌥1",
+    src: "/set-1.png",
+    alt: "Writing set: a wide editor on the left, notes and reference stacked on the right.",
+  },
+  {
+    id: "review",
+    name: "Review",
+    shortcut: "⌃⌥2",
+    src: "/set-2.png",
+    alt: "Review set: a document on the left, a browser on the right.",
+  },
+  {
+    id: "studio",
+    name: "Studio",
+    shortcut: "⌃⌥3",
+    src: "/set-3.png",
+    alt: "Studio set: a timeline across the top, inspector and preview below.",
+  },
+] as const;
+---
+
+<Base jsonLd={jsonLd} preloadHero>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">macOS · Menu bar</p>
+      <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
+      <p class="hero-sub">{site.description}</p>
+      <div class="hero-actions">
+        <a class="btn btn-acid" href={site.downloadUrl}>Download for macOS</a>
+        <button class="btn btn-ghost" type="button" data-open-demo>Watch 30s demo</button>
+      </div>
+      <p class="hero-meta">Free · {site.minOs} · Apple silicon & Intel</p>
+      <div class="hero-visual">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <figure class="shot">
+          <img
+            src="/hero-popover.png"
+            width="1200"
+            height="750"
+            alt="Mise menu-bar popover floating over a desktop, listing saved window Sets."
+            fetchpriority="high"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo" aria-label="Sets">
+    <div class="wrap">
+      <div class="demo-cards" data-reveal-group role="group" aria-label="Saved Sets">
+        {
+          sets.map((set, i) => (
+            <button
+              class:list={["set-card", i === 0 && "is-active"]}
+              type="button"
+              data-reveal
+              data-set={set.id}
+              data-src={set.src}
+              data-alt={set.alt}
+              aria-pressed={i === 0 ? "true" : "false"}
+            >
+              <span class="set-card-top">
+                <span class="set-card-name">{set.name}</span>
+                <KeyChip k={set.shortcut} />
+              </span>
+              <SetMark variant={set.id} />
+            </button>
+          ))
+        }
+      </div>
+      <figure class="shot demo-shot" data-reveal>
+        <img
+          src="/set-1.png"
+          width="1200"
+          height="750"
+          alt={sets[0].alt}
+          data-demo-shot
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
+    </div>
+  </section>
+
+  <section class="features wrap" id="features">
+    <article class="feature" data-reveal-group>
+      <div class="feature-copy" data-reveal>
+        <h2>Capture what's already there.</h2>
+        <p>Arrange your windows once, then press Capture. Mise stores the frames, not a guess.</p>
+      </div>
+      <figure class="shot feature-visual" data-reveal>
+        <img
+          src="/feature-capture.png"
+          width="640"
+          height="480"
+          alt="The Capture action storing the current window frames as a Set."
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </article>
+
+    <article class="feature feature--flip" data-reveal-group>
+      <div class="feature-copy" data-reveal>
+        <h2>Across every display.</h2>
+        <p>
+          Sets remember which monitor each window lived on, as fractions — so they survive
+          resolution changes and reconnects.
+        </p>
+      </div>
+      <figure class="shot feature-visual" data-reveal>
+        <img
+          src="/feature-displays.png"
+          width="640"
+          height="480"
+          alt="A Set placed across two displays, each window on the monitor it belongs to."
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </article>
+
+    <article class="feature" data-reveal-group>
+      <div class="feature-copy" data-reveal>
+        <h2>Launches what isn't running.</h2>
+        <p>Missing apps open first, then get placed. If one never shows, the rest still land.</p>
+      </div>
+      <figure class="shot feature-visual" data-reveal>
+        <img
+          src="/feature-launch.png"
+          width="640"
+          height="480"
+          alt="Mise launching a missing app, then placing it into the saved frame."
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </article>
+  </section>
+
+  <section class="keys wrap" id="keys" data-reveal>
+    <h2>A key for each Set.</h2>
+    <ul class="shortcuts">
+      <li>
+        <KeyChip k="⌃⌥1–9" />
+        <span>run a set</span>
+      </li>
+      <li>
+        <KeyChip k="⌃⌥C" />
+        <span>capture current windows</span>
+      </li>
+      <li>
+        <KeyChip k="⌃⌥E" />
+        <span>edit the active set</span>
+      </li>
+    </ul>
+    <p class="keys-note">All remappable. Mise has no Dock icon unless you want one.</p>
+  </section>
+
+  <section class="pricing wrap" id="pricing">
+    <h2 data-reveal>Pricing</h2>
+    <div class="pricing-grid" data-reveal-group>
+      <article class="price-card" data-reveal>
+        <h3>Free</h3>
+        <p>Unlimited Sets on one display, all shortcuts.</p>
+      </article>
+      <article class="price-card" data-reveal>
+        <h3>Mise Pro · $24 once</h3>
+        <p>
+          Multi-display Sets, per-app launch rules, config sync. Perpetual license, one year of
+          updates included, no subscription.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
+    <div class="dialog-head">
+      <h2 id="demo-dialog-title">Mise in 30 seconds</h2>
+      <button class="btn btn-ghost btn-sm" type="button" data-close-demo>Close</button>
+    </div>
+    <div class="dialog-body">
+      <div class="video-slot">demo.mp4</div>
+    </div>
+  </dialog>
+</Base>
