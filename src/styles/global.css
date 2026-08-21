@@ -897,6 +897,109 @@ button {
   padding-bottom: 24px;
 }
 
+.contact {
+  max-width: 36rem;
+  margin: 48px auto 0;
+  padding-bottom: 48px;
+}
+
+.contact h1 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.contact .lede {
+  margin-bottom: 32px;
+}
+
+.contact-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 32px;
+  background: var(--ink-raised);
+  border: 1px solid var(--ink-edge);
+  border-radius: var(--r-md);
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--paper);
+}
+
+.contact-form {
+  position: relative;
+  display: grid;
+  gap: 16px;
+}
+
+.honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 13px;
+  color: var(--paper-mute);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--ink-raised);
+  border: 1px solid var(--ink-edge);
+  border-radius: var(--r-sm);
+  color: var(--paper);
+  font: inherit;
+  font-size: 17px;
+}
+
+.field textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 3px;
+}
+
+.contact-form .btn-acid {
+  justify-self: start;
+}
+
+.contact-form .btn-acid:disabled {
+  opacity: 0.5;
+  cursor: wait;
+  filter: none;
+  transform: none;
+}
+
+.contact-err,
+.contact-ok {
+  font-size: 13px;
+}
+
+.contact-err {
+  color: var(--paper-dim);
+}
+
+.contact-ok {
+  color: var(--paper);
+}
+
 .prose h1 {
   font-size: clamp(28px, 3.4vw, 40px);
   line-height: 1.15;

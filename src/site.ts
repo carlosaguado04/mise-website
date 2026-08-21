@@ -7,7 +7,7 @@ export const site = {
   url: "https://mise.app",
   downloadUrl: "/Mise.dmg",
   xUrl: "https://x.com/AppMise",
-  email: "hello@mise.app",
+  email: "hello@usemise.dev",
   minOs: "macOS 14+",
 } as const;
 

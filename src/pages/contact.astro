@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+---
+
+<Base title={`Contact — ${site.name}`} description="Write to Mise. Bug reports, questions, press.">
+  <article class="contact wrap">
+    <h1>Contact</h1>
+    <p class="lede">
+      Bug reports, questions, press. I read everything that lands here.
+    </p>
+
+    <div class="contact-email">
+      <span>{site.email}</span>
+      <button class="btn btn-ghost btn-sm" type="button" data-copy-email>Copy</button>
+    </div>
+
+    <form class="contact-form" data-contact-form data-email={site.email} novalidate>
+      <input class="honey" type="text" name="company" tabindex="-1" autocomplete="off" />
+      <label class="field">
+        <span>Name</span>
+        <input type="text" name="name" maxlength="120" autocomplete="name" required />
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="email" maxlength="200" autocomplete="email" required />
+      </label>
+      <label class="field">
+        <span>Message</span>
+        <textarea name="message" maxlength="5000" required></textarea>
+      </label>
+      <button class="btn btn-acid" type="submit" data-contact-submit>Send</button>
+      <p class="contact-err" data-contact-err hidden>
+        Couldn't send. Write to {site.email} instead.
+      </p>
+    </form>
+
+    <p class="contact-ok" data-contact-ok hidden>
+      Sent. I'll reply to the address you left.
+    </p>
+  </article>
+</Base>
+
+<script src="../scripts/contact.ts"></script>
