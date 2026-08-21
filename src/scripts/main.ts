@@ -1,5 +1,14 @@
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const desktops = document.querySelectorAll<HTMLElement>(".hero-desktop");
+if (!reduce && desktops.length > 1) {
+  let i = 0;
+  window.setInterval(() => {
+    i = (i + 1) % desktops.length;
+    desktops.forEach((el, j) => el.classList.toggle("is-on", j === i));
+  }, 5600);
+}
+
 if (!reduce) {
   const io = new IntersectionObserver(
     (entries) => {

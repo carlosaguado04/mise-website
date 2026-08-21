@@ -62,17 +62,38 @@ const terminals = [
           />
           {
             !site.heroPhoto && (
-              <div class="hero-desktop" aria-hidden="true">
-                <span class="hero-window hero-window--main">
-                  <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-                </span>
-                <span class="hero-window hero-window--tr">
-                  <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
-                </span>
-                <span class="hero-window hero-window--br">
-                  <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
-                </span>
-              </div>
+              <Fragment>
+                <div class="hero-desktop hero-desktop--writing is-on" aria-hidden="true">
+                  <span class="hero-window hero-window--main hero-window--lit">
+                    <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+                  </span>
+                  <span class="hero-window hero-window--tr">
+                    <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
+                  </span>
+                  <span class="hero-window hero-window--br">
+                    <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
+                  </span>
+                </div>
+                <div class="hero-desktop hero-desktop--split" aria-hidden="true">
+                  <span class="hero-window hero-window--main">
+                    <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
+                  </span>
+                  <span class="hero-window hero-window--tr hero-window--lit">
+                    <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+                  </span>
+                </div>
+                <div class="hero-desktop hero-desktop--stack" aria-hidden="true">
+                  <span class="hero-window hero-window--main">
+                    <img src="/hero-apps/music.png" width="256" height="256" alt="" />
+                  </span>
+                  <span class="hero-window hero-window--tr hero-window--lit">
+                    <img src="/hero-apps/mail.png" width="256" height="256" alt="" />
+                  </span>
+                  <span class="hero-window hero-window--br">
+                    <img src="/hero-apps/calendar.png" width="256" height="256" alt="" />
+                  </span>
+                </div>
+              </Fragment>
             )
           }
         </figure>
