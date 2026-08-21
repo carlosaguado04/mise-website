@@ -9,6 +9,8 @@ export const site = {
   xUrl: "https://x.com/AppMise",
   email: "hello@usemise.dev",
   minOs: "macOS 14+",
+  // Set true after replacing public/hero-popover.png with the real shot.
+  heroPhoto: false,
 } as const;
 
 export const jsonLd = {

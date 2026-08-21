@@ -47,11 +47,11 @@ const terminals = [
       <p class="hero-sub">{site.description}</p>
       <div class="hero-actions">
         <DownloadWait />
-        <button class="btn btn-ghost" type="button" data-open-demo>Watch 30s demo</button>
+        <DownloadWait label="Watch 30s demo" />
       </div>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
-        <figure class="shot hero-stage">
+        <figure class:list={["shot", "hero-stage", site.heroPhoto && "is-photo"]}>
           <img
             class="hero-photo"
             src="/hero-popover.png"
@@ -60,11 +60,21 @@ const terminals = [
             alt="Mise menu-bar popover floating over a desktop, listing saved window Sets."
             fetchpriority="high"
           />
-          <div class="hero-desktop" aria-hidden="true">
-            <span class="hero-window hero-window--main"></span>
-            <span class="hero-window hero-window--tr"></span>
-            <span class="hero-window hero-window--br"></span>
-          </div>
+          {
+            !site.heroPhoto && (
+              <div class="hero-desktop" aria-hidden="true">
+                <span class="hero-window hero-window--main">
+                  <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+                </span>
+                <span class="hero-window hero-window--tr">
+                  <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
+                </span>
+                <span class="hero-window hero-window--br">
+                  <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
+                </span>
+              </div>
+            )
+          }
         </figure>
       </div>
     </div>

@@ -127,7 +127,7 @@ button {
   position: absolute;
   left: 16px;
   top: 8px;
-  z-index: 20;
+  z-index: 40;
   padding: 8px 14px;
   background: var(--ink-raised);
   color: var(--paper);
@@ -152,10 +152,17 @@ button {
   }
 }
 
-/* Nav — 64px, not sticky */
+/* Nav — 64px, sticky, does not shrink */
 
 .nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   height: 64px;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(18px);
+  -webkit-backdrop-filter: saturate(1.4) blur(18px);
+  border-bottom: 1px solid var(--ink-edge);
 }
 
 .nav-inner {
@@ -466,7 +473,8 @@ button {
 }
 
 .hero-window {
-  display: block;
+  display: grid;
+  place-items: center;
   border-radius: clamp(8px, 1.4vw, 16px);
   background: color-mix(in srgb, var(--paper) 16%, transparent);
 }
@@ -490,6 +498,16 @@ button {
   width: 100%;
   height: auto;
   vertical-align: middle;
+}
+
+.hero-window img {
+  width: clamp(40px, 22%, 80px);
+  height: auto;
+  display: block;
+}
+
+.hero-window--main img {
+  width: clamp(56px, 18%, 104px);
 }
 
 /* Demo strip */
@@ -519,25 +537,19 @@ button {
   color: var(--paper);
   corner-shape: squircle;
   transition:
-    background-color 220ms var(--ease),
-    border-color 220ms var(--ease),
-    color 220ms var(--ease),
-    transform 150ms var(--ease);
+    background-color 180ms var(--ease),
+    border-color 180ms var(--ease),
+    color 180ms var(--ease);
 }
 
 .set-card:hover:not(.is-active) {
   background: color-mix(in srgb, var(--paper) 4%, var(--ink));
-  transform: translateY(-1px);
 }
 
 .set-card.is-active {
   background: var(--acid);
   border-color: transparent;
   color: var(--on-acid);
-}
-
-.set-card.is-pulsing {
-  animation: set-pulse 400ms var(--ease);
 }
 
 .set-card-top {
@@ -562,18 +574,11 @@ button {
   margin-top: 16px;
 }
 
-.demo-shot img {
-  transition: opacity 180ms var(--ease);
-}
-
-.demo-shot.is-fading img {
-  opacity: 0;
-}
-
 .demo-caption {
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--paper-mute);
+  margin-top: 20px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--paper-dim);
 }
 
 @media (min-width: 768px) {
@@ -606,22 +611,6 @@ button {
 
 .set-card.is-active .set-mark .pane {
   background: color-mix(in srgb, var(--on-acid) 55%, transparent);
-}
-
-.js .set-card.is-in.is-active .set-mark .pane {
-  animation: pane-land 220ms var(--ease) both;
-}
-
-.js .set-card.is-in.is-active .set-mark .a {
-  animation-delay: 0ms;
-}
-
-.js .set-card.is-in.is-active .set-mark .b {
-  animation-delay: 30ms;
-}
-
-.js .set-card.is-in.is-active .set-mark .c {
-  animation-delay: 60ms;
 }
 
 .set-mark--writing {
@@ -659,7 +648,7 @@ button {
 #keys,
 #status,
 #accessibility {
-  scroll-margin-top: 24px;
+  scroll-margin-top: 88px;
 }
 
 .features {
@@ -1238,29 +1227,6 @@ dialog[open]::backdrop {
   100% {
     opacity: 0;
     transform: translateY(12px);
-  }
-}
-
-@keyframes set-pulse {
-  0% {
-    filter: brightness(1);
-  }
-  40% {
-    filter: brightness(1.16);
-  }
-  100% {
-    filter: brightness(1);
-  }
-}
-
-@keyframes pane-land {
-  from {
-    opacity: 0.35;
-    transform: scale(0.86);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 

@@ -32,64 +32,45 @@ if (!reduce) {
 
 const shot = document.querySelector<HTMLImageElement>("[data-demo-shot]");
 const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
+const preloaded = new Map<string, HTMLImageElement>();
 
-const figure = shot?.closest(".demo-shot");
+cards.forEach((card) => {
+  const src = card.dataset.src;
+  if (src) {
+    const img = new Image();
+    img.src = src;
+    img.decode?.().catch(() => {});
+    preloaded.set(src, img);
+  }
 
-function swapShot(card: HTMLButtonElement) {
+  card.addEventListener("click", () => {
+    if (card.classList.contains("is-active")) return;
+    cards.forEach((c) => {
+      const on = c === card;
+      c.classList.toggle("is-active", on);
+      c.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    void swapShot(card);
+  });
+});
+
+async function swapShot(card: HTMLButtonElement) {
   if (!shot) return;
   const next = card.dataset.src;
   const nextAlt = card.dataset.alt;
   if (nextAlt) shot.alt = nextAlt;
   if (!next || shot.getAttribute("src") === next) return;
 
-  if (reduce) {
-    shot.src = next;
-    return;
+  const ready = preloaded.get(next);
+  if (ready) {
+    try {
+      await ready.decode();
+    } catch {
+      /* already cached or decode unsupported */
+    }
   }
-
-  let done = false;
-  const apply = () => {
-    if (done) return;
-    done = true;
-    shot.src = next;
-    figure?.classList.remove("is-fading");
-  };
-
-  figure?.classList.add("is-fading");
-  shot.addEventListener("transitionend", apply, { once: true });
-  window.setTimeout(apply, 220);
+  shot.src = next;
 }
-
-function pulse(card: HTMLButtonElement) {
-  if (reduce) return;
-  card.classList.remove("is-pulsing");
-  void card.offsetWidth;
-  card.classList.add("is-pulsing");
-  const onEnd = (event: AnimationEvent) => {
-    if (event.animationName !== "set-pulse") return;
-    card.classList.remove("is-pulsing");
-    card.removeEventListener("animationend", onEnd);
-  };
-  card.addEventListener("animationend", onEnd);
-}
-
-cards.forEach((card) => {
-  const src = card.dataset.src;
-  if (src) {
-    const preload = new Image();
-    preload.src = src;
-  }
-
-  card.addEventListener("click", () => {
-    cards.forEach((c) => {
-      const on = c === card;
-      c.classList.toggle("is-active", on);
-      c.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-    pulse(card);
-    swapShot(card);
-  });
-});
 
 const dialog = document.querySelector<HTMLDialogElement>("#demo-dialog");
 document.querySelectorAll("[data-open-demo]").forEach((btn) => {
