@@ -3,22 +3,24 @@ import Base from "../layouts/Base.astro";
 import { site } from "../site";
 ---
 
-<Base title={`Changelog — ${site.name}`} description="What changed in Mise, newest first.">
+<Base title={`Changelog — ${site.name}`} description="Nothing has shipped. This page is honest about that.">
   <article class="prose wrap">
     <h1>Changelog</h1>
-    <p class="lede">Newest first. Dates follow the public build, not the internal one.</p>
+    <p class="lede">
+      A list of versions, in the same way a closed kitchen has a menu.
+    </p>
 
     <section class="entry">
-      <h2>1.0.0 <time datetime="2026">2026</time></h2>
-      <p>First public release.</p>
+      <h2>0.0.0 <time datetime="2026">Unreleased</time></h2>
+      <p>The app is still in the kitchen. This page is the empty pass.</p>
       <ul>
-        <li>Capture the windows on screen as a named Set.</li>
-        <li>Run a Set from the menu bar or with <kbd class="key">⌃⌥1–9</kbd>.</li>
-        <li>Frames stored as fractions of the display, plus which display they belong to.</li>
-        <li>Apps that are not running launch first, then get placed. The rest still land if one never shows.</li>
-        <li><kbd class="key">⌃⌥C</kbd> captures. <kbd class="key">⌃⌥E</kbd> edits the active Set. All shortcuts remappable.</li>
-        <li>No Dock icon unless you turn one on.</li>
-        <li>Free: unlimited Sets on one display. Pro: multi-display Sets, per-app launch rules, config sync. $24 once.</li>
+        <li>Added a changelog. Did not add the thing the changelog is for.</li>
+        <li>Several windows were arranged, then the laptop closed.</li>
+        <li>Keyboard shortcuts are currently decorative.</li>
+        <li>If you came here out of habit, the news is: not yet.</li>
+        <li>
+          Follow <a href={site.xUrl}>@AppMise</a> if you like waiting with your windows already where they belong, in spirit.
+        </li>
       </ul>
     </section>
   </article>
