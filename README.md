@@ -2,7 +2,7 @@
 
 Marketing site for [Mise](https://usemise.dev), a macOS menu-bar app that restores saved window arrangements.
 
-Static Astro output. No client framework, no webfonts, no third-party scripts.
+Static Astro output. No client framework, no webfonts. The shell loads Vercel Analytics and Speed Insights (disclosed on the privacy page).
 
 ## Develop
 
@@ -21,16 +21,15 @@ Files land in `dist/`.
 
 ## Screenshots
 
-Drop real renders over the placeholders in `public/`:
-
 | File | Slot |
 |---|---|
-| `set-1.png` `set-2.png` `set-3.png` | Demo-strip arrangements, @2x |
 | `feature-capture.png` | Feature row 1 |
 | `feature-displays.png` | Feature row 2 |
 | `feature-launch.png` | Feature row 3 |
-| `demo.mp4` | 30-second demo (wire into the dialog when you have it) |
+| `demo.mp4` | 30-second demo (wire into a dialog when you have it) |
 | `Mise.dmg` | Download target (`src/site.ts`) |
+
+The homepage demo strip uses stylized Set stages (CSS window tiles + icons from `public/hero-apps/`), same language as the hero — not screenshot PNGs.
 
 `icon.png`, `favicon.png`, `apple-touch-icon.png`, and `og.png` are generated from the app icon set. Rebuild them with a Pillow environment:
 

@@ -1,0 +1,52 @@
+---
+/**
+ * Stylized desktop for a saved Set — same tile language as the hero.
+ * `layout` picks the grid; `lit` marks which pane gets the acid highlight.
+ */
+type Layout = "writing" | "split" | "stack";
+
+interface WindowSlot {
+  role: "main" | "tr" | "br";
+  icon: string;
+  lit?: boolean;
+}
+
+interface Props {
+  layout: Layout;
+  windows: WindowSlot[];
+  active?: boolean;
+  /** Optional data-demo-desktop id for the demo switcher */
+  demoId?: string;
+}
+
+const { layout, windows, active = false, demoId } = Astro.props;
+
+const layoutClass =
+  layout === "writing"
+    ? "hero-desktop--writing"
+    : layout === "split"
+      ? "hero-desktop--split"
+      : "hero-desktop--stack";
+---
+
+<div
+  class:list={["hero-desktop", layoutClass, active && "is-on"]}
+  data-demo-desktop={demoId}
+  aria-hidden="true"
+>
+  {
+    windows.map((w) => (
+      <span
+        class:list={[
+          "hero-window",
+          w.role === "main" && "hero-window--main",
+          w.role === "tr" && "hero-window--tr",
+          w.role === "br" && "hero-window--br",
+          w.lit && "hero-window--lit",
+        ]}
+      >
+        <img src={`/hero-apps/${w.icon}`} width="256" height="256" alt="" />
+      </span>
+    ))
+  }
+</div>
