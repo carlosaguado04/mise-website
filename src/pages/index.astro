@@ -40,7 +40,7 @@ const terminals = [
 ] as const;
 ---
 
-<Base jsonLd={jsonLd} preloadHero>
+<Base jsonLd={jsonLd}>
   <section class="hero">
     <div class="wrap">
       <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
@@ -50,51 +50,37 @@ const terminals = [
       </div>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
-        <figure class:list={["shot", "hero-stage", site.heroPhoto && "is-photo"]}>
-          <img
-            class="hero-photo"
-            src="/hero-popover.png"
-            width="1200"
-            height="750"
-            alt="Mise menu-bar popover floating over a desktop, listing saved window Sets."
-            fetchpriority="high"
-          />
-          {
-            !site.heroPhoto && (
-              <Fragment>
-                <div class="hero-desktop hero-desktop--writing is-on" aria-hidden="true">
-                  <span class="hero-window hero-window--main hero-window--lit">
-                    <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-                  </span>
-                  <span class="hero-window hero-window--tr">
-                    <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
-                  </span>
-                  <span class="hero-window hero-window--br">
-                    <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
-                  </span>
-                </div>
-                <div class="hero-desktop hero-desktop--split" aria-hidden="true">
-                  <span class="hero-window hero-window--main">
-                    <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
-                  </span>
-                  <span class="hero-window hero-window--tr hero-window--lit">
-                    <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-                  </span>
-                </div>
-                <div class="hero-desktop hero-desktop--stack" aria-hidden="true">
-                  <span class="hero-window hero-window--main">
-                    <img src="/hero-apps/music.png" width="256" height="256" alt="" />
-                  </span>
-                  <span class="hero-window hero-window--tr hero-window--lit">
-                    <img src="/hero-apps/mail.png" width="256" height="256" alt="" />
-                  </span>
-                  <span class="hero-window hero-window--br">
-                    <img src="/hero-apps/calendar.png" width="256" height="256" alt="" />
-                  </span>
-                </div>
-              </Fragment>
-            )
-          }
+        <figure class="shot hero-stage">
+          <div class="hero-desktop hero-desktop--writing is-on" aria-hidden="true">
+            <span class="hero-window hero-window--main hero-window--lit">
+              <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+            </span>
+            <span class="hero-window hero-window--tr">
+              <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
+            </span>
+            <span class="hero-window hero-window--br">
+              <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
+            </span>
+          </div>
+          <div class="hero-desktop hero-desktop--split" aria-hidden="true">
+            <span class="hero-window hero-window--main">
+              <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
+            </span>
+            <span class="hero-window hero-window--tr hero-window--lit">
+              <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+            </span>
+          </div>
+          <div class="hero-desktop hero-desktop--stack" aria-hidden="true">
+            <span class="hero-window hero-window--main">
+              <img src="/hero-apps/music.png" width="256" height="256" alt="" />
+            </span>
+            <span class="hero-window hero-window--tr hero-window--lit">
+              <img src="/hero-apps/mail.png" width="256" height="256" alt="" />
+            </span>
+            <span class="hero-window hero-window--br">
+              <img src="/hero-apps/calendar.png" width="256" height="256" alt="" />
+            </span>
+          </div>
         </figure>
       </div>
     </div>

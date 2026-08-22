@@ -97,7 +97,6 @@ def main() -> None:
     touch.alpha_composite(cover(icon, 180), (0, 0))
     touch.save(PUBLIC / "apple-touch-icon.png", "PNG", optimize=True)
 
-    labeled(PUBLIC / "hero-popover.png", (2400, 1500), "hero-popover.png")
     for i in range(1, 4):
         labeled(PUBLIC / f"set-{i}.png", (2400, 1500), f"set-{i}.png")
     labeled(PUBLIC / "feature-capture.png", (1280, 960), "feature-capture.png")

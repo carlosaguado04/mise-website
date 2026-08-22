@@ -45,9 +45,21 @@ import { site } from "../site";
 
     <h2>This website</h2>
     <p>
-      The marketing site is static files. It loads Vercel Web Analytics and Speed Insights so I
-      can see page views and how the site loads. That is this website only. The Mac app still
-      does not phone home. A download is a file.
+      The marketing site does not set cookies. There is no banner because there is nothing to
+      consent to on that front. The Mac app still does not phone home. A download is a file.
+    </p>
+    <p>
+      Page views and Core Web Vitals go to Vercel Analytics and Speed Insights. Visitors are
+      identified by a hash of the request that resets daily, not by a cookie, and the data is
+      stored as aggregates. It is not used to reconstruct a session or to follow anyone across
+      sites. See Vercel’s notes on
+      <a href="https://vercel.com/docs/analytics/privacy-policy">Web Analytics</a>
+      and
+      <a href="https://vercel.com/docs/speed-insights/privacy-policy">Speed Insights</a>.
+    </p>
+    <p>
+      The contact form is delivered by FormSubmit to {site.email}. Use the address on that page
+      if you would rather skip the form.
     </p>
 
     <h2>Contact</h2>

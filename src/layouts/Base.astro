@@ -10,14 +10,12 @@ interface Props {
   title?: string;
   description?: string;
   jsonLd?: Record<string, unknown>;
-  preloadHero?: boolean;
 }
 
 const {
   title = site.title,
   description = site.description,
   jsonLd,
-  preloadHero = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).toString().replace(/\/$/, "") || site.url;
@@ -49,7 +47,6 @@ const ogImage = new URL("/og.png", site.url).toString();
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    {preloadHero && <link rel="preload" as="image" href="/hero-popover.png" />}
     {jsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}

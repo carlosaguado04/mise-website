@@ -25,7 +25,6 @@ Drop real renders over the placeholders in `public/`:
 
 | File | Slot |
 |---|---|
-| `hero-popover.png` | Hero product shot, @2x (2400×1500) |
 | `set-1.png` `set-2.png` `set-3.png` | Demo-strip arrangements, @2x |
 | `feature-capture.png` | Feature row 1 |
 | `feature-displays.png` | Feature row 2 |
