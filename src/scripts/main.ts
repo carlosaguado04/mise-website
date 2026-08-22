@@ -1,9 +1,6 @@
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const stage = document.querySelector<HTMLElement>(".hero-stage");
-const acid = document.querySelector<HTMLElement>(".hero-acid");
-
-function placeAcid() {
+function placeAcid(stage: HTMLElement | null, acid: HTMLElement | null) {
   if (!stage || !acid) return;
   const lit = stage.querySelector<HTMLElement>(
     ".hero-desktop.is-on .hero-window--lit",
@@ -12,7 +9,6 @@ function placeAcid() {
     acid.style.opacity = "0";
     return;
   }
-  // offset* ignores the land-in scale, so the highlight keeps the grid cell size.
   const parent = lit.offsetParent as HTMLElement | null;
   const x = lit.offsetLeft + (parent && parent !== stage ? parent.offsetLeft : 0);
   const y = lit.offsetTop + (parent && parent !== stage ? parent.offsetTop : 0);
@@ -23,18 +19,39 @@ function placeAcid() {
   acid.style.opacity = "1";
 }
 
-const desktops = document.querySelectorAll<HTMLElement>(".hero-desktop");
-if (!reduce && desktops.length > 1) {
+const heroStage = document.querySelector<HTMLElement>(".hero-stage");
+const heroAcid = document.querySelector<HTMLElement>('[data-acid="hero"]');
+const heroDesktops = document.querySelectorAll<HTMLElement>(
+  ".hero-stage > .hero-desktop",
+);
+const demoStage = document.querySelector<HTMLElement>("[data-demo-stage]");
+const demoAcid = document.querySelector<HTMLElement>('[data-acid="demo"]');
+const demoDesktops = document.querySelectorAll<HTMLElement>("[data-demo-desktop]");
+const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
+const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]");
+const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
+
+if (!reduce && heroDesktops.length > 1) {
   let i = 0;
   window.setInterval(() => {
-    i = (i + 1) % desktops.length;
-    desktops.forEach((el, j) => el.classList.toggle("is-on", j === i));
-    requestAnimationFrame(() => requestAnimationFrame(placeAcid));
+    i = (i + 1) % heroDesktops.length;
+    heroDesktops.forEach((el, j) => el.classList.toggle("is-on", j === i));
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => placeAcid(heroStage, heroAcid)),
+    );
   }, 5600);
 }
 
-requestAnimationFrame(() => requestAnimationFrame(placeAcid));
-window.addEventListener("resize", placeAcid);
+requestAnimationFrame(() =>
+  requestAnimationFrame(() => {
+    placeAcid(heroStage, heroAcid);
+    placeAcid(demoStage, demoAcid);
+  }),
+);
+window.addEventListener("resize", () => {
+  placeAcid(heroStage, heroAcid);
+  placeAcid(demoStage, demoAcid);
+});
 
 const progress = document.querySelector<HTMLElement>(".scroll-progress");
 const updateProgress = () => {
@@ -95,47 +112,32 @@ if (!reduce) {
   }, 2500);
 }
 
-const shot = document.querySelector<HTMLImageElement>("[data-demo-shot]");
-const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
-const preloaded = new Map<string, HTMLImageElement>();
-
 cards.forEach((card) => {
-  const src = card.dataset.src;
-  if (src) {
-    const img = new Image();
-    img.src = src;
-    img.decode?.().catch(() => {});
-    preloaded.set(src, img);
-  }
-
   card.addEventListener("click", () => {
     if (card.classList.contains("is-active")) return;
+    const id = card.dataset.set;
     cards.forEach((c) => {
       const on = c === card;
       c.classList.toggle("is-active", on);
       c.setAttribute("aria-pressed", on ? "true" : "false");
     });
-    void swapShot(card);
+    demoDesktops.forEach((desk) => {
+      desk.classList.toggle("is-on", desk.dataset.demoDesktop === id);
+    });
+    if (card.dataset.setLabel && demoStage) {
+      demoStage.setAttribute("aria-label", card.dataset.setLabel);
+    }
+    if (activeName && card.dataset.setName) {
+      activeName.textContent = card.dataset.setName;
+    }
+    if (activeChip && card.dataset.setShortcut) {
+      activeChip.textContent = card.dataset.setShortcut;
+    }
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => placeAcid(demoStage, demoAcid)),
+    );
   });
 });
-
-async function swapShot(card: HTMLButtonElement) {
-  if (!shot) return;
-  const next = card.dataset.src;
-  const nextAlt = card.dataset.alt;
-  if (nextAlt) shot.alt = nextAlt;
-  if (!next || shot.getAttribute("src") === next) return;
-
-  const ready = preloaded.get(next);
-  if (ready) {
-    try {
-      await ready.decode();
-    } catch {
-      /* already cached or decode unsupported */
-    }
-  }
-  shot.src = next;
-}
 
 const dialog = document.querySelector<HTMLDialogElement>("#demo-dialog");
 document.querySelectorAll("[data-open-demo]").forEach((btn) => {
