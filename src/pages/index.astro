@@ -11,22 +11,22 @@ const sets = [
     id: "writing",
     name: "Writing",
     shortcut: "⌃⌥1",
-    label: "Writing set: Pages and Notes side by side.",
-    explain: "Pages and Notes — draft on one side, notes on the other.",
+    label: "Writing set: a document beside a notes pane.",
+    explain: "Draft on one side, notes on the other.",
   },
   {
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    label: "Review set: Pages on the left, Acrobat on the right.",
-    explain: "Pages and Acrobat — the draft beside the PDF.",
+    label: "Review set: a document beside a PDF reader.",
+    explain: "The draft beside the PDF you’re checking.",
   },
   {
     id: "studio",
     name: "Studio",
     shortcut: "⌃⌥3",
-    label: "Studio set: Final Cut across the top, Photoshop and Premiere below.",
-    explain: "Final Cut up top, Photoshop and Premiere below — timeline plus side panels.",
+    label: "Studio set: a timeline across the top, stills and soundtrack below.",
+    explain: "Timeline up top, stills and soundtrack below.",
   },
 ] as const;
 
@@ -137,7 +137,7 @@ const terminals = [
           windows={[
             { role: "main", icon: "final-cut.png", lit: true },
             { role: "tr", icon: "photoshop.png" },
-            { role: "br", icon: "premiere.png" },
+            { role: "br", icon: "music.png" },
           ]}
         />
       </figure>
@@ -147,7 +147,7 @@ const terminals = [
           <KeyChip k="⌃⌥1" />
         </p>
         <p class="demo-explain" data-demo-explain>
-          Pages and Notes — draft on one side, notes on the other.
+          Draft on one side, notes on the other.
         </p>
       </div>
       <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
