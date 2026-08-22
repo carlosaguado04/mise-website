@@ -11,8 +11,8 @@ const sets = [
     id: "writing",
     name: "Writing",
     shortcut: "⌃⌥1",
-    label: "Writing set: a document beside a notes pane.",
-    explain: "Draft on one side, notes on the other.",
+    label: "Writing set: a wide document on the left, notes and a dictionary stacked on the right.",
+    explain: "Draft on one side, notes and a reference stacked on the other.",
   },
   {
     id: "review",
@@ -107,12 +107,13 @@ const terminals = [
       >
         <div class="hero-acid" data-acid="demo" aria-hidden="true"></div>
         <SetDesktop
-          layout="split"
+          layout="writing"
           demoId="writing"
           active
           windows={[
             { role: "main", icon: "pages.png", lit: true },
             { role: "tr", icon: "notes.png" },
+            { role: "br", icon: "dictionary.png" },
           ]}
         />
         <SetDesktop
@@ -139,7 +140,7 @@ const terminals = [
           <KeyChip k="⌃⌥1" />
         </p>
         <p class="demo-explain" data-demo-explain>
-          Draft on one side, notes on the other.
+          Draft on one side, notes and a reference stacked on the other.
         </p>
       </div>
       <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
