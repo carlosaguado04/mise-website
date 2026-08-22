@@ -30,6 +30,7 @@ const demoDesktops = document.querySelectorAll<HTMLElement>("[data-demo-desktop]
 const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
 const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]");
 const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
+const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
 
 if (!reduce && heroDesktops.length > 1) {
   let i = 0;
@@ -132,6 +133,9 @@ cards.forEach((card) => {
     }
     if (activeChip && card.dataset.setShortcut) {
       activeChip.textContent = card.dataset.setShortcut;
+    }
+    if (activeExplain && card.dataset.setExplain) {
+      activeExplain.textContent = card.dataset.setExplain;
     }
     requestAnimationFrame(() =>
       requestAnimationFrame(() => placeAcid(demoStage, demoAcid)),

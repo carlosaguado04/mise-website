@@ -11,19 +11,22 @@ const sets = [
     id: "writing",
     name: "Writing",
     shortcut: "⌃⌥1",
-    label: "Writing set: wide editor on the left, notes and reference stacked on the right.",
+    label: "Writing set: Pages and Notes side by side.",
+    explain: "Pages and Notes — draft on one side, notes on the other.",
   },
   {
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    label: "Review set: a document on the left, a browser on the right.",
+    label: "Review set: Mail on the left, Safari on the right.",
+    explain: "Mail and Safari — the thread beside the source.",
   },
   {
     id: "studio",
     name: "Studio",
     shortcut: "⌃⌥3",
-    label: "Studio set: a timeline across the top, inspector and preview below.",
+    label: "Studio set: Music across the top, Calendar and Spotify below.",
+    explain: "Music up top, Calendar and Spotify below — timeline plus side panels.",
   },
 ] as const;
 
@@ -92,6 +95,7 @@ const terminals = [
               data-set-name={set.name}
               data-set-shortcut={set.shortcut}
               data-set-label={set.label}
+              data-set-explain={set.explain}
               aria-pressed={i === 0 ? "true" : "false"}
             >
               <span class="set-card-top">
@@ -111,37 +115,41 @@ const terminals = [
       >
         <div class="hero-acid" data-acid="demo" aria-hidden="true"></div>
         <SetDesktop
-          layout="writing"
+          layout="split"
           demoId="writing"
           active
           windows={[
-            { role: "main", icon: "safari.png", lit: true },
+            { role: "main", icon: "pages.png", lit: true },
             { role: "tr", icon: "notes.png" },
-            { role: "br", icon: "spotify.png" },
           ]}
         />
         <SetDesktop
           layout="split"
           demoId="review"
           windows={[
-            { role: "main", icon: "pages.png" },
-            { role: "tr", icon: "safari.png", lit: true },
+            { role: "main", icon: "mail.png", lit: true },
+            { role: "tr", icon: "safari.png" },
           ]}
         />
         <SetDesktop
           layout="stack"
           demoId="studio"
           windows={[
-            { role: "main", icon: "music.png" },
-            { role: "tr", icon: "mail.png", lit: true },
-            { role: "br", icon: "calendar.png" },
+            { role: "main", icon: "music.png", lit: true },
+            { role: "tr", icon: "calendar.png" },
+            { role: "br", icon: "spotify.png" },
           ]}
         />
       </figure>
-      <p class="demo-active" data-demo-active aria-live="polite">
-        <span data-demo-active-name>Writing</span>
-        <KeyChip k="⌃⌥1" />
-      </p>
+      <div class="demo-active" data-demo-active aria-live="polite">
+        <p class="demo-active-row">
+          <span data-demo-active-name>Writing</span>
+          <KeyChip k="⌃⌥1" />
+        </p>
+        <p class="demo-explain" data-demo-explain>
+          Pages and Notes — draft on one side, notes on the other.
+        </p>
+      </div>
       <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
     </div>
   </section>
