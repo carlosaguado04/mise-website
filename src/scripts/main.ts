@@ -57,7 +57,7 @@ function pulseHeroClick(): Promise<void> {
     window.setTimeout(() => {
       heroStage?.classList.remove("is-clicking");
       resolve();
-    }, 320);
+    }, 900);
   });
 }
 
