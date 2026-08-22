@@ -391,24 +391,59 @@ button {
   white-space: nowrap;
 }
 
-/* Hero */
+/* Hero — desktop-led, asymmetric */
 
 .hero {
-  padding-top: 48px;
+  padding-top: 28px;
   padding-bottom: 0;
+  overflow-x: clip;
+}
+
+.hero-shell {
+  display: grid;
+  gap: 28px;
+  align-items: center;
+  width: 100%;
+  padding-left: max(24px, calc((100vw - var(--page)) / 2));
+  padding-right: 0;
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding-top: 72px;
+    padding-top: 40px;
   }
 }
 
+@media (min-width: 960px) {
+  .hero-shell {
+    grid-template-columns: minmax(260px, 34%) minmax(0, 1fr);
+    gap: 40px;
+    min-height: min(70vh, 620px);
+    align-items: center;
+  }
+}
+
+.hero-copy {
+  max-width: 28rem;
+  padding-right: 8px;
+}
+
+.hero-kicker {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper-mute);
+}
+
 .hero h1 {
-  font-size: clamp(44px, 6vw, 76px);
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  max-width: 11em;
+  font-size: clamp(30px, 3.6vw, 48px);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  max-width: 10em;
+  text-wrap: balance;
 }
 
 .hero h1 em {
@@ -417,29 +452,43 @@ button {
 }
 
 .hero-sub {
-  margin-top: 24px;
-  max-width: var(--measure);
+  margin-top: 16px;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 22px;
 }
 
 .hero-visual {
   position: relative;
-  margin-top: 56px;
+  margin-top: 0;
+  min-width: 0;
+}
+
+@media (min-width: 960px) {
+  .hero-visual {
+    margin-right: 0;
+  }
+
+  .hero-visual .shot {
+    border-radius: var(--r-lg) 0 0 var(--r-lg);
+    border-right: 0;
+  }
 }
 
 .hero-glow {
   position: absolute;
-  inset: -18% -12%;
+  inset: -12% -8% -12% -18%;
   background: radial-gradient(
-    ellipse,
-    color-mix(in srgb, var(--acid) 28%, transparent),
-    transparent 70%
+    ellipse at 70% 40%,
+    color-mix(in srgb, var(--acid) 18%, transparent),
+    transparent 68%
   );
   pointer-events: none;
   z-index: 0;
@@ -632,7 +681,7 @@ button {
 .demo {
   background: var(--ink-raised);
   padding-block: 64px;
-  margin-top: 120px;
+  margin-top: 72px;
 }
 
 .demo-cards {
@@ -1348,32 +1397,29 @@ dialog[open]::backdrop {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero .wrap > * {
+  .hero-copy > *,
+  .hero-visual {
     animation: hero-rise 700ms var(--ease) both;
   }
 
-  .hero .wrap > *:nth-child(1) {
+  .hero-copy > *:nth-child(1) {
     animation-delay: 0ms;
   }
 
-  .hero .wrap > *:nth-child(2) {
-    animation-delay: 90ms;
+  .hero-copy > *:nth-child(2) {
+    animation-delay: 80ms;
   }
 
-  .hero .wrap > *:nth-child(3) {
-    animation-delay: 180ms;
+  .hero-copy > *:nth-child(3) {
+    animation-delay: 140ms;
   }
 
-  .hero .wrap > *:nth-child(4) {
-    animation-delay: 270ms;
+  .hero-copy > *:nth-child(4) {
+    animation-delay: 200ms;
   }
 
-  .hero .wrap > *:nth-child(5) {
-    animation-delay: 340ms;
-  }
-
-  .hero .wrap > *:nth-child(6) {
-    animation-delay: 420ms;
+  .hero-visual {
+    animation-delay: 160ms;
   }
 
   .hero h1 em {
@@ -1441,8 +1487,14 @@ dialog[open]::backdrop {
     padding-top: 32px;
   }
 
-  .hero-visual {
-    margin-top: 40px;
+  .hero-shell {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .hero-visual .shot {
+    border-radius: var(--r-lg);
+    border-right: 1px solid var(--ink-edge);
   }
 }
 
