@@ -55,19 +55,19 @@ const terminals = [
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
         <figure
-          class="shot hero-stage is-chaos"
-          aria-label="Overlapping windows snap into a tidy desktop after a click."
+          class="shot hero-stage is-empty"
+          aria-label="Empty desktop. After a click, Pages and Safari arrange 70/30."
         >
+          <div class="hero-wallpaper" aria-hidden="true"></div>
           <div class="hero-acid" data-acid="hero" aria-hidden="true"></div>
           <span class="hero-click" aria-hidden="true"></span>
-          {/* Chaos → Set: straight windows piled wrong, click, then snap. */}
+          {/* Empty wallpaper → click → Pages 70% + Safari 30%. */}
           <SetDesktop
-            layout="writing"
+            layout="wide"
             active
             windows={[
-              { role: "main", icon: "safari.png", lit: true },
-              { role: "tr", icon: "mail.png" },
-              { role: "br", icon: "calendar.png" },
+              { role: "main", icon: "pages.png", lit: true },
+              { role: "tr", icon: "safari.png" },
             ]}
           />
         </figure>
