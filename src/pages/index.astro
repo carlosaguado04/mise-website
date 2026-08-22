@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import SetMark from "../components/SetMark.astro";
 import KeyChip from "../components/KeyChip.astro";
 import DownloadWait from "../components/DownloadWait.astro";
+import SetDesktop from "../components/SetDesktop.astro";
 import { site, jsonLd } from "../site";
 
 const sets = [
@@ -10,22 +11,19 @@ const sets = [
     id: "writing",
     name: "Writing",
     shortcut: "⌃⌥1",
-    src: "/set-1.png",
-    alt: "Writing set: a wide editor on the left, notes and reference stacked on the right.",
+    label: "Writing set: wide editor on the left, notes and reference stacked on the right.",
   },
   {
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    src: "/set-2.png",
-    alt: "Review set: a document on the left, a browser on the right.",
+    label: "Review set: a document on the left, a browser on the right.",
   },
   {
     id: "studio",
     name: "Studio",
     shortcut: "⌃⌥3",
-    src: "/set-3.png",
-    alt: "Studio set: a timeline across the top, inspector and preview below.",
+    label: "Studio set: a timeline across the top, inspector and preview below.",
   },
 ] as const;
 
@@ -51,37 +49,31 @@ const terminals = [
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
         <figure class="shot hero-stage">
-          <div class="hero-acid" aria-hidden="true"></div>
-          <div class="hero-desktop hero-desktop--writing is-on" aria-hidden="true">
-            <span class="hero-window hero-window--main hero-window--lit">
-              <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-            </span>
-            <span class="hero-window hero-window--tr">
-              <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
-            </span>
-            <span class="hero-window hero-window--br">
-              <img src="/hero-apps/spotify.png" width="256" height="256" alt="" />
-            </span>
-          </div>
-          <div class="hero-desktop hero-desktop--split" aria-hidden="true">
-            <span class="hero-window hero-window--main">
-              <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
-            </span>
-            <span class="hero-window hero-window--tr hero-window--lit">
-              <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-            </span>
-          </div>
-          <div class="hero-desktop hero-desktop--stack" aria-hidden="true">
-            <span class="hero-window hero-window--main">
-              <img src="/hero-apps/music.png" width="256" height="256" alt="" />
-            </span>
-            <span class="hero-window hero-window--tr hero-window--lit">
-              <img src="/hero-apps/mail.png" width="256" height="256" alt="" />
-            </span>
-            <span class="hero-window hero-window--br">
-              <img src="/hero-apps/calendar.png" width="256" height="256" alt="" />
-            </span>
-          </div>
+          <div class="hero-acid" data-acid="hero" aria-hidden="true"></div>
+          <SetDesktop
+            layout="writing"
+            active
+            windows={[
+              { role: "main", icon: "safari.png", lit: true },
+              { role: "tr", icon: "notes.png" },
+              { role: "br", icon: "spotify.png" },
+            ]}
+          />
+          <SetDesktop
+            layout="split"
+            windows={[
+              { role: "main", icon: "pages.png" },
+              { role: "tr", icon: "safari.png", lit: true },
+            ]}
+          />
+          <SetDesktop
+            layout="stack"
+            windows={[
+              { role: "main", icon: "music.png" },
+              { role: "tr", icon: "mail.png", lit: true },
+              { role: "br", icon: "calendar.png" },
+            ]}
+          />
         </figure>
       </div>
     </div>
@@ -97,8 +89,9 @@ const terminals = [
               type="button"
               data-reveal
               data-set={set.id}
-              data-src={set.src}
-              data-alt={set.alt}
+              data-set-name={set.name}
+              data-set-shortcut={set.shortcut}
+              data-set-label={set.label}
               aria-pressed={i === 0 ? "true" : "false"}
             >
               <span class="set-card-top">
@@ -110,17 +103,45 @@ const terminals = [
           ))
         }
       </div>
-      <figure class="shot demo-shot" data-reveal>
-        <img
-          src="/set-1.png"
-          width="1200"
-          height="750"
-          alt={sets[0].alt}
-          data-demo-shot
-          loading="lazy"
-          decoding="async"
+      <figure
+        class="shot demo-stage"
+        data-reveal
+        data-demo-stage
+        aria-label={sets[0].label}
+      >
+        <div class="hero-acid" data-acid="demo" aria-hidden="true"></div>
+        <SetDesktop
+          layout="writing"
+          demoId="writing"
+          active
+          windows={[
+            { role: "main", icon: "safari.png", lit: true },
+            { role: "tr", icon: "notes.png" },
+            { role: "br", icon: "spotify.png" },
+          ]}
+        />
+        <SetDesktop
+          layout="split"
+          demoId="review"
+          windows={[
+            { role: "main", icon: "pages.png" },
+            { role: "tr", icon: "safari.png", lit: true },
+          ]}
+        />
+        <SetDesktop
+          layout="stack"
+          demoId="studio"
+          windows={[
+            { role: "main", icon: "music.png" },
+            { role: "tr", icon: "mail.png", lit: true },
+            { role: "br", icon: "calendar.png" },
+          ]}
         />
       </figure>
+      <p class="demo-active" data-demo-active aria-live="polite">
+        <span data-demo-active-name>Writing</span>
+        <KeyChip k="⌃⌥1" />
+      </p>
       <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
     </div>
   </section>
