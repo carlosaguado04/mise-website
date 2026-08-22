@@ -21,9 +21,6 @@ function placeAcid(stage: HTMLElement | null, acid: HTMLElement | null) {
 
 const heroStage = document.querySelector<HTMLElement>(".hero-stage");
 const heroAcid = document.querySelector<HTMLElement>('[data-acid="hero"]');
-const heroWindows = heroStage
-  ? Array.from(heroStage.querySelectorAll<HTMLElement>(".hero-window"))
-  : [];
 const demoStage = document.querySelector<HTMLElement>("[data-demo-stage]");
 const demoAcid = document.querySelector<HTMLElement>('[data-acid="demo"]');
 const demoDesktops = document.querySelectorAll<HTMLElement>("[data-demo-desktop]");
@@ -32,27 +29,50 @@ const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]"
 const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
 const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
 
-// Fixed hero desktop: move the acid between panes instead of swapping layouts.
-if (!reduce && heroWindows.length > 1) {
-  let i = heroWindows.findIndex((el) => el.classList.contains("hero-window--lit"));
-  if (i < 0) i = 0;
-  window.setInterval(() => {
-    i = (i + 1) % heroWindows.length;
-    heroWindows.forEach((el, j) => el.classList.toggle("hero-window--lit", j === i));
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => placeAcid(heroStage, heroAcid)),
-    );
-  }, 3200);
+function refreshHeroAcid() {
+  if (!heroStage || !heroAcid) return;
+  if (heroStage.classList.contains("is-chaos")) {
+    heroAcid.style.opacity = "0";
+    return;
+  }
+  placeAcid(heroStage, heroAcid);
+}
+
+function setHeroChaos(chaos: boolean) {
+  if (!heroStage) return;
+  heroStage.classList.toggle("is-chaos", chaos);
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => refreshHeroAcid()),
+  );
+}
+
+// Chaos → Set loop. Reduced motion: stay settled.
+if (heroStage) {
+  if (reduce) {
+    setHeroChaos(false);
+  } else {
+    setHeroChaos(true);
+    const chaosMs = 1400;
+    const settledMs = 4200;
+    const run = () => {
+      setHeroChaos(false);
+      window.setTimeout(() => {
+        setHeroChaos(true);
+        window.setTimeout(run, chaosMs);
+      }, settledMs);
+    };
+    window.setTimeout(run, chaosMs);
+  }
 }
 
 requestAnimationFrame(() =>
   requestAnimationFrame(() => {
-    placeAcid(heroStage, heroAcid);
+    refreshHeroAcid();
     placeAcid(demoStage, demoAcid);
   }),
 );
 window.addEventListener("resize", () => {
-  placeAcid(heroStage, heroAcid);
+  refreshHeroAcid();
   placeAcid(demoStage, demoAcid);
 });
 
