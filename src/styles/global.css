@@ -609,12 +609,26 @@ button {
   color: var(--on-acid);
 }
 
-.demo-shot {
+.demo-stage {
+  position: relative;
   margin-top: 16px;
+  aspect-ratio: 8 / 5;
+  background: #101218;
+}
+
+.demo-active {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--paper);
 }
 
 .demo-caption {
-  margin-top: 20px;
+  margin-top: 12px;
   font-size: 17px;
   line-height: 1.5;
   color: var(--paper-dim);
