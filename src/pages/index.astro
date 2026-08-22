@@ -18,15 +18,15 @@ const sets = [
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    label: "Review set: Mail on the left, Safari on the right.",
-    explain: "Mail and Safari — the thread beside the source.",
+    label: "Review set: Pages on the left, Acrobat on the right.",
+    explain: "Pages and Acrobat — the draft beside the PDF.",
   },
   {
     id: "studio",
     name: "Studio",
     shortcut: "⌃⌥3",
-    label: "Studio set: Music across the top, Calendar and Spotify below.",
-    explain: "Music up top, Calendar and Spotify below — timeline plus side panels.",
+    label: "Studio set: Final Cut across the top, Photoshop and Premiere below.",
+    explain: "Final Cut up top, Photoshop and Premiere below — timeline plus side panels.",
   },
 ] as const;
 
@@ -127,17 +127,17 @@ const terminals = [
           layout="split"
           demoId="review"
           windows={[
-            { role: "main", icon: "mail.png", lit: true },
-            { role: "tr", icon: "safari.png" },
+            { role: "main", icon: "pages.png", lit: true },
+            { role: "tr", icon: "acrobat.png" },
           ]}
         />
         <SetDesktop
           layout="stack"
           demoId="studio"
           windows={[
-            { role: "main", icon: "music.png", lit: true },
-            { role: "tr", icon: "calendar.png" },
-            { role: "br", icon: "spotify.png" },
+            { role: "main", icon: "final-cut.png", lit: true },
+            { role: "tr", icon: "photoshop.png" },
+            { role: "br", icon: "premiere.png" },
           ]}
         />
       </figure>
