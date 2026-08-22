@@ -482,18 +482,6 @@ button {
   }
 }
 
-.hero-glow {
-  position: absolute;
-  inset: -12% -8% -12% -18%;
-  background: radial-gradient(
-    ellipse at 70% 40%,
-    color-mix(in srgb, var(--acid) 18%, transparent),
-    transparent 68%
-  );
-  pointer-events: none;
-  z-index: 0;
-  transform-origin: center;
-}
 
 .hero-visual .shot {
   position: relative;
@@ -1118,6 +1106,21 @@ button {
   margin-top: 1px;
 }
 
+.footer-end .footer-mascot {
+  width: 36px;
+  height: auto;
+  margin-left: auto;
+  margin-top: 0;
+  border-radius: 0;
+  opacity: 0.45;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+.footer-end .footer-mascot:hover {
+  opacity: 0.7;
+}
+
 .footer-end span {
   display: block;
   margin-top: 4px;
@@ -1486,9 +1489,6 @@ dialog[open]::backdrop {
     animation: word-pulse 1.8s var(--ease) 800ms infinite;
   }
 
-  .hero-glow {
-    animation: glow-breathe 3.2s var(--ease) 400ms infinite alternate;
-  }
 
   .hero-desktop.is-on .hero-window {
     animation: window-land 520ms var(--ease) both;
