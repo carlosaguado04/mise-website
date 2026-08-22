@@ -3,8 +3,6 @@ import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { site } from "../site";
-import Analytics from "@vercel/analytics/astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   title?: string;
@@ -64,8 +62,6 @@ const ogImage = new URL("/og.png", site.url).toString();
       <slot />
     </main>
     <Footer />
-    <Analytics />
-    <SpeedInsights />
     <script src="../scripts/main.ts"></script>
   </body>
 </html>
