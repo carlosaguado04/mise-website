@@ -41,27 +41,47 @@ function refreshHeroAcid() {
 function setHeroChaos(chaos: boolean) {
   if (!heroStage) return;
   heroStage.classList.toggle("is-chaos", chaos);
+  if (chaos) heroStage.classList.remove("is-clicking");
   requestAnimationFrame(() =>
     requestAnimationFrame(() => refreshHeroAcid()),
   );
 }
 
-// Chaos → Set loop. Reduced motion: stay settled.
+function pulseHeroClick(): Promise<void> {
+  return new Promise((resolve) => {
+    if (!heroStage) {
+      resolve();
+      return;
+    }
+    heroStage.classList.add("is-clicking");
+    window.setTimeout(() => {
+      heroStage?.classList.remove("is-clicking");
+      resolve();
+    }, 320);
+  });
+}
+
+// Chaos → click → Set loop. Reduced motion: stay settled.
 if (heroStage) {
   if (reduce) {
     setHeroChaos(false);
   } else {
     setHeroChaos(true);
-    const chaosMs = 1400;
-    const settledMs = 4200;
-    const run = () => {
+    const messMs = 1600;
+    const settledMs = 4400;
+    const run = async () => {
+      await pulseHeroClick();
       setHeroChaos(false);
       window.setTimeout(() => {
         setHeroChaos(true);
-        window.setTimeout(run, chaosMs);
+        window.setTimeout(() => {
+          void run();
+        }, messMs);
       }, settledMs);
     };
-    window.setTimeout(run, chaosMs);
+    window.setTimeout(() => {
+      void run();
+    }, messMs);
   }
 }
 
