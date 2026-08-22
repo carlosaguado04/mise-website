@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://mise.app",
+  site: "https://usemise.dev",
   output: "static",
   trailingSlash: "never",
   compressHTML: true,

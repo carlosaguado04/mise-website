@@ -1,6 +1,6 @@
 # Mise website
 
-Marketing site for [Mise](https://mise.app), a macOS menu-bar app that restores saved window arrangements.
+Marketing site for [Mise](https://usemise.dev), a macOS menu-bar app that restores saved window arrangements.
 
 Static Astro output. No client framework, no webfonts, no third-party scripts.
 

@@ -47,7 +47,6 @@ const terminals = [
       <p class="hero-sub">{site.description}</p>
       <div class="hero-actions">
         <DownloadWait />
-        <DownloadWait label="Watch 30s demo" />
       </div>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
@@ -219,6 +218,9 @@ const terminals = [
         <span>edit the active set</span>
       </li>
     </ul>
+    <p data-reveal>
+      Off until you turn them on in Settings. A global shortcut is a system-wide change, not a default.
+    </p>
   </section>
 
   <section class="status wrap" id="status">
@@ -227,14 +229,4 @@ const terminals = [
       Follow <a href={site.xUrl}>@AppMise</a> for updates.
     </p>
   </section>
-
-  <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
-    <div class="dialog-head">
-      <h2 id="demo-dialog-title">Mise in 30 seconds</h2>
-      <button class="btn btn-ghost btn-sm" type="button" data-close-demo>Close</button>
-    </div>
-    <div class="dialog-body">
-      <div class="video-slot">demo.mp4</div>
-    </div>
-  </dialog>
 </Base>
