@@ -627,72 +627,118 @@ button {
 
 .hero-click {
   position: absolute;
-  left: 56%;
-  top: 44%;
+  left: 54%;
+  top: 42%;
   z-index: 6;
-  width: 14px;
-  height: 20px;
+  width: 22px;
+  height: 30px;
   margin: 0;
   pointer-events: none;
   opacity: 0;
   background: var(--paper);
   clip-path: polygon(0 0, 0 82%, 28% 64%, 46% 100%, 58% 94%, 40% 58%, 68% 58%);
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.55));
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.65));
+}
+
+.hero-click::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--acid) 22%, transparent);
+  opacity: 0;
+  transform: scale(0.4);
 }
 
 .hero-click::after {
   content: "";
   position: absolute;
-  left: -10px;
-  top: -10px;
-  width: 34px;
-  height: 34px;
+  left: -14px;
+  top: -14px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 2px solid var(--acid);
+  border: 2.5px solid var(--acid);
   opacity: 0;
   transform: scale(0.4);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--acid) 55%, transparent);
 }
 
 .hero-stage.is-clicking .hero-click {
-  animation: hero-click-press 320ms var(--ease) both;
+  animation: hero-click-press 900ms var(--ease) both;
+}
+
+.hero-stage.is-clicking .hero-click::before {
+  animation: hero-click-glow 900ms var(--ease) both;
 }
 
 .hero-stage.is-clicking .hero-click::after {
-  animation: hero-click-ring 320ms var(--ease) both;
+  animation: hero-click-ring 900ms var(--ease) both;
 }
 
 @keyframes hero-click-press {
   0% {
     opacity: 0;
-    transform: translate(8px, -10px) scale(0.85);
+    transform: translate(12px, -14px) scale(0.8);
   }
-  40% {
+  18% {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1.08);
   }
-  62% {
+  35% {
     opacity: 1;
-    transform: translate(1px, 2px) scale(0.9);
+    transform: translate(1px, 3px) scale(0.92);
+  }
+  72% {
+    opacity: 1;
+    transform: translate(1px, 3px) scale(0.92);
   }
   100% {
     opacity: 0;
-    transform: translate(1px, 2px) scale(0.9);
+    transform: translate(1px, 3px) scale(0.92);
+  }
+}
+
+@keyframes hero-click-glow {
+  0%,
+  18% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+  72% {
+    opacity: 0.55;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
   }
 }
 
 @keyframes hero-click-ring {
   0%,
-  40% {
+  18% {
     opacity: 0;
     transform: scale(0.35);
   }
-  62% {
-    opacity: 0.9;
-    transform: scale(0.85);
+  35% {
+    opacity: 1;
+    transform: scale(0.95);
+  }
+  72% {
+    opacity: 0.75;
+    transform: scale(1.15);
   }
   100% {
     opacity: 0;
-    transform: scale(1.25);
+    transform: scale(1.45);
   }
 }
 
