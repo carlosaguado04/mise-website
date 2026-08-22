@@ -31,17 +31,17 @@ const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]")
 
 function refreshHeroAcid() {
   if (!heroStage || !heroAcid) return;
-  if (heroStage.classList.contains("is-chaos")) {
+  if (heroStage.classList.contains("is-empty")) {
     heroAcid.style.opacity = "0";
     return;
   }
   placeAcid(heroStage, heroAcid);
 }
 
-function setHeroChaos(chaos: boolean) {
+function setHeroEmpty(empty: boolean) {
   if (!heroStage) return;
-  heroStage.classList.toggle("is-chaos", chaos);
-  if (chaos) heroStage.classList.remove("is-clicking");
+  heroStage.classList.toggle("is-empty", empty);
+  if (empty) heroStage.classList.remove("is-clicking");
   requestAnimationFrame(() =>
     requestAnimationFrame(() => refreshHeroAcid()),
   );
@@ -61,27 +61,27 @@ function pulseHeroClick(): Promise<void> {
   });
 }
 
-// Chaos → click → Set loop. Reduced motion: stay settled.
+// Empty wallpaper → click → windows appear. Reduced motion: stay arranged.
 if (heroStage) {
   if (reduce) {
-    setHeroChaos(false);
+    setHeroEmpty(false);
   } else {
-    setHeroChaos(true);
-    const messMs = 1600;
-    const settledMs = 4400;
+    setHeroEmpty(true);
+    const emptyMs = 1500;
+    const settledMs = 4200;
     const run = async () => {
       await pulseHeroClick();
-      setHeroChaos(false);
+      setHeroEmpty(false);
       window.setTimeout(() => {
-        setHeroChaos(true);
+        setHeroEmpty(true);
         window.setTimeout(() => {
           void run();
-        }, messMs);
+        }, emptyMs);
       }, settledMs);
     };
     window.setTimeout(() => {
       void run();
-    }, messMs);
+    }, emptyMs);
   }
 }
 
