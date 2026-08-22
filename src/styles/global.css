@@ -173,6 +173,18 @@ button {
   gap: 16px;
 }
 
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--acid);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -445,14 +457,30 @@ button {
   background: #101218;
 }
 
+.hero-acid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  border-radius: clamp(8px, 1.4vw, 16px);
+  background: var(--acid);
+  box-shadow: 0 0 64px color-mix(in srgb, var(--acid) 45%, transparent);
+  pointer-events: none;
+  opacity: 0;
+}
+
 .hero-desktop {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: grid;
   gap: clamp(8px, 1.5vw, 16px);
   padding: clamp(20px, 6%, 52px);
   opacity: 0;
   pointer-events: none;
+  transition: opacity 480ms var(--ease);
 }
 
 .hero-desktop.is-on {
@@ -487,6 +515,10 @@ button {
   place-items: center;
   border-radius: clamp(8px, 1.4vw, 16px);
   background: color-mix(in srgb, var(--paper) 16%, transparent);
+}
+
+.hero-desktop.is-on .hero-window--lit {
+  background: transparent;
 }
 
 /* Shots */
@@ -1133,16 +1165,19 @@ dialog[open]::backdrop {
 
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(22px);
+  filter: blur(8px);
   transition:
-    opacity 400ms var(--ease),
-    transform 400ms var(--ease);
+    opacity 500ms var(--ease),
+    transform 500ms var(--ease),
+    filter 500ms var(--ease);
   transition-delay: var(--d, 0ms);
 }
 
 .js [data-reveal].is-in {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 @keyframes rise {
@@ -1190,50 +1225,21 @@ dialog[open]::backdrop {
   }
 }
 
-@keyframes window-main {
-  0% {
+@keyframes window-land {
+  from {
     opacity: 0;
-    transform: translateY(48px) scale(0.9);
-    background: color-mix(in srgb, var(--paper) 16%, transparent);
-    box-shadow: none;
+    transform: translateY(28px) scale(0.94);
   }
-  12% {
+  to {
     opacity: 1;
     transform: none;
-    background: color-mix(in srgb, var(--paper) 16%, transparent);
-    box-shadow: none;
-  }
-  24%,
-  72% {
-    background: var(--acid);
-    box-shadow: 0 0 64px color-mix(in srgb, var(--acid) 45%, transparent);
-  }
-  86% {
-    background: color-mix(in srgb, var(--paper) 16%, transparent);
-    box-shadow: none;
-    opacity: 1;
-    transform: none;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(16px);
-    background: color-mix(in srgb, var(--paper) 16%, transparent);
   }
 }
 
-@keyframes window-side {
-  0% {
+@keyframes trail-fade {
+  to {
     opacity: 0;
-    transform: translateY(36px) scale(0.92);
-  }
-  14%,
-  86% {
-    opacity: 1;
-    transform: none;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(12px);
+    transform: translate(-50%, -50%) scale(0.15);
   }
 }
 
@@ -1275,24 +1281,42 @@ dialog[open]::backdrop {
   }
 
   .hero-desktop.is-on .hero-window {
-    animation: window-side 5.2s var(--ease) both;
-  }
-
-  .hero-desktop.is-on .hero-window--lit {
-    animation-name: window-main;
+    animation: window-land 520ms var(--ease) both;
   }
 
   .hero-desktop.is-on .hero-window:nth-child(1) {
-    animation-delay: 80ms;
+    animation-delay: 40ms;
   }
 
   .hero-desktop.is-on .hero-window:nth-child(2) {
-    animation-delay: 200ms;
+    animation-delay: 120ms;
   }
 
   .hero-desktop.is-on .hero-window:nth-child(3) {
-    animation-delay: 340ms;
+    animation-delay: 200ms;
   }
+
+  .hero-acid {
+    transition:
+      left 700ms var(--ease),
+      top 700ms var(--ease),
+      width 700ms var(--ease),
+      height 700ms var(--ease),
+      opacity 280ms var(--ease);
+  }
+}
+
+.acid-trail {
+  position: fixed;
+  z-index: 50;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--acid);
+  pointer-events: none;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  animation: trail-fade 640ms var(--ease) forwards;
 }
 
 @media (max-width: 720px) {
@@ -1326,9 +1350,10 @@ dialog[open]::backdrop {
   .js [data-reveal] {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 
-  .hero-desktop.is-on .hero-window--lit {
-    background: var(--acid);
+  .hero-acid {
+    opacity: 1;
   }
 }
