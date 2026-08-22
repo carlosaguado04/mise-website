@@ -21,9 +21,9 @@ function placeAcid(stage: HTMLElement | null, acid: HTMLElement | null) {
 
 const heroStage = document.querySelector<HTMLElement>(".hero-stage");
 const heroAcid = document.querySelector<HTMLElement>('[data-acid="hero"]');
-const heroDesktops = document.querySelectorAll<HTMLElement>(
-  ".hero-stage > .hero-desktop",
-);
+const heroWindows = heroStage
+  ? Array.from(heroStage.querySelectorAll<HTMLElement>(".hero-window"))
+  : [];
 const demoStage = document.querySelector<HTMLElement>("[data-demo-stage]");
 const demoAcid = document.querySelector<HTMLElement>('[data-acid="demo"]');
 const demoDesktops = document.querySelectorAll<HTMLElement>("[data-demo-desktop]");
@@ -32,15 +32,17 @@ const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]"
 const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
 const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
 
-if (!reduce && heroDesktops.length > 1) {
-  let i = 0;
+// Fixed hero desktop: move the acid between panes instead of swapping layouts.
+if (!reduce && heroWindows.length > 1) {
+  let i = heroWindows.findIndex((el) => el.classList.contains("hero-window--lit"));
+  if (i < 0) i = 0;
   window.setInterval(() => {
-    i = (i + 1) % heroDesktops.length;
-    heroDesktops.forEach((el, j) => el.classList.toggle("is-on", j === i));
+    i = (i + 1) % heroWindows.length;
+    heroWindows.forEach((el, j) => el.classList.toggle("hero-window--lit", j === i));
     requestAnimationFrame(() =>
       requestAnimationFrame(() => placeAcid(heroStage, heroAcid)),
     );
-  }, 5600);
+  }, 3200);
 }
 
 requestAnimationFrame(() =>

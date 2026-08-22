@@ -51,29 +51,18 @@ const terminals = [
       </div>
       <div class="hero-visual">
         <div class="hero-glow" aria-hidden="true"></div>
-        <figure class="shot hero-stage">
+        <figure
+          class="shot hero-stage"
+          aria-label="A sample desktop: browser, mail, and calendar."
+        >
           <div class="hero-acid" data-acid="hero" aria-hidden="true"></div>
+          {/* One fixed day-desk — demo owns the Set tour. Acid moves between panes. */}
           <SetDesktop
             layout="writing"
             active
             windows={[
               { role: "main", icon: "safari.png", lit: true },
-              { role: "tr", icon: "notes.png" },
-              { role: "br", icon: "spotify.png" },
-            ]}
-          />
-          <SetDesktop
-            layout="split"
-            windows={[
-              { role: "main", icon: "pages.png" },
-              { role: "tr", icon: "safari.png", lit: true },
-            ]}
-          />
-          <SetDesktop
-            layout="stack"
-            windows={[
-              { role: "main", icon: "music.png" },
-              { role: "tr", icon: "mail.png", lit: true },
+              { role: "tr", icon: "mail.png" },
               { role: "br", icon: "calendar.png" },
             ]}
           />
