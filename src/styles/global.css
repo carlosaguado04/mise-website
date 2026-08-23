@@ -1450,19 +1450,96 @@ button {
   margin-top: 1px;
 }
 
-.footer-end .footer-mascot {
-  width: 36px;
-  height: auto;
+.footer-mascot-wrap {
+  position: relative;
   margin-left: auto;
-  margin-top: 0;
-  border-radius: 0;
-  opacity: 0.45;
   flex-shrink: 0;
   align-self: flex-end;
 }
 
-.footer-end .footer-mascot:hover {
-  opacity: 0.7;
+.footer-end .footer-mascot {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+  opacity: 0.45;
+  transition: opacity 160ms var(--ease), transform 160ms var(--ease);
+}
+
+.footer-end .footer-mascot img {
+  width: 36px;
+  height: auto;
+  margin: 0;
+  border-radius: 0;
+}
+
+.footer-end .footer-mascot:hover,
+.footer-end .footer-mascot:focus-visible {
+  opacity: 0.9;
+  outline: none;
+}
+
+.footer-end .footer-mascot:focus-visible {
+  box-shadow: 0 0 0 2px var(--acid);
+  border-radius: 6px;
+}
+
+.footer-end .footer-mascot:active {
+  transform: scale(0.94);
+}
+
+.mascot-bubble {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  z-index: 5;
+  width: max-content;
+  max-width: min(220px, 70vw);
+  padding: 10px 12px;
+  border-radius: 16px 16px 4px 16px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: var(--shadow);
+  transform-origin: bottom right;
+  animation: mascot-pop 280ms var(--ease) both;
+}
+
+.mascot-bubble::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  background: var(--paper);
+  transform: rotate(45deg);
+  border-bottom-right-radius: 2px;
+}
+
+@keyframes mascot-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-bubble {
+    animation: none;
+  }
 }
 
 .footer-end span {

@@ -229,3 +229,34 @@ themeButtons.forEach((btn) => {
     if (next === "light" || next === "dark") applyTheme(next);
   });
 });
+
+const mascotLines = [
+  "Everything in its place. Even me.",
+  "I rearrange windows so you don’t have to rearrange your life.",
+  "mise en place, but for Safari tabs you swore you’d close.",
+  "Click me again and I’ll start charging consulting fees.",
+  "Your dual monitors called. They miss their Sets.",
+  "I’m not a Dock icon. I’m emotional support for chaos.",
+  "⌃⌥1… and suddenly you’re a person who has their life together.",
+];
+
+const mascotBtn = document.querySelector<HTMLButtonElement>("[data-mascot]");
+const mascotBubble = document.querySelector<HTMLElement>("[data-mascot-bubble]");
+let mascotLine = 0;
+let mascotHide: number | undefined;
+
+mascotBtn?.addEventListener("click", () => {
+  if (!mascotBubble) return;
+  mascotBubble.hidden = false;
+  mascotBubble.textContent = mascotLines[mascotLine % mascotLines.length] ?? "";
+  mascotLine += 1;
+  // retrigger pop animation
+  mascotBubble.style.animation = "none";
+  void mascotBubble.offsetWidth;
+  mascotBubble.style.animation = "";
+  window.clearTimeout(mascotHide);
+  mascotHide = window.setTimeout(() => {
+    mascotBubble.hidden = true;
+  }, 3200);
+});
+
