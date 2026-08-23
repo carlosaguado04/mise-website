@@ -195,3 +195,37 @@ document.querySelector("[data-close-demo]")?.addEventListener("click", () => {
 dialog?.addEventListener("click", (event) => {
   if (event.target === dialog) dialog.close();
 });
+
+const themeButtons = document.querySelectorAll<HTMLButtonElement>("[data-theme-set]");
+const themeColorMeta = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
+
+function applyTheme(theme: "light" | "dark") {
+  document.documentElement.setAttribute("data-theme", theme);
+  try {
+    localStorage.setItem("mise-theme", theme);
+  } catch {}
+  themeButtons.forEach((btn) => {
+    btn.setAttribute(
+      "aria-pressed",
+      btn.dataset.themeSet === theme ? "true" : "false",
+    );
+  });
+  const color = theme === "light" ? "#FFFFFF" : "#0C0D10";
+  themeColorMeta.forEach((meta) => {
+    meta.setAttribute("content", color);
+    meta.removeAttribute("media");
+  });
+}
+
+const initialTheme =
+  document.documentElement.getAttribute("data-theme") === "light"
+    ? "light"
+    : "dark";
+applyTheme(initialTheme);
+
+themeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const next = btn.dataset.themeSet;
+    if (next === "light" || next === "dark") applyTheme(next);
+  });
+});
