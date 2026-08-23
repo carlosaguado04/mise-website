@@ -51,7 +51,19 @@ const ogImage = new URL("/og.png", site.url).toString();
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
     <script is:inline>
-      document.documentElement.classList.add("js");
+      (function () {
+        try {
+          var stored = localStorage.getItem("mise-theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {}
+        document.documentElement.classList.add("js");
+      })();
     </script>
   </head>
   <body>
