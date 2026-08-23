@@ -37,3 +37,7 @@ python3 -m venv .venv
 ```
 
 Canonical URL, download path, and contact email live in `src/site.ts`.
+
+---
+
+_Pin-watch test: 2026-08-23T22:58:30Z_
