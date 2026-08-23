@@ -19,17 +19,14 @@ npm run build
 
 Files land in `dist/`.
 
-## Screenshots
+## Screenshots / visuals
+
+Homepage hero, demo strip, and feature rows use stylized CSS stages (window tiles + icons from `public/hero-apps/`) — not screenshot PNG drops for those slots.
 
 | File | Slot |
 |---|---|
-| `feature-capture.png` | Feature row 1 |
-| `feature-displays.png` | Feature row 2 |
-| `feature-launch.png` | Feature row 3 |
 | `demo.mp4` | 30-second demo (wire into a dialog when you have it) |
 | `Mise.dmg` | Download target (`src/site.ts`) |
-
-The homepage demo strip uses stylized Set stages (CSS window tiles + icons from `public/hero-apps/`), same language as the hero — not screenshot PNGs.
 
 `icon.png`, `favicon.png`, `apple-touch-icon.png`, and `og.png` are generated from the app icon set. Rebuild them with a Pillow environment:
 
