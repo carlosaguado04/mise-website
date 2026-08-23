@@ -99,9 +99,6 @@ def main() -> None:
 
     for i in range(1, 4):
         labeled(PUBLIC / f"set-{i}.png", (2400, 1500), f"set-{i}.png")
-    labeled(PUBLIC / "feature-capture.png", (1280, 960), "feature-capture.png")
-    labeled(PUBLIC / "feature-displays.png", (1280, 960), "feature-displays.png")
-    labeled(PUBLIC / "feature-launch.png", (1280, 960), "feature-launch.png")
 
     write_og(icon)
     print(f"Wrote assets to {PUBLIC}")

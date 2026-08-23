@@ -18,7 +18,7 @@ const sets = [
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    label: "Review set: a document beside a PDF reader.",
+    label: "Review set: Pages beside Preview.",
     explain: "The draft beside the PDF you’re checking.",
   },
   {
@@ -120,8 +120,8 @@ const terminals = [
           layout="split"
           demoId="review"
           windows={[
-            { role: "main", icon: "word.png", lit: true },
-            { role: "tr", icon: "acrobat.png" },
+            { role: "main", icon: "pages.png", lit: true },
+            { role: "tr", icon: "preview.png" },
           ]}
         />
         <SetDesktop
@@ -143,25 +143,34 @@ const terminals = [
           Draft on one side, notes and a reference stacked on the other.
         </p>
       </div>
-      <p class="demo-caption">Sets are yours: capture what's on screen, name it, forget about it.</p>
+      <p class="demo-caption">Sets are yours: capture what’s on screen, name it, forget about it.</p>
     </div>
   </section>
 
   <section class="features wrap" id="features">
     <article class="feature" data-reveal-group>
       <div class="feature-copy" data-reveal>
-        <h2>Capture what's already there.</h2>
+        <h2>Capture what’s already there.</h2>
         <p>Arrange your windows once, then press Capture. Mise stores the frames, not a guess.</p>
       </div>
-      <figure class="shot feature-visual" data-reveal>
-        <img
-          src="/feature-capture.png"
-          width="640"
-          height="480"
-          alt="The Capture action storing the current window frames as a Set."
-          loading="lazy"
-          decoding="async"
-        />
+      <figure
+        class="shot feature-visual"
+        data-reveal
+        aria-label="Stylized desktop mid-capture into a Set."
+      >
+        <div class="hero-wallpaper" aria-hidden="true"></div>
+        <div class="feature-capture" aria-hidden="true">
+          <span class="hero-window feature-capture-win feature-capture-win--pages">
+            <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
+          </span>
+          <span class="hero-window feature-capture-win feature-capture-win--safari">
+            <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+          </span>
+          <span class="hero-window feature-capture-win feature-capture-win--notes">
+            <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
+          </span>
+          <span class="feature-capture-chip">Capture</span>
+        </div>
       </figure>
     </article>
 
@@ -173,15 +182,40 @@ const terminals = [
           resolution changes and reconnects.
         </p>
       </div>
-      <figure class="shot feature-visual" data-reveal>
-        <img
-          src="/feature-displays.png"
-          width="640"
-          height="480"
-          alt="A Set placed across two displays, each window on the monitor it belongs to."
-          loading="lazy"
-          decoding="async"
-        />
+      <figure
+        class="shot feature-visual"
+        data-reveal
+        aria-label="Stylized dual monitors with a Set spanning both displays."
+      >
+        <div class="feature-displays" aria-hidden="true">
+          <div class="feature-monitor">
+            <div class="feature-monitor-bezel">
+              <div class="hero-wallpaper"></div>
+              <div class="hero-desktop is-on feature-monitor-desktop feature-monitor-desktop--solo">
+                <span class="hero-window hero-window--main hero-window--lit">
+                  <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
+                </span>
+              </div>
+            </div>
+            <span class="feature-monitor-stand"></span>
+            <span class="feature-monitor-base"></span>
+          </div>
+          <div class="feature-monitor">
+            <div class="feature-monitor-bezel">
+              <div class="hero-wallpaper"></div>
+              <div class="hero-desktop hero-desktop--split is-on feature-monitor-desktop">
+                <span class="hero-window hero-window--main">
+                  <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
+                </span>
+                <span class="hero-window hero-window--tr">
+                  <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
+                </span>
+              </div>
+            </div>
+            <span class="feature-monitor-stand"></span>
+            <span class="feature-monitor-base"></span>
+          </div>
+        </div>
       </figure>
     </article>
   </section>
@@ -189,8 +223,8 @@ const terminals = [
   <section class="terminals wrap" id="terminals">
     <h2 data-reveal>Restore the tmux session.</h2>
     <p data-reveal>
-      Name a session on a terminal slot. Mise attaches if it's still running, or creates it and
-      runs the command if it isn't. Closing the window doesn't kill the work.
+      Name a tmux session on a terminal slot. Mise attaches if it’s still running, or creates it and
+      runs the command if it isn’t. Closing the window doesn’t kill the work.
     </p>
     <ul class="term-list" data-reveal-group>
       {
@@ -205,9 +239,9 @@ const terminals = [
       }
     </ul>
     <p class="term-note" data-reveal>
-      Other terminals still open and land in their frames, but without the saved command or
-      session. They have no way to open a new window with a command from the command line.
-      Warp and Hyper are two examples.
+      Other terminals still open and land in their frames, but without a saved command or session.
+      Those apps can’t launch a new window with a command from the shell. Warp and Hyper are two
+      examples.
     </p>
   </section>
 
