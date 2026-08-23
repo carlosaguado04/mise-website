@@ -231,13 +231,14 @@ themeButtons.forEach((btn) => {
 });
 
 const mascotLines = [
-  "Everything in its place. Even me.",
-  "I rearrange windows so you don’t have to rearrange your life.",
-  "mise en place, but for Safari tabs you swore you’d close.",
-  "Click me again and I’ll start charging consulting fees.",
-  "Your dual monitors called. They miss their Sets.",
-  "I’m not a Dock icon. I’m emotional support for chaos.",
-  "⌃⌥1… and suddenly you’re a person who has their life together.",
+  "Wow. Clicking the mascot. Peak productivity.",
+  "Your windows aren’t lost. You’re just bad at filing.",
+  "mise en place: French for ‘stop living like a raccoon.’",
+  "I move rectangles for a living. What’s your excuse?",
+  "Yes, I saw that 47-tab Safari. No, we won’t discuss it.",
+  "One Set and you’d look like you have a personality.",
+  "I’m decorative until you click me. Now I’m judgmental.",
+  "⌃⌥1. Or keep dragging windows like it’s 2009. Your call.",
 ];
 
 const mascotBtn = document.querySelector<HTMLButtonElement>("[data-mascot]");
