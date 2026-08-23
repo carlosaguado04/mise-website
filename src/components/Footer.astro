@@ -42,7 +42,17 @@ import { site } from "../site";
         mise en place — the chef's ritual of arranging every tool before service.
         <span>© Carlos Aguado. All rights reserved.</span>
       </p>
-      <img class="footer-mascot" src="/mascot.png" width="36" height="32" alt="" aria-hidden="true" />
+      <div class="footer-mascot-wrap">
+        <button
+          type="button"
+          class="footer-mascot"
+          aria-label="Talk to the Mise mascot"
+          data-mascot
+        >
+          <img src="/mascot.png" width="36" height="32" alt="" />
+        </button>
+        <div class="mascot-bubble" data-mascot-bubble hidden role="status" aria-live="polite"></div>
+      </div>
     </div>
   </div>
 </footer>
