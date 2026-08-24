@@ -196,7 +196,7 @@ dialog?.addEventListener("click", (event) => {
   if (event.target === dialog) dialog.close();
 });
 
-const themeButtons = document.querySelectorAll<HTMLButtonElement>("[data-theme-set]");
+const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
 const themeColorMeta = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
 
 function applyTheme(theme: "light" | "dark") {
@@ -204,12 +204,12 @@ function applyTheme(theme: "light" | "dark") {
   try {
     localStorage.setItem("mise-theme", theme);
   } catch {}
-  themeButtons.forEach((btn) => {
-    btn.setAttribute(
-      "aria-pressed",
-      btn.dataset.themeSet === theme ? "true" : "false",
+  if (themeToggle) {
+    themeToggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Switch to light theme" : "Switch to dark theme",
     );
-  });
+  }
   const color = theme === "light" ? "#FFFFFF" : "#0C0D10";
   themeColorMeta.forEach((meta) => {
     meta.setAttribute("content", color);
@@ -223,11 +223,10 @@ const initialTheme =
     : "dark";
 applyTheme(initialTheme);
 
-themeButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const next = btn.dataset.themeSet;
-    if (next === "light" || next === "dark") applyTheme(next);
-  });
+themeToggle?.addEventListener("click", () => {
+  const next =
+    document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+  applyTheme(next);
 });
 
 const mascotLines = [
