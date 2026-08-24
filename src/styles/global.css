@@ -136,8 +136,8 @@ button {
 }
 
 ::selection {
-  background: var(--ink-edge);
-  color: var(--paper);
+  background: var(--acid);
+  color: var(--on-acid);
 }
 
 .skip {
@@ -1464,26 +1464,31 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   color: var(--paper-dim);
 }
 
-.automate-steps {
-  margin: 0 0 16px;
-  padding: 0 0 0 1.25em;
+.automate-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: 10px;
+  gap: 8px;
+}
+
+.automate-features li {
+  position: relative;
+  padding-left: 1.1em;
   font-size: 14px;
   line-height: 1.45;
   color: var(--paper-dim);
 }
 
-.automate-steps li::marker {
-  color: var(--paper-mute);
-  font-variant-numeric: tabular-nums;
-}
-
-.automate-note {
-  margin: 0;
-  font-size: 13px;
-  color: var(--paper-mute);
-  line-height: 1.45;
+.automate-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acid);
 }
 
 .automate-card .btn,

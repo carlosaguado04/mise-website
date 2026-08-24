@@ -276,17 +276,16 @@ const terminals = [
             <p class="automate-tag">Built-in actions</p>
           </div>
         </header>
-        <ol class="automate-steps">
-          <li>Install Mise (use a Development- or Developer ID–signed build so Shortcuts can reach it).</li>
-          <li>Open the <strong>Shortcuts</strong> app on your Mac.</li>
-          <li>New Shortcut → search <strong>Mise</strong> or <strong>Apply Set</strong>.</li>
-          <li>Add <strong>Apply Set</strong> and pick a Set (same free apply as the menu bar).</li>
-          <li>Optional: add <strong>Reload Sets</strong> if you edit layouts.json by hand.</li>
-          <li>Run the shortcut — windows rearrange. If Mise doesn’t show up, quit Shortcuts (⌘Q) and reopen once after installing Mise.</li>
-        </ol>
-        <p class="automate-note">
-          Or use Open URL: <code>layouts://apply?name=Your%20Set</code> needs Pro; <code>layouts://reload</code> is Free.
+        <p>
+          Mise shows up in the Shortcuts app as native actions. Search Mise, add Apply Set, pick a
+          layout. Run it — every window launches, sizes, and lands.
         </p>
+        <ul class="automate-features">
+          <li>Apply Set — same restore as the menu bar</li>
+          <li>Reload Sets — if you changed them outside the app</li>
+          <li>Siri — “Apply Writing in Mise”</li>
+          <li>Drop it into Focus, login, or any larger shortcut</li>
+        </ul>
       </article>
       <article class="automate-card" data-reveal>
         <header class="automate-card-head">
@@ -297,7 +296,7 @@ const terminals = [
           </div>
         </header>
         <p>
-          Search Sets in Raycast and apply them. Listing is free; apply uses <code>layouts://</code> and needs Mise Pro.
+          Search Sets in Raycast and apply them. Listing is free. Applying a Set needs Mise Pro.
         </p>
         {site.raycastStoreUrl ? (
           <a class="btn" href={site.raycastStoreUrl} rel="noopener noreferrer" target="_blank">
@@ -336,7 +335,7 @@ const terminals = [
           <li>Multi-display layouts</li>
           <li>Global hotkeys (⌃⌥)</li>
           <li>Terminal command + tmux slots</li>
-          <li><code>layouts://</code> / Shortcuts</li>
+          <li>Raycast apply</li>
         </ul>
         <p class="price-foot">No subscription. We’re not that kind of studio.</p>
       </article>
