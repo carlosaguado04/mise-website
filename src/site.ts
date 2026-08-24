@@ -12,6 +12,7 @@ export const site = {
   proPrice: "$9.99",
   freeSetLimit: 2,
   raycastStoreUrl: "",
+  acidityUrl: "https://acidity.lol",
 } as const;
 
 export const jsonLd = {
