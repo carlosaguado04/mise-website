@@ -49,6 +49,7 @@ const terminals = [
         <p class="hero-sub">{site.description}</p>
         <div class="hero-actions">
           <DownloadWait />
+          <p class="hero-price-note">Free to try · Pro is {site.proPrice} once</p>
         </div>
       </div>
       <div class="hero-visual">
@@ -175,7 +176,7 @@ const terminals = [
 
     <article class="feature feature--flip" data-reveal-group>
       <div class="feature-copy" data-reveal>
-        <h2>Across every display.</h2>
+        <h2>Across every display. <span class="pro-tag">Pro</span></h2>
         <p>
           Sets remember which monitor each window lived on, as fractions — so they survive
           resolution changes and reconnects.
@@ -220,7 +221,7 @@ const terminals = [
   </section>
 
   <section class="terminals wrap" id="terminals">
-    <h2 data-reveal>Restore the tmux session.</h2>
+    <h2 data-reveal>Restore the tmux session. <span class="pro-tag">Pro</span></h2>
     <p data-reveal>
       Name a tmux session on a terminal slot. Mise attaches if it’s still running, or creates it and
       runs the command if it isn’t. Closing the window doesn’t kill the work.
@@ -245,7 +246,7 @@ const terminals = [
   </section>
 
   <section class="keys wrap" id="keys">
-    <h2 data-reveal>A key for each Set.</h2>
+    <h2 data-reveal>A key for each Set. <span class="pro-tag">Pro</span></h2>
     <ul class="shortcuts" data-reveal-group>
       <li data-reveal>
         <KeyChip k="⌃⌥1–9" />
@@ -262,10 +263,43 @@ const terminals = [
     </ul>
   </section>
 
+  <section class="pricing wrap" id="pricing">
+    <h2 data-reveal>Free to start. Pro when you need more.</h2>
+    <div class="price-cards" data-reveal-group>
+      <article class="price-card" data-reveal>
+        <h3>Free</h3>
+        <p class="price-amount">$0</p>
+        <p class="price-line">Forever. Two Sets.</p>
+        <ul>
+          <li>Capture and restore</li>
+          <li>Edit your Sets</li>
+          <li>Menu bar, always</li>
+        </ul>
+        <p class="price-foot">Enough to see if Mise sticks.</p>
+      </article>
+      <article class="price-card price-card--pro" data-reveal>
+        <h3>Pro</h3>
+        <p class="price-amount">{site.proPrice}</p>
+        <p class="price-line">One-time. Yours.</p>
+        <ul>
+          <li>Unlimited Sets</li>
+          <li>Multi-display layouts</li>
+          <li>Global hotkeys (⌃⌥)</li>
+          <li>Terminal command + tmux slots</li>
+          <li><code>layouts://</code> / Shortcuts</li>
+        </ul>
+        <p class="price-foot">No subscription.</p>
+      </article>
+    </div>
+    <p class="price-note" data-reveal>
+      License unlocks on your Mac. No account required.
+    </p>
+  </section>
+
   <section class="status wrap" id="status">
     <h2 data-reveal>In development.</h2>
     <p data-reveal>
-      Follow <a href={site.xUrl}>@AppMise</a> for updates.
+      Download is almost here. Follow <a href={site.xUrl}>@AppMise</a> for the drop.
     </p>
   </section>
 </Base>
