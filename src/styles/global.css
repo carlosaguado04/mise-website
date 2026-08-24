@@ -453,7 +453,7 @@ button {
   white-space: nowrap;
 }
 
-/* Hero — desktop-led, asymmetric */
+/* Hero — desktop-led, page-aligned */
 
 .hero {
   padding-top: 28px;
@@ -467,7 +467,7 @@ button {
   align-items: center;
   width: 100%;
   padding-left: max(24px, calc((100vw - var(--page)) / 2));
-  padding-right: 0;
+  padding-right: max(24px, calc((100vw - var(--page)) / 2));
 }
 
 @media (min-width: 768px) {
@@ -532,8 +532,8 @@ button {
   }
 
   .hero-visual .shot {
-    border-radius: var(--r-lg) 0 0 var(--r-lg);
-    border-right: 0;
+    border-radius: var(--r-lg);
+    border-right: 1px solid var(--ink-edge);
   }
 }
 
