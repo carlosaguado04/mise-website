@@ -3,7 +3,7 @@ export const site = {
   tagline: "Everything in its place, before you start.",
   title: "Mise — every window where it belongs",
   description:
-    "Mise remembers how your windows were arranged and puts them back — apps launched, sized, and placed across every display. One click or a key, start working.",
+    "Your windows get amnesia. Mise doesn’t. Capture a layout, then put every app back — launched, sized, on the right display.",
   url: "https://usemise.dev",
   downloadUrl: "/Mise.dmg",
   xUrl: "https://x.com/AppMise",
