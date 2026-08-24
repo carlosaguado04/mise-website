@@ -263,6 +263,57 @@ const terminals = [
     </ul>
   </section>
 
+  <section class="automate wrap" id="automate">
+    <h2 data-reveal>Automate with Shortcuts and Raycast.</h2>
+    <p class="automate-lead" data-reveal>
+      Apply a Set from Apple Shortcuts or Raycast. Same Sets you capture in the menu bar.
+    </p>
+    <div class="automate-cards" data-reveal-group>
+      <article class="automate-card" data-reveal>
+        <header class="automate-card-head">
+          <img src="/integrations/shortcuts.svg" width="28" height="28" alt="" class="automate-icon automate-icon--shortcuts" />
+          <div>
+            <h3>Apple Shortcuts</h3>
+            <p class="automate-tag">Built-in actions</p>
+          </div>
+        </header>
+        <ol class="automate-steps">
+          <li>Install Mise (use a Development- or Developer ID–signed build so Shortcuts can reach it).</li>
+          <li>Open the <strong>Shortcuts</strong> app on your Mac.</li>
+          <li>New Shortcut → search <strong>Mise</strong> or <strong>Apply Set</strong>.</li>
+          <li>Add <strong>Apply Set</strong> and pick a Set (same free apply as the menu bar).</li>
+          <li>Optional: add <strong>Reload Sets</strong> if you edit layouts.json by hand.</li>
+          <li>Run the shortcut — windows rearrange. If Mise doesn’t show up, quit Shortcuts (⌘Q) and reopen once after installing Mise.</li>
+        </ol>
+        <p class="automate-note">
+          Or use Open URL: <code>layouts://apply?name=Your%20Set</code> needs Pro; <code>layouts://reload</code> is Free.
+        </p>
+      </article>
+      <article class="automate-card" data-reveal>
+        <header class="automate-card-head">
+          <img src="/integrations/raycast.svg" width="28" height="28" alt="" class="automate-icon" />
+          <div>
+            <h3>Raycast</h3>
+            <p class="automate-tag">Mise Window Sets</p>
+          </div>
+        </header>
+        <p>
+          Search Sets in Raycast and apply them. Listing is free; apply uses <code>layouts://</code> and needs Mise Pro.
+        </p>
+        {site.raycastStoreUrl ? (
+          <a class="btn" href={site.raycastStoreUrl} rel="noopener noreferrer" target="_blank">
+            View on Raycast Store
+          </a>
+        ) : (
+          <button class="btn btn-wait" type="button" aria-disabled="true">
+            <span class="btn-idle">View on Raycast Store</span>
+            <span class="btn-alt">Coming soon</span>
+          </button>
+        )}
+      </article>
+    </div>
+  </section>
+
   <section class="pricing wrap" id="pricing">
     <h2 data-reveal>Free to start. Pro when you need more.</h2>
     <div class="price-cards" data-reveal-group>

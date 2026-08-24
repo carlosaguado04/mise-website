@@ -987,6 +987,7 @@ button {
 #features,
 #terminals,
 #keys,
+#automate,
 #pricing,
 #status,
 #accessibility {
@@ -1385,6 +1386,123 @@ button {
   vertical-align: middle;
 }
 
+
+/* Automate — Shortcuts + Raycast */
+
+.automate {
+  margin-top: 120px;
+  max-width: 44rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.automate h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  margin-bottom: 16px;
+}
+
+.automate-lead {
+  margin: 0 auto 32px;
+  max-width: var(--measure);
+  text-align: left;
+  color: var(--paper-dim);
+}
+
+.automate-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  text-align: left;
+}
+
+.automate-card {
+  padding: 22px 22px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--ink-edge);
+  background: var(--ink-raised);
+}
+
+.automate-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.automate-card-head h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.automate-tag {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--paper-mute);
+}
+
+.automate-tag .pro-tag {
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+.automate-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+.automate-icon--shortcuts {
+  filter: none;
+}
+
+html[data-theme="dark"] .automate-icon--shortcuts {
+  filter: invert(1);
+}
+
+.automate-card > p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  color: var(--paper-dim);
+}
+
+.automate-steps {
+  margin: 0 0 16px;
+  padding: 0 0 0 1.25em;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--paper-dim);
+}
+
+.automate-steps li::marker {
+  color: var(--paper-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.automate-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--paper-mute);
+  line-height: 1.45;
+}
+
+.automate-card .btn,
+.automate-card .btn-wait {
+  margin-top: 4px;
+}
+
+@media (min-width: 640px) {
+  .automate-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+}
+
 /* Pricing */
 
 .pricing {
@@ -1469,7 +1587,8 @@ button {
 
 .price-card code,
 .pricing code,
-:where(.hero, .features, .terminals, .keys, .pricing, .status, .footer, .prose) code {
+.automate code,
+:where(.hero, .features, .terminals, .keys, .automate, .pricing, .status, .footer, .prose) code {
   font-family: var(--mono);
   font-size: 0.92em;
   font-weight: 550;
@@ -2087,6 +2206,7 @@ dialog[open]::backdrop {
   .features,
   .terminals,
   .keys,
+  .automate,
   .pricing,
   .status,
   .footer {

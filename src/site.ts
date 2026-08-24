@@ -11,6 +11,7 @@ export const site = {
   minOs: "macOS 14+",
   proPrice: "$9.99",
   freeSetLimit: 2,
+  raycastStoreUrl: "",
 } as const;
 
 export const jsonLd = {
