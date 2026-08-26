@@ -1503,6 +1503,160 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   }
 }
 
+/* Apps — Vela, Cursor, more */
+
+.apps {
+  margin-top: 120px;
+  max-width: 44rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.apps h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  margin-bottom: 16px;
+}
+
+.apps-lead {
+  margin: 0 auto 32px;
+  max-width: var(--measure);
+  text-align: left;
+  color: var(--paper-dim);
+}
+
+.apps-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  text-align: left;
+}
+
+.apps-card {
+  padding: 22px 22px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--ink-edge);
+  background: var(--ink-raised);
+}
+
+.apps-card--soon {
+  background: color-mix(in srgb, var(--paper) 3%, var(--ink-raised));
+}
+
+.apps-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.apps-card-head h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.apps-tag {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--paper-mute);
+}
+
+.apps-tag a {
+  color: var(--paper-dim);
+  text-decoration-color: var(--ink-edge);
+}
+
+.apps-tag a:hover {
+  color: var(--paper);
+}
+
+.apps-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  object-fit: cover;
+  background: #0c0d10;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
+}
+
+.apps-icon--soon {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  box-shadow: none;
+  color: var(--paper-mute);
+}
+
+.apps-icon--soon svg {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+
+.apps-card > p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  color: var(--paper-dim);
+}
+
+.apps-card--soon > p {
+  margin-bottom: 0;
+}
+
+.apps-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.apps-features li {
+  position: relative;
+  padding-left: 1.1em;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--paper-dim);
+}
+
+.apps-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acid);
+}
+
+@media (min-width: 640px) {
+  .apps-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .apps-card--soon {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 22px;
+  }
+
+  .apps-card--soon .apps-card-head {
+    margin-bottom: 0;
+  }
+
+  .apps-card--soon > p {
+    margin: 0;
+    flex: 1;
+  }
+}
+
 /* Pricing */
 
 .pricing {
@@ -1588,7 +1742,8 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 .price-card code,
 .pricing code,
 .automate code,
-:where(.hero, .features, .terminals, .keys, .automate, .pricing, .status, .footer, .prose) code {
+.apps code,
+:where(.hero, .features, .terminals, .keys, .automate, .apps, .pricing, .status, .footer, .prose) code {
   font-family: var(--mono);
   font-size: 0.92em;
   font-weight: 550;
