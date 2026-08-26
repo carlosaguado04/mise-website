@@ -1,3 +1,36 @@
+/* Satoshi (site). Anurati (footer “Acidity” only). Real 400/500/700 — no synthesis. */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anurati";
+  src: url("/fonts/Anurati-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ink: #0c0d10;
   --ink-raised: #16181d;
@@ -21,8 +54,8 @@
   --page: 1180px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  --font: -apple-system, "SF Pro Text", "SF Pro Display", "Helvetica Neue",
-    sans-serif;
+  --font: "Satoshi", -apple-system, "Helvetica Neue", sans-serif;
+  --font-brand: "Anurati", var(--font);
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
 
   color-scheme: dark;
@@ -72,6 +105,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overflow-x: clip;
+  font-synthesis: none;
 }
 
 body {
@@ -84,6 +118,8 @@ body {
   color: var(--paper-dim);
   background: var(--ink);
   text-wrap: pretty;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 img {
@@ -208,8 +244,9 @@ button {
   gap: 8px;
   color: var(--paper);
   text-decoration: none;
+  font-family: var(--font);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
   flex-shrink: 0;
 }
@@ -323,7 +360,7 @@ button {
   padding: 0 18px;
   border-radius: var(--r-lg);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
   text-decoration: none;
   border: 1px solid transparent;
@@ -871,7 +908,7 @@ button {
 
 .set-card-name {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -897,7 +934,7 @@ button {
   align-items: center;
   gap: 10px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -1112,7 +1149,7 @@ button {
   background: var(--acid);
   color: var(--on-acid);
   font-size: 12px;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.01em;
   box-shadow:
     0 10px 28px rgb(0 0 0 / 0.35),
@@ -1375,7 +1412,7 @@ button {
   background: color-mix(in srgb, var(--paper) 6%, transparent);
   color: var(--paper-mute);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   vertical-align: middle;
@@ -1427,7 +1464,7 @@ button {
 .automate-card-head h3 {
   margin: 0;
   font-size: 17px;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--paper);
 }
@@ -1552,7 +1589,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 .apps-card-head h3 {
   margin: 0;
   font-size: 17px;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--paper);
 }
@@ -1693,7 +1730,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 .price-card h3 {
   margin: 0;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--paper-mute);
@@ -1702,7 +1739,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 .price-amount {
   margin: 10px 0 4px;
   font-size: clamp(32px, 4vw, 40px);
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--paper);
 }
@@ -1746,7 +1783,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 :where(.hero, .features, .terminals, .keys, .automate, .apps, .pricing, .status, .footer, .prose) code {
   font-family: var(--mono);
   font-size: 0.92em;
-  font-weight: 550;
+  font-weight: 500;
   color: var(--acid-text);
   background: color-mix(in srgb, var(--acid) 16%, transparent);
   padding: 0.12em 0.38em;
@@ -1809,7 +1846,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 
 .footer h2 {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--paper-mute);
@@ -1839,10 +1876,60 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   align-items: flex-start;
   gap: 8px;
   margin-top: 48px;
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: 13px;
+  font-weight: 400;
   color: var(--paper-mute);
   line-height: 1.45;
+}
+
+.footer-end p {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.house-line {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.house-acidity {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: var(--font-brand);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper);
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  vertical-align: 0.08em;
+}
+
+.footer a.house-acidity {
+  font-size: 12px;
+  color: var(--paper);
+}
+
+.footer a.house-acidity:hover {
+  color: var(--acid-text);
+}
+
+@media (max-width: 480px) {
+  .house-acidity,
+  .footer a.house-acidity {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+  }
 }
 
 .footer-end img {
@@ -1906,7 +1993,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   color: var(--ink);
   font-family: var(--font);
   font-size: 13px;
-  font-weight: 550;
+  font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.35;
   text-align: left;
@@ -1944,9 +2031,10 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   }
 }
 
-.footer-end span {
+.footer-end .house-note {
   display: block;
   margin-top: 4px;
+  white-space: normal;
 }
 
 @media (min-width: 768px) {
@@ -2178,7 +2266,7 @@ dialog[open]::backdrop {
 
 .dialog-head h2 {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
