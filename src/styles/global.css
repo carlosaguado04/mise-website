@@ -1540,7 +1540,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   }
 }
 
-/* Apps — Orza, Cursor, more */
+/* Apps — Orza, more */
 
 .apps {
   margin-top: 120px;
@@ -1674,23 +1674,6 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   .apps-cards {
     grid-template-columns: 1fr 1fr;
     gap: 18px;
-  }
-
-  .apps-card--soon {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 16px 22px;
-  }
-
-  .apps-card--soon .apps-card-head {
-    margin-bottom: 0;
-  }
-
-  .apps-card--soon > p {
-    margin: 0;
-    flex: 1;
   }
 }
 
