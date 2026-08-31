@@ -1551,18 +1551,7 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 
 .apps h2 {
   font-size: clamp(28px, 3.4vw, 40px);
-  margin-bottom: 16px;
-}
-
-.apps-lead {
-  margin: 0 auto 32px;
-  max-width: var(--measure);
-  text-align: left;
-  color: var(--paper-dim);
-}
-
-.apps-lead + h2 {
-  margin-top: 56px;
+  margin-bottom: 32px;
 }
 
 .apps-cards {
@@ -1641,6 +1630,19 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   margin: 0 0 16px;
   font-size: 15px;
   color: var(--paper-dim);
+}
+
+.apps-card > p:last-child {
+  margin-bottom: 0;
+}
+
+.apps-card-beat {
+  margin: 4px 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--paper);
 }
 
 .apps-card--soon > p {
