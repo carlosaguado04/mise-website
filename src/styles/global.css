@@ -1561,6 +1561,10 @@ html[data-theme="dark"] .automate-icon--shortcuts {
   color: var(--paper-dim);
 }
 
+.apps-lead + h2 {
+  margin-top: 56px;
+}
+
 .apps-cards {
   display: grid;
   grid-template-columns: 1fr;
@@ -1641,33 +1645,6 @@ html[data-theme="dark"] .automate-icon--shortcuts {
 
 .apps-card--soon > p {
   margin-bottom: 0;
-}
-
-.apps-features {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.apps-features li {
-  position: relative;
-  padding-left: 1.1em;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--paper-dim);
-}
-
-.apps-features li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--acid);
 }
 
 @media (min-width: 640px) {

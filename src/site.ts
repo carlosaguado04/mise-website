@@ -37,7 +37,8 @@ export const jsonLd = {
       name: "Mise Pro",
       price: "9.99",
       priceCurrency: "USD",
-      description: "One-time unlock. Unlimited Sets, multi-display, hotkeys, terminal slots.",
+      description:
+        "One-time unlock. Unlimited Sets, multi-display, hotkeys, terminal slots, Orza Space — tabs, split, sidebar, same window.",
     },
   ],
 };
