@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 import SetMark from "../components/SetMark.astro";
 import KeyChip from "../components/KeyChip.astro";
 import DownloadWait from "../components/DownloadWait.astro";
-import SetDesktop from "../components/SetDesktop.astro";
 import { site, jsonLd } from "../site";
 
 const sets = [
@@ -11,21 +10,18 @@ const sets = [
     id: "writing",
     name: "Writing",
     shortcut: "⌃⌥1",
-    label: "Writing set: a wide document on the left, notes and a dictionary stacked on the right.",
     explain: "Draft on one side, notes and a reference stacked on the other.",
   },
   {
     id: "review",
     name: "Review",
     shortcut: "⌃⌥2",
-    label: "Review set: Pages beside Preview.",
     explain: "The draft beside the PDF you’re checking.",
   },
   {
     id: "studio",
     name: "Studio",
     shortcut: "⌃⌥3",
-    label: "Studio set: a timeline across the top, stills and soundtrack below.",
     explain: "Timeline up top, stills and soundtrack below.",
   },
 ] as const;
@@ -46,30 +42,11 @@ const terminals = [
     <div class="hero-shell">
       <div class="hero-copy">
         <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
-        <p class="hero-sub">{site.description}</p>
+        <p class="hero-sub">Capture the desk once. Put it back in one click.</p>
         <div class="hero-actions">
           <DownloadWait />
           <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
         </div>
-      </div>
-      <div class="hero-visual">
-        <figure
-          class="shot hero-stage is-empty"
-          aria-label="Empty desktop. After a click, Pages and Safari arrange 70/30."
-        >
-          <div class="hero-wallpaper" aria-hidden="true"></div>
-          <div class="hero-acid" data-acid="hero" aria-hidden="true"></div>
-          <span class="hero-click" aria-hidden="true"></span>
-          {/* Empty wallpaper → click → Pages 70% + Safari 30%. */}
-          <SetDesktop
-            layout="wide"
-            active
-            windows={[
-              { role: "main", icon: "pages.png", lit: true },
-              { role: "tr", icon: "safari.png" },
-            ]}
-          />
-        </figure>
       </div>
     </div>
   </section>
@@ -86,7 +63,6 @@ const terminals = [
               data-set={set.id}
               data-set-name={set.name}
               data-set-shortcut={set.shortcut}
-              data-set-label={set.label}
               data-set-explain={set.explain}
               aria-pressed={i === 0 ? "true" : "false"}
             >
@@ -99,41 +75,6 @@ const terminals = [
           ))
         }
       </div>
-      <figure
-        class="shot demo-stage"
-        data-reveal
-        data-demo-stage
-        aria-label={sets[0].label}
-      >
-        <div class="hero-acid" data-acid="demo" aria-hidden="true"></div>
-        <SetDesktop
-          layout="writing"
-          demoId="writing"
-          active
-          windows={[
-            { role: "main", icon: "pages.png", lit: true },
-            { role: "tr", icon: "notes.png" },
-            { role: "br", icon: "dictionary.png" },
-          ]}
-        />
-        <SetDesktop
-          layout="split"
-          demoId="review"
-          windows={[
-            { role: "main", icon: "pages.png", lit: true },
-            { role: "tr", icon: "preview.png" },
-          ]}
-        />
-        <SetDesktop
-          layout="stack"
-          demoId="studio"
-          windows={[
-            { role: "main", icon: "final-cut.png", lit: true },
-            { role: "tr", icon: "photoshop.png" },
-            { role: "br", icon: "music.png" },
-          ]}
-        />
-      </figure>
       <div class="demo-active" data-demo-active aria-live="polite">
         <p class="demo-active-row">
           <span data-demo-active-name>Writing</span>
@@ -149,73 +90,31 @@ const terminals = [
 
   <section class="features wrap" id="features">
     <article class="feature" data-reveal-group>
+      <div class="feature-icon" data-reveal aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6.5" y="10.5" width="28" height="20" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
+          <rect x="16.5" y="18.5" width="25" height="19" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
+        </svg>
+      </div>
       <div class="feature-copy" data-reveal>
         <h2>Capture what’s already there.</h2>
         <p>Arrange once. Hit Capture. Mise stores the real frames — not a “smart” guess.</p>
       </div>
-      <figure
-        class="shot feature-visual"
-        data-reveal
-        aria-label="Stylized desktop mid-capture into a Set."
-      >
-        <div class="hero-wallpaper" aria-hidden="true"></div>
-        <div class="feature-capture" aria-hidden="true">
-          <span class="hero-window feature-capture-win feature-capture-win--pages">
-            <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
-          </span>
-          <span class="hero-window feature-capture-win feature-capture-win--safari">
-            <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-          </span>
-          <span class="hero-window feature-capture-win feature-capture-win--notes">
-            <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
-          </span>
-          <span class="feature-capture-chip">Capture</span>
-        </div>
-      </figure>
     </article>
 
-    <article class="feature feature--flip" data-reveal-group>
+    <article class="feature" data-reveal-group>
+      <div class="feature-icon" data-reveal aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
+          <rect x="26.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
+        </svg>
+      </div>
       <div class="feature-copy" data-reveal>
         <h2>Across every display. <span class="pro-tag">Pro</span></h2>
         <p>
           Each window remembers its monitor. Unplug, replug, stop playing 52-card pickup.
         </p>
       </div>
-      <figure
-        class="shot feature-visual"
-        data-reveal
-        aria-label="Stylized dual monitors with a Set spanning both displays."
-      >
-        <div class="feature-displays" aria-hidden="true">
-          <div class="feature-monitor">
-            <div class="feature-monitor-bezel">
-              <div class="hero-wallpaper"></div>
-              <div class="hero-desktop is-on feature-monitor-desktop feature-monitor-desktop--solo">
-                <span class="hero-window hero-window--main hero-window--lit">
-                  <img src="/hero-apps/pages.png" width="256" height="256" alt="" />
-                </span>
-              </div>
-            </div>
-            <span class="feature-monitor-stand"></span>
-            <span class="feature-monitor-base"></span>
-          </div>
-          <div class="feature-monitor">
-            <div class="feature-monitor-bezel">
-              <div class="hero-wallpaper"></div>
-              <div class="hero-desktop is-on feature-monitor-desktop feature-monitor-desktop--split">
-                <span class="hero-window hero-window--main">
-                  <img src="/hero-apps/safari.png" width="256" height="256" alt="" />
-                </span>
-                <span class="hero-window hero-window--tr">
-                  <img src="/hero-apps/notes.png" width="256" height="256" alt="" />
-                </span>
-              </div>
-            </div>
-            <span class="feature-monitor-stand"></span>
-            <span class="feature-monitor-base"></span>
-          </div>
-        </div>
-      </figure>
     </article>
   </section>
 

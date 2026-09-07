@@ -1,99 +1,39 @@
+import { mountField } from "./field";
+
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function placeAcid(stage: HTMLElement | null, acid: HTMLElement | null) {
-  if (!stage || !acid) return;
-  const lit = stage.querySelector<HTMLElement>(
-    ".hero-desktop.is-on .hero-window--lit",
-  );
-  if (!lit) {
-    acid.style.opacity = "0";
-    return;
-  }
-  const parent = lit.offsetParent as HTMLElement | null;
-  const x = lit.offsetLeft + (parent && parent !== stage ? parent.offsetLeft : 0);
-  const y = lit.offsetTop + (parent && parent !== stage ? parent.offsetTop : 0);
-  acid.style.width = `${lit.offsetWidth}px`;
-  acid.style.height = `${lit.offsetHeight}px`;
-  acid.style.left = `${x}px`;
-  acid.style.top = `${y}px`;
-  acid.style.opacity = "1";
+const field = document.querySelector<HTMLCanvasElement>("#field");
+if (field) mountField(field);
+
+const header = document.querySelector<HTMLElement>(".nav");
+const nav = document.getElementById("site-nav");
+const navToggle = document.getElementById("nav-toggle");
+const navLabel = navToggle?.querySelector("[data-nav-label]");
+
+function setNavOpen(open: boolean) {
+  document.body.classList.toggle("is-nav-open", open);
+  header?.classList.toggle("is-open", open);
+  navToggle?.setAttribute("aria-expanded", String(open));
+  navToggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  if (navLabel) navLabel.textContent = open ? "Close" : "Menu";
 }
 
-const heroStage = document.querySelector<HTMLElement>(".hero-stage");
-const heroAcid = document.querySelector<HTMLElement>('[data-acid="hero"]');
-const demoStage = document.querySelector<HTMLElement>("[data-demo-stage]");
-const demoAcid = document.querySelector<HTMLElement>('[data-acid="demo"]');
-const demoDesktops = document.querySelectorAll<HTMLElement>("[data-demo-desktop]");
-const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
-const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]");
-const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
-const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
+navToggle?.addEventListener("click", () => {
+  const open = navToggle.getAttribute("aria-expanded") !== "true";
+  setNavOpen(open);
+});
 
-function refreshHeroAcid() {
-  if (!heroStage || !heroAcid) return;
-  if (heroStage.classList.contains("is-empty")) {
-    heroAcid.style.opacity = "0";
-    return;
-  }
-  placeAcid(heroStage, heroAcid);
-}
+nav?.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLAnchorElement) setNavOpen(false);
+});
 
-function setHeroEmpty(empty: boolean) {
-  if (!heroStage) return;
-  heroStage.classList.toggle("is-empty", empty);
-  if (empty) heroStage.classList.remove("is-clicking");
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() => refreshHeroAcid()),
-  );
-}
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setNavOpen(false);
+});
 
-function pulseHeroClick(): Promise<void> {
-  return new Promise((resolve) => {
-    if (!heroStage) {
-      resolve();
-      return;
-    }
-    heroStage.classList.add("is-clicking");
-    window.setTimeout(() => {
-      heroStage?.classList.remove("is-clicking");
-      resolve();
-    }, 900);
-  });
-}
-
-// Empty wallpaper → click → windows appear. Reduced motion: stay arranged.
-if (heroStage) {
-  if (reduce) {
-    setHeroEmpty(false);
-  } else {
-    setHeroEmpty(true);
-    const emptyMs = 1500;
-    const settledMs = 4200;
-    const run = async () => {
-      await pulseHeroClick();
-      setHeroEmpty(false);
-      window.setTimeout(() => {
-        setHeroEmpty(true);
-        window.setTimeout(() => {
-          void run();
-        }, emptyMs);
-      }, settledMs);
-    };
-    window.setTimeout(() => {
-      void run();
-    }, emptyMs);
-  }
-}
-
-requestAnimationFrame(() =>
-  requestAnimationFrame(() => {
-    refreshHeroAcid();
-    placeAcid(demoStage, demoAcid);
-  }),
-);
 window.addEventListener("resize", () => {
-  refreshHeroAcid();
-  placeAcid(demoStage, demoAcid);
+  if (window.matchMedia("(min-width: 840px)").matches) setNavOpen(false);
 });
 
 const progress = document.querySelector<HTMLElement>(".scroll-progress");
@@ -104,26 +44,6 @@ const updateProgress = () => {
 };
 updateProgress();
 window.addEventListener("scroll", updateProgress, { passive: true });
-
-if (!reduce && window.matchMedia("(pointer: fine)").matches) {
-  let last = 0;
-  window.addEventListener(
-    "pointermove",
-    (event) => {
-      if (event.pointerType !== "mouse") return;
-      const now = performance.now();
-      if (now - last < 28) return;
-      last = now;
-      const dot = document.createElement("span");
-      dot.className = "acid-trail";
-      dot.style.left = `${event.clientX}px`;
-      dot.style.top = `${event.clientY}px`;
-      document.body.append(dot);
-      dot.addEventListener("animationend", () => dot.remove());
-    },
-    { passive: true },
-  );
-}
 
 if (!reduce) {
   const io = new IntersectionObserver(
@@ -155,21 +75,19 @@ if (!reduce) {
   }, 2500);
 }
 
+const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
+const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]");
+const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
+const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
+
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     if (card.classList.contains("is-active")) return;
-    const id = card.dataset.set;
     cards.forEach((c) => {
       const on = c === card;
       c.classList.toggle("is-active", on);
       c.setAttribute("aria-pressed", on ? "true" : "false");
     });
-    demoDesktops.forEach((desk) => {
-      desk.classList.toggle("is-on", desk.dataset.demoDesktop === id);
-    });
-    if (card.dataset.setLabel && demoStage) {
-      demoStage.setAttribute("aria-label", card.dataset.setLabel);
-    }
     if (activeName && card.dataset.setName) {
       activeName.textContent = card.dataset.setName;
     }
@@ -179,21 +97,7 @@ cards.forEach((card) => {
     if (activeExplain && card.dataset.setExplain) {
       activeExplain.textContent = card.dataset.setExplain;
     }
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => placeAcid(demoStage, demoAcid)),
-    );
   });
-});
-
-const dialog = document.querySelector<HTMLDialogElement>("#demo-dialog");
-document.querySelectorAll("[data-open-demo]").forEach((btn) => {
-  btn.addEventListener("click", () => dialog?.showModal());
-});
-document.querySelector("[data-close-demo]")?.addEventListener("click", () => {
-  dialog?.close();
-});
-dialog?.addEventListener("click", (event) => {
-  if (event.target === dialog) dialog.close();
 });
 
 const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
@@ -250,7 +154,6 @@ mascotBtn?.addEventListener("click", () => {
   mascotBubble.hidden = false;
   mascotBubble.textContent = mascotLines[mascotLine % mascotLines.length] ?? "";
   mascotLine += 1;
-  // retrigger pop animation
   mascotBubble.style.animation = "none";
   void mascotBubble.offsetWidth;
   mascotBubble.style.animation = "";
@@ -259,4 +162,3 @@ mascotBtn?.addEventListener("click", () => {
     mascotBubble.hidden = true;
   }, 3200);
 });
-

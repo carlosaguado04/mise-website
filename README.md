@@ -21,7 +21,7 @@ Files land in `dist/`.
 
 ## Screenshots / visuals
 
-Homepage hero, demo strip, and feature rows use stylized CSS stages (window tiles + icons from `public/hero-apps/`) — not screenshot PNG drops for those slots.
+The homepage is type-led on a canvas of empty window frames. Set chips and feature rows are copy (plus quiet icons) — no fake desks or screenshot drops.
 
 | File | Slot |
 |---|---|
