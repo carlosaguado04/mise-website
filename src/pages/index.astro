@@ -18,13 +18,25 @@ const terminals = [
 <Base jsonLd={jsonLd}>
   <section class="hero">
     <div class="hero-shell">
-      <div class="hero-copy">
-        <h1>Every window where it belongs.<br />In <em>one click</em>.</h1>
-        <p class="hero-sub">Capture the desk once. Put it back in one click.</p>
-        <div class="hero-actions">
-          <DownloadWait />
-          <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
-        </div>
+      <span class="hero-mark" aria-hidden="true"></span>
+      <h1>
+        <span class="hero-line">
+          <span class="hero-word" style="--i: 0"><span>Every</span></span>
+          <span class="hero-word" style="--i: 1"><span>window</span></span>
+          <span class="hero-word" style="--i: 2"><span>where</span></span>
+          <span class="hero-word" style="--i: 3"><span>it</span></span>
+          <span class="hero-word" style="--i: 4"><span>belongs.</span></span>
+        </span>
+        <span class="hero-line">
+          <span class="hero-word" style="--i: 5"><span>In</span></span>
+          <em class="hero-word hero-word--acid" style="--i: 6"><span>one click.</span></em>
+        </span>
+      </h1>
+      <p class="hero-sub">Capture the desk once. Put it back in one click.</p>
+      <span class="hero-rule" aria-hidden="true"></span>
+      <div class="hero-actions">
+        <DownloadWait />
+        <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
       </div>
     </div>
   </section>

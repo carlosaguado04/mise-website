@@ -619,55 +619,99 @@ body.is-nav-open {
   white-space: nowrap;
 }
 
-/* Hero — type + CTA on the field */
+/* Hero — centered type on the field */
 
 .hero {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   min-height: 100svh;
   padding: calc(var(--header-h) + clamp(1.5rem, 6vh, 4rem)) 0 clamp(4.5rem, 16vh, 8rem);
   overflow-x: clip;
 }
 
 .hero-shell {
+  position: relative;
+  z-index: 1;
   width: min(var(--page), calc(100% - 48px));
   margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.hero-copy {
-  max-width: 22em;
+.hero-mark {
+  width: 2.4rem;
+  height: 1.65rem;
+  margin-bottom: 1.6rem;
+  border: 1.5px solid var(--acid);
+  border-radius: 7px;
+  opacity: 0.85;
 }
 
 .hero h1 {
-  font-size: clamp(36px, 6.4vw, 72px);
+  max-width: 14em;
+  font-size: clamp(2.6rem, 8.4vw, 6.4rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.02;
+  letter-spacing: -0.048em;
+  line-height: 0.96;
   text-wrap: balance;
-  text-shadow: 0 0 48px var(--ink), 0 0 96px var(--ink);
 }
 
-.hero h1 em {
+.hero-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.22em;
+}
+
+.hero-line + .hero-line {
+  margin-top: 0.04em;
+}
+
+.hero-word {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-word > span {
+  display: inline-block;
+}
+
+.hero-word--acid {
   color: var(--acid-text);
   font-style: normal;
 }
 
 .hero-sub {
-  margin-top: 18px;
-  max-width: 28ch;
-  font-size: clamp(16px, 1.7vw, 19px);
+  margin-top: 1.35rem;
+  max-width: 22em;
+  font-size: clamp(16px, 1.8vw, 20px);
   line-height: 1.45;
   color: var(--paper-dim);
+}
+
+.hero-rule {
+  display: block;
+  width: 4.5rem;
+  height: 2px;
+  margin-top: 1.6rem;
+  background: var(--acid);
+  transform-origin: 50% 50%;
 }
 
 .hero-actions {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
-  margin-top: 28px;
+  margin-top: 1.6rem;
+}
+
+.hero-actions .btn {
+  padding-inline: 22px;
 }
 
 /* Features */
@@ -1716,7 +1760,7 @@ dialog[open]::backdrop {
 @keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translateY(36px);
+    transform: translate3d(0, 16px, 0);
   }
   to {
     opacity: 1;
@@ -1724,37 +1768,76 @@ dialog[open]::backdrop {
   }
 }
 
-@keyframes word-pulse {
+@keyframes hero-word-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-rule-in {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes hero-mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 0.85;
+    transform: none;
+  }
+}
+
+@keyframes acid-glow {
   0%,
   100% {
     color: var(--acid-text);
-    text-shadow: 0 0 0 transparent;
   }
   50% {
     color: var(--acid);
-    text-shadow: 0 0 40px color-mix(in srgb, var(--acid) 85%, transparent);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-copy > * {
-    animation: hero-rise 700ms var(--ease) both;
+  .hero-mark {
+    animation: hero-mark-in 700ms var(--ease) both;
   }
 
-  .hero-copy > *:nth-child(1) {
-    animation-delay: 0ms;
+  .hero-word > span {
+    animation: hero-word-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(80ms + var(--i, 0) * 58ms);
   }
 
-  .hero-copy > *:nth-child(2) {
-    animation-delay: 80ms;
+  .hero-word--acid > span {
+    animation:
+      hero-word-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      acid-glow 5.5s ease-in-out 1.4s infinite;
+    animation-delay: calc(80ms + var(--i, 0) * 58ms), 1.4s;
   }
 
-  .hero-copy > *:nth-child(3) {
-    animation-delay: 140ms;
+  .hero-sub {
+    animation: hero-rise 800ms var(--ease) 620ms both;
   }
 
-  .hero h1 em {
-    animation: word-pulse 1.8s var(--ease) 800ms infinite;
+  .hero-rule {
+    animation: hero-rule-in 640ms var(--ease) 700ms both;
+  }
+
+  .hero-actions {
+    animation: hero-rise 800ms var(--ease) 820ms both;
   }
 }
 
@@ -1773,6 +1856,10 @@ dialog[open]::backdrop {
   .hero {
     min-height: 100svh;
     padding: calc(var(--header-h) + 24px) 0 72px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.35rem, 11vw, 3.4rem);
   }
 
   .feature {
