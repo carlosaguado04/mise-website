@@ -1,9 +1,4 @@
-import { mountField } from "./field";
-
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const field = document.querySelector<HTMLCanvasElement>("#field");
-if (field) mountField(field);
 
 const header = document.querySelector<HTMLElement>(".site-header");
 const nav = document.getElementById("site-nav");
