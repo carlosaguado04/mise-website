@@ -1,4 +1,9 @@
+import { mountField } from "./field";
+
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const field = document.querySelector<HTMLElement>(".field-wrap");
+if (field) mountField(field);
 
 const header = document.querySelector<HTMLElement>(".site-header");
 const nav = document.getElementById("site-nav");
@@ -77,6 +82,8 @@ const updateProgress = () => {
 updateProgress();
 window.addEventListener("scroll", updateProgress, { passive: true });
 
+splitSubs();
+
 if (!reduce) {
   const io = new IntersectionObserver(
     (entries) => {
@@ -89,8 +96,10 @@ if (!reduce) {
     { threshold: 0.16, rootMargin: "0px 0px -6% 0px" },
   );
 
+  const revealSel = "[data-reveal], [data-sub]";
+
   document.querySelectorAll("[data-reveal-group]").forEach((group) => {
-    group.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el, i) => {
+    group.querySelectorAll<HTMLElement>(revealSel).forEach((el, i) => {
       el.style.setProperty("--d", `${i * 60}ms`);
       io.observe(el);
     });
@@ -99,12 +108,57 @@ if (!reduce) {
   document
     .querySelectorAll("[data-reveal]:not([data-reveal-group] [data-reveal])")
     .forEach((el) => io.observe(el));
+  document
+    .querySelectorAll("[data-sub]:not([data-reveal-group] [data-sub])")
+    .forEach((el) => io.observe(el));
 
   window.setTimeout(() => {
-    document.querySelectorAll("[data-reveal]:not(.is-in)").forEach((el) => {
+    document.querySelectorAll(`${revealSel}:not(.is-in)`).forEach((el) => {
       el.classList.add("is-in");
     });
   }, 2500);
+}
+
+function splitSubs() {
+  document.querySelectorAll<HTMLElement>("[data-sub]").forEach((el) => {
+    if (el.querySelector(".sub-word")) return;
+    const nodes = [...el.childNodes];
+    const frag = document.createDocumentFragment();
+    let i = 0;
+
+    const pushWord = (word: string) => {
+      const outer = document.createElement("span");
+      outer.className = "sub-word";
+      outer.style.setProperty("--i", String(i));
+      i += 1;
+      const inner = document.createElement("span");
+      inner.textContent = word;
+      outer.append(inner);
+      frag.append(outer);
+    };
+
+    for (const node of nodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        for (const part of (node.textContent ?? "").split(/(\s+)/)) {
+          const word = part.trim();
+          if (word) pushWord(word);
+        }
+        continue;
+      }
+      if (node instanceof HTMLElement) {
+        const outer = document.createElement("span");
+        outer.className = "sub-word";
+        outer.style.setProperty("--i", String(i));
+        i += 1;
+        const inner = document.createElement("span");
+        inner.append(node);
+        outer.append(inner);
+        frag.append(outer);
+      }
+    }
+
+    if (i) el.replaceChildren(frag);
+  });
 }
 
 const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");

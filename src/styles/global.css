@@ -208,7 +208,7 @@ main,
   z-index: 1;
 }
 
-/* Field — empty window frames; CSS only, compositor-thread drift */
+/* Field — empty window frames. CSS drift while scattered; JS morphs them into Sets. */
 
 .field-wrap {
   position: fixed;
@@ -225,11 +225,20 @@ main,
   top: var(--y);
   width: var(--w);
   height: var(--h);
+  rotate: var(--r);
+}
+
+.field-frame-face {
+  position: absolute;
+  inset: 0;
   border: 1.15px solid color-mix(in srgb, var(--acid) calc(var(--a) * 100%), transparent);
   border-radius: 14px;
-  background: color-mix(in srgb, var(--acid) 3%, transparent);
-  transform: rotate(var(--r));
+  background: color-mix(in srgb, var(--acid) calc(var(--a) * 6%), transparent);
   animation: field-drift var(--t) var(--d) ease-in-out infinite alternate;
+}
+
+.field-wrap.is-locked .field-frame-face {
+  animation: none;
 }
 
 @media (max-width: 720px) {
@@ -240,10 +249,216 @@ main,
 
 @keyframes field-drift {
   from {
-    transform: rotate(var(--r)) translate3d(-10px, 8px, 0);
+    transform: translate3d(-16px, 12px, 0);
   }
   to {
-    transform: rotate(var(--r)) translate3d(12px, -9px, 0);
+    transform: translate3d(18px, -14px, 0);
+  }
+}
+
+html.is-desk .hero-shell {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.is-staging .hero-shell {
+  transition: opacity 420ms var(--ease);
+}
+
+html.is-staging {
+  scroll-snap-type: y mandatory;
+}
+
+html.is-staging .hero,
+html.is-staging [data-stage] {
+  min-height: 100svh;
+  height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+html.is-staging .footer {
+  scroll-snap-align: start;
+}
+
+html.is-staging [data-stage] {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+html.is-staging [data-slot]:not(.is-parked) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.is-staging [data-slot].is-slotted {
+  box-sizing: border-box;
+  padding: 20px 24px;
+  overflow: hidden;
+  overscroll-behavior: auto;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 420ms var(--ease),
+    transform 420ms var(--ease);
+}
+
+html.is-staging [data-slot].is-parked {
+  opacity: 1;
+  transform: none;
+}
+
+html.is-staging [data-slot].is-parked a,
+html.is-staging [data-slot].is-parked button {
+  pointer-events: auto;
+}
+
+html.is-staging [data-slot="copy"].is-slotted {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  text-align: left;
+}
+
+html.is-staging [data-slot="copy"].is-slotted h2 {
+  font-size: clamp(1.35rem, 2.6vw, 2.35rem);
+  text-wrap: balance;
+}
+
+html.is-staging [data-slot="copy"].is-slotted p {
+  margin-top: 14px;
+  max-width: 42em;
+}
+
+html.is-staging [data-slot="card"].is-slotted {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  margin: 0;
+  padding: 20px 24px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html.is-staging .feature.is-slotted {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin: 0;
+}
+
+html.is-staging .term-pane.is-slotted {
+  gap: 16px;
+}
+
+html.is-staging .term-pane.is-slotted .term-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  align-content: stretch;
+  justify-content: stretch;
+  gap: 10px;
+  margin: 0;
+  min-height: 0;
+}
+
+html.is-staging .term-pane.is-slotted .term-list li {
+  display: flex;
+  margin: 0;
+}
+
+html.is-staging .term-pane.is-slotted .term-list a {
+  flex: 1;
+  align-items: center;
+  min-height: 52px;
+  background: color-mix(in srgb, var(--acid) 6%, transparent);
+  border-color: color-mix(in srgb, var(--acid) 42%, transparent);
+}
+
+html.is-staging .term-pane.is-slotted .term-note {
+  margin: 0;
+  max-width: none;
+}
+
+html.is-staging .keys.is-slotted {
+  margin: 0;
+  max-width: none;
+  text-align: left;
+}
+
+html.is-staging .keys.is-slotted h2 {
+  font-size: clamp(1.3rem, 2.2vw, 1.85rem);
+  margin-bottom: 18px;
+}
+
+html.is-staging .keys.is-slotted .shortcuts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+html.is-staging .automate-card.is-slotted {
+  justify-content: center;
+  gap: 8px;
+}
+
+html.is-staging .automate-card.is-slotted > p {
+  margin-bottom: 8px;
+}
+
+html.is-staging .price-card.is-slotted {
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 16px 18px;
+}
+
+html.is-staging .price-card.is-slotted h3 {
+  font-size: 13px;
+}
+
+html.is-staging .price-card.is-slotted .price-amount {
+  margin: 2px 0 0;
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+html.is-staging .price-card.is-slotted .price-line {
+  margin: 0 0 8px;
+}
+
+html.is-staging .price-card.is-slotted ul {
+  gap: 4px;
+  margin-top: 0;
+}
+
+html.is-staging .price-card.is-slotted li {
+  font-size: 13px;
+  line-height: 1.3;
+  padding-left: 1em;
+}
+
+html.is-staging .price-card.is-slotted .price-foot {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  html.is-staging [data-slot].is-slotted {
+    padding: 14px 16px;
+  }
+
+  html.is-staging [data-slot="copy"].is-slotted h2 {
+    font-size: 1.25rem;
   }
 }
 
@@ -627,7 +842,7 @@ body.is-nav-open {
   align-items: center;
   justify-content: center;
   min-height: 100svh;
-  padding: calc(var(--header-h) + clamp(1.5rem, 6vh, 4rem)) 0 clamp(4.5rem, 16vh, 8rem);
+  padding: calc(var(--header-h) + clamp(1.75rem, 7vh, 4.5rem)) 0 clamp(4.5rem, 16vh, 8rem);
   overflow-x: clip;
 }
 
@@ -643,12 +858,11 @@ body.is-nav-open {
 }
 
 .hero-mark {
-  width: 2.4rem;
-  height: 1.65rem;
-  margin-bottom: 1.6rem;
-  border: 1.5px solid var(--acid);
-  border-radius: 7px;
-  opacity: 0.85;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.75rem;
+  border-radius: 0.9rem;
+  display: block;
 }
 
 .hero h1 {
@@ -656,24 +870,27 @@ body.is-nav-open {
   font-size: clamp(2.6rem, 8.4vw, 6.4rem);
   font-weight: 700;
   letter-spacing: -0.048em;
-  line-height: 0.96;
+  line-height: 1.08;
   text-wrap: balance;
+  padding-inline: 0.12em;
 }
 
 .hero-line {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  column-gap: 0.22em;
+  column-gap: 0.28em;
 }
 
 .hero-line + .hero-line {
-  margin-top: 0.04em;
+  margin-top: 0.12em;
 }
 
 .hero-word {
   display: block;
   overflow: hidden;
+  padding: 0.32em 0.14em 0.2em;
+  margin: -0.32em -0.14em -0.2em;
 }
 
 .hero-word > span {
@@ -691,6 +908,20 @@ body.is-nav-open {
   font-size: clamp(16px, 1.8vw, 20px);
   line-height: 1.45;
   color: var(--paper-dim);
+}
+
+.sub-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.sub-word > span {
+  display: inline-block;
+}
+
+.sub-word + .sub-word {
+  margin-left: 0.28em;
 }
 
 .hero-rule {
@@ -848,7 +1079,7 @@ body.is-nav-open {
 /* Keyboard */
 
 .keys {
-  margin-top: 120px;
+  margin-top: 64px;
   max-width: 36rem;
   margin-inline: auto;
   text-align: center;
@@ -1757,6 +1988,11 @@ dialog[open]::backdrop {
   filter: none;
 }
 
+.js [data-reveal][data-sub] {
+  transform: none;
+  filter: none;
+}
+
 @keyframes hero-rise {
   from {
     opacity: 0;
@@ -1779,6 +2015,12 @@ dialog[open]::backdrop {
   }
 }
 
+@keyframes hero-word-unclip {
+  to {
+    overflow: visible;
+  }
+}
+
 @keyframes hero-rule-in {
   from {
     transform: scaleX(0);
@@ -1796,7 +2038,7 @@ dialog[open]::backdrop {
     transform: scale(0.7);
   }
   to {
-    opacity: 0.85;
+    opacity: 1;
     transform: none;
   }
 }
@@ -1816,6 +2058,10 @@ dialog[open]::backdrop {
     animation: hero-mark-in 700ms var(--ease) both;
   }
 
+  .hero-word {
+    animation: hero-word-unclip 0s linear 1.05s forwards;
+  }
+
   .hero-word > span {
     animation: hero-word-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: calc(80ms + var(--i, 0) * 58ms);
@@ -1828,8 +2074,23 @@ dialog[open]::backdrop {
     animation-delay: calc(80ms + var(--i, 0) * 58ms), 1.4s;
   }
 
-  .hero-sub {
-    animation: hero-rise 800ms var(--ease) 620ms both;
+  .hero-sub .sub-word > span {
+    animation: hero-word-up 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(700ms + var(--i, 0) * 44ms);
+  }
+
+  .js [data-sub]:not(.is-in) {
+    opacity: 0;
+  }
+
+  .js [data-sub] .sub-word > span {
+    opacity: 0;
+  }
+
+  .js [data-sub].is-in .sub-word > span,
+  .js .is-in [data-sub] .sub-word > span {
+    animation: hero-word-up 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--d, 0ms) + 60ms + var(--i, 0) * 40ms);
   }
 
   .hero-rule {

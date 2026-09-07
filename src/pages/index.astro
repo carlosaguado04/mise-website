@@ -4,6 +4,19 @@ import KeyChip from "../components/KeyChip.astro";
 import DownloadWait from "../components/DownloadWait.astro";
 import { site, jsonLd } from "../site";
 
+const heroSub = [
+  "Capture",
+  "the",
+  "desk",
+  "once.",
+  "Put",
+  "it",
+  "back",
+  "in",
+  "one",
+  "click.",
+] as const;
+
 const terminals = [
   { name: "kitty", href: "https://sw.kovidgoyal.net/kitty/", icon: "/terminals/kitty.png" },
   { name: "Alacritty", href: "https://alacritty.org/", icon: "/terminals/alacritty.svg" },
@@ -16,9 +29,9 @@ const terminals = [
 ---
 
 <Base jsonLd={jsonLd}>
-  <section class="hero">
+  <section class="hero" data-field-set="scatter">
     <div class="hero-shell">
-      <span class="hero-mark" aria-hidden="true"></span>
+      <img class="hero-mark" src="/icon.png" width="64" height="64" alt="" />
       <h1>
         <span class="hero-line">
           <span class="hero-word" style="--i: 0"><span>Every</span></span>
@@ -32,7 +45,15 @@ const terminals = [
           <em class="hero-word hero-word--acid" style="--i: 6"><span>one click.</span></em>
         </span>
       </h1>
-      <p class="hero-sub">Capture the desk once. Put it back in one click.</p>
+      <p class="hero-sub">
+        {
+          heroSub.map((word, i) => (
+            <span class="sub-word" style={`--i: ${i}`}>
+              <span>{word}</span>
+            </span>
+          ))
+        }
+      </p>
       <span class="hero-rule" aria-hidden="true"></span>
       <div class="hero-actions">
         <DownloadWait />
@@ -41,86 +62,87 @@ const terminals = [
     </div>
   </section>
 
-  <section class="features wrap" id="features">
-    <article class="feature" data-reveal-group>
-      <div class="feature-icon" data-reveal aria-hidden="true">
+  <section class="features wrap" id="features" data-field-set="pair" data-stage>
+    <article class="feature" data-slot="copy">
+      <div class="feature-icon" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6.5" y="10.5" width="28" height="20" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
           <rect x="16.5" y="18.5" width="25" height="19" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
         </svg>
       </div>
-      <div class="feature-copy" data-reveal>
+      <div class="feature-copy">
         <h2>Capture what’s already there.</h2>
         <p>Arrange once. Hit Capture. Mise stores the real frames — not a “smart” guess.</p>
       </div>
     </article>
 
-    <article class="feature" data-reveal-group>
-      <div class="feature-icon" data-reveal aria-hidden="true">
+    <article class="feature" data-slot="copy">
+      <div class="feature-icon" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="3.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
           <rect x="26.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
         </svg>
       </div>
-      <div class="feature-copy" data-reveal>
+      <div class="feature-copy">
         <h2>Across every display. <span class="pro-tag">Pro</span></h2>
-        <p>
-          Each window remembers its monitor. Unplug, replug, stop playing 52-card pickup.
-        </p>
+        <p>Each window remembers its monitor. Unplug, replug, stop playing 52-card pickup.</p>
       </div>
     </article>
   </section>
 
-  <section class="terminals wrap" id="terminals">
-    <h2 data-reveal>Restore the tmux session. <span class="pro-tag">Pro</span></h2>
-    <p data-reveal>
-      Name a tmux session on a slot. Still running? Attach. Dead? Recreate it. Closing the window
-      doesn’t murder the work.
-    </p>
-    <ul class="term-list" data-reveal-group>
-      {
-        terminals.map((term) => (
-          <li data-reveal>
-            <a href={term.href} rel="noopener noreferrer" target="_blank">
-              <img src={term.icon} width="20" height="20" alt="" />
-              {term.name}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="term-note" data-reveal>
-      Other terminals still open and land in their frames, but without a saved command or session.
-      Those apps can’t launch a new window with a command from the shell. Warp and Hyper are two
-      examples.
-    </p>
+  <section class="terminals wrap" id="terminals" data-field-set="dev" data-stage>
+    <div class="stage-copy" data-slot="copy">
+      <h2>Restore the tmux session. <span class="pro-tag">Pro</span></h2>
+      <p>
+        Name a tmux session on a slot. Still running? Attach. Dead? Recreate it. Closing the window
+        doesn’t murder the work.
+      </p>
+    </div>
+    <div class="term-pane" data-slot="card">
+      <ul class="term-list">
+        {
+          terminals.map((term) => (
+            <li>
+              <a href={term.href} rel="noopener noreferrer" target="_blank">
+                <img src={term.icon} width="20" height="20" alt="" />
+                {term.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="term-note">
+        Other terminals still open and land in their frames, but without a saved command or session.
+        Those apps can’t launch a new window with a command from the shell. Warp and Hyper are two
+        examples.
+      </p>
+    </div>
+    <div class="keys" id="keys" data-slot="card">
+      <h2>A key for each Set. <span class="pro-tag">Pro</span></h2>
+      <ul class="shortcuts">
+        <li>
+          <KeyChip k="⌃⌥1–9" />
+          <span>run a set</span>
+        </li>
+        <li>
+          <KeyChip k="⌃⌥C" />
+          <span>capture current windows</span>
+        </li>
+        <li>
+          <KeyChip k="⌃⌥E" />
+          <span>edit the active set</span>
+        </li>
+      </ul>
+    </div>
   </section>
 
-  <section class="keys wrap" id="keys">
-    <h2 data-reveal>A key for each Set. <span class="pro-tag">Pro</span></h2>
-    <ul class="shortcuts" data-reveal-group>
-      <li data-reveal>
-        <KeyChip k="⌃⌥1–9" />
-        <span>run a set</span>
-      </li>
-      <li data-reveal>
-        <KeyChip k="⌃⌥C" />
-        <span>capture current windows</span>
-      </li>
-      <li data-reveal>
-        <KeyChip k="⌃⌥E" />
-        <span>edit the active set</span>
-      </li>
-    </ul>
-  </section>
-
-  <section class="automate wrap" id="automate">
-    <h2 data-reveal>Automate with Shortcuts and Raycast.</h2>
-    <p class="automate-lead" data-reveal>
-      Same Sets. Apple Shortcuts or Raycast. No extra ritual.
-    </p>
-    <div class="automate-cards" data-reveal-group>
-      <article class="automate-card" data-reveal>
+  <section class="automate wrap" id="automate" data-field-set="split" data-stage>
+    <div class="stage-copy" data-slot="copy">
+      <h2>Automate with Shortcuts and Raycast.</h2>
+      <p class="automate-lead">Same Sets. Apple Shortcuts or Raycast. No extra ritual.</p>
+    </div>
+    <div class="automate-cards">
+      <article class="automate-card" data-slot="card">
         <header class="automate-card-head">
           <img src="/integrations/shortcuts.svg" width="28" height="28" alt="" class="automate-icon automate-icon--shortcuts" />
           <div>
@@ -139,7 +161,7 @@ const terminals = [
           <li>Drop it into Focus, login, or any larger shortcut</li>
         </ul>
       </article>
-      <article class="automate-card" data-reveal>
+      <article class="automate-card" data-slot="card">
         <header class="automate-card-head">
           <img src="/integrations/raycast.svg" width="28" height="28" alt="" class="automate-icon" />
           <div>
@@ -164,75 +186,13 @@ const terminals = [
     </div>
   </section>
 
-  <section class="apps wrap" id="apps">
-    <h2 data-reveal>Deep with Orza.</h2>
-    <div class="apps-cards" data-reveal-group>
-      <article class="apps-card" data-reveal>
-        <header class="apps-card-head">
-          <img
-            src="/integrations/orza.png"
-            width="36"
-            height="36"
-            alt=""
-            class="apps-icon"
-          />
-          <div>
-            <h3>Orza</h3>
-            <p class="apps-tag">
-              Another
-              <a href={site.acidityUrl} rel="noopener noreferrer">Acidity</a>
-              product
-            </p>
-          </div>
-        </header>
-        <p>
-          Open a page, or a split with two pages, in the slot you saved. Sidebar on, off, or leave
-          it.
-        </p>
-        <h3 class="apps-card-beat">
-          The Space, not just a window. <span class="pro-tag">Pro</span>
-        </h3>
-        <p>
-          Capture the Space that’s on screen: tabs, the split, sidebar. Restore puts that session
-          back in the same Orza frame. Closed pins stay pins. They don’t all reopen.
-        </p>
-      </article>
-      <article class="apps-card apps-card--soon" data-reveal>
-        <header class="apps-card-head">
-          <span class="apps-icon apps-icon--soon" aria-hidden="true">
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect
-                x="1.25"
-                y="1.25"
-                width="33.5"
-                height="33.5"
-                rx="9"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-dasharray="3.5 3.5"
-              />
-              <path
-                d="M18 12.5v11M12.5 18h11"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </span>
-          <div>
-            <h3>More apps</h3>
-            <p class="apps-tag">Still cooking</p>
-          </div>
-        </header>
-        <p>If the app has a real door, we’ll knock. The list isn’t closed.</p>
-      </article>
+  <section class="pricing wrap" id="pricing" data-field-set="write" data-stage>
+    <div class="stage-copy" data-slot="copy">
+      <h2>Two Sets for free. The rest is $9.99 once.</h2>
+      <p class="price-note">Unlocks on your Mac. No account. No drip.</p>
     </div>
-  </section>
-
-  <section class="pricing wrap" id="pricing">
-    <h2 data-reveal>Two Sets for free. The rest is $9.99 once.</h2>
-    <div class="price-cards" data-reveal-group>
-      <article class="price-card" data-reveal>
+    <div class="price-cards">
+      <article class="price-card" data-slot="card">
         <h3>Free</h3>
         <p class="price-amount">$0</p>
         <p class="price-line">Forever. Two Sets.</p>
@@ -243,7 +203,7 @@ const terminals = [
         </ul>
         <p class="price-foot">Enough to know if you’re the kind of person who notices.</p>
       </article>
-      <article class="price-card price-card--pro" data-reveal>
+      <article class="price-card price-card--pro" data-slot="card">
         <h3>Pro</h3>
         <p class="price-amount">{site.proPrice}</p>
         <p class="price-line">One-time. Yours.</p>
@@ -258,16 +218,15 @@ const terminals = [
         <p class="price-foot">No subscription. We’re not that kind of studio.</p>
       </article>
     </div>
-    <p class="price-note" data-reveal>
-      Unlocks on your Mac. No account. No drip.
-    </p>
   </section>
 
-  <section class="status wrap" id="status">
-    <h2 data-reveal>Still cooking.</h2>
-    <p data-reveal>
-      Download isn’t up yet. Follow <a href={site.xUrl}>@AppMise</a> if you like waiting with your
-      windows already where they belong, in spirit.
-    </p>
+  <section class="status wrap" id="status" data-field-set="focus" data-stage>
+    <div class="stage-copy" data-slot="copy">
+      <h2>Still cooking.</h2>
+      <p>
+        Download isn’t up yet. Follow <a href={site.xUrl}>@AppMise</a> if you like waiting with your
+        windows already where they belong, in spirit.
+      </p>
+    </div>
   </section>
 </Base>
