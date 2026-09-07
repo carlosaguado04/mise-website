@@ -1,30 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
-import SetMark from "../components/SetMark.astro";
 import KeyChip from "../components/KeyChip.astro";
 import DownloadWait from "../components/DownloadWait.astro";
 import { site, jsonLd } from "../site";
-
-const sets = [
-  {
-    id: "writing",
-    name: "Writing",
-    shortcut: "⌃⌥1",
-    explain: "Draft on one side, notes and a reference stacked on the other.",
-  },
-  {
-    id: "review",
-    name: "Review",
-    shortcut: "⌃⌥2",
-    explain: "The draft beside the PDF you’re checking.",
-  },
-  {
-    id: "studio",
-    name: "Studio",
-    shortcut: "⌃⌥3",
-    explain: "Timeline up top, stills and soundtrack below.",
-  },
-] as const;
 
 const terminals = [
   { name: "kitty", href: "https://sw.kovidgoyal.net/kitty/", icon: "/terminals/kitty.png" },
@@ -48,43 +26,6 @@ const terminals = [
           <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="demo" id="demo" aria-label="Sets">
-    <div class="wrap">
-      <div class="demo-cards" data-reveal-group role="group" aria-label="Saved Sets">
-        {
-          sets.map((set, i) => (
-            <button
-              class:list={["set-card", i === 0 && "is-active"]}
-              type="button"
-              data-reveal
-              data-set={set.id}
-              data-set-name={set.name}
-              data-set-shortcut={set.shortcut}
-              data-set-explain={set.explain}
-              aria-pressed={i === 0 ? "true" : "false"}
-            >
-              <span class="set-card-top">
-                <span class="set-card-name">{set.name}</span>
-                <KeyChip k={set.shortcut} />
-              </span>
-              <SetMark variant={set.id} />
-            </button>
-          ))
-        }
-      </div>
-      <div class="demo-active" data-demo-active aria-live="polite">
-        <p class="demo-active-row">
-          <span data-demo-active-name>Writing</span>
-          <KeyChip k="⌃⌥1" />
-        </p>
-        <p class="demo-explain" data-demo-explain>
-          Draft on one side, notes and a reference stacked on the other.
-        </p>
-      </div>
-      <p class="demo-caption">Capture what’s on screen, name it, stop babysitting it.</p>
     </div>
   </section>
 
@@ -182,7 +123,7 @@ const terminals = [
         <ul class="automate-features">
           <li>Apply Set — same restore as the menu bar</li>
           <li>Reload Sets — if you changed them outside the app</li>
-          <li>Siri — “Apply Writing in Mise”</li>
+          <li>Siri — “Apply my Set in Mise”</li>
           <li>Drop it into Focus, login, or any larger shortcut</li>
         </ul>
       </article>

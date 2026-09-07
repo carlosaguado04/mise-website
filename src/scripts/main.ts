@@ -5,17 +5,41 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const field = document.querySelector<HTMLCanvasElement>("#field");
 if (field) mountField(field);
 
-const header = document.querySelector<HTMLElement>(".nav");
+const header = document.querySelector<HTMLElement>(".site-header");
 const nav = document.getElementById("site-nav");
 const navToggle = document.getElementById("nav-toggle");
 const navLabel = navToggle?.querySelector("[data-nav-label]");
+let lastNavFocus: HTMLElement | null = null;
 
 function setNavOpen(open: boolean) {
+  const wasOpen = document.body.classList.contains("is-nav-open");
   document.body.classList.toggle("is-nav-open", open);
-  header?.classList.toggle("is-open", open);
+  header?.classList.toggle("is-nav-open", open);
   navToggle?.setAttribute("aria-expanded", String(open));
   navToggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   if (navLabel) navLabel.textContent = open ? "Close" : "Menu";
+  if (nav instanceof HTMLElement) {
+    nav.classList.toggle("is-open", open);
+    nav.inert = !open;
+    if (open) nav.removeAttribute("inert");
+    else nav.setAttribute("inert", "");
+    nav.setAttribute("aria-hidden", String(!open));
+  }
+  if (open) {
+    lastNavFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : navToggle;
+    const first = nav?.querySelector<HTMLElement>("a[href]");
+    first?.focus();
+  } else if (wasOpen) {
+    lastNavFocus?.focus();
+    lastNavFocus = null;
+  }
+}
+
+if (nav instanceof HTMLElement) {
+  nav.inert = true;
+  nav.setAttribute("inert", "");
+  nav.setAttribute("aria-hidden", "true");
 }
 
 navToggle?.addEventListener("click", () => {
@@ -24,19 +48,32 @@ navToggle?.addEventListener("click", () => {
 });
 
 nav?.addEventListener("click", (event) => {
-  const target = event.target;
-  if (target instanceof HTMLAnchorElement) setNavOpen(false);
+  if ((event.target as Element | null)?.closest?.("a[href]")) setNavOpen(false);
 });
 
-window.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") setNavOpen(false);
+  if (event.key !== "Tab" || !document.body.classList.contains("is-nav-open")) return;
+  const roots = [header, nav].filter((el): el is HTMLElement => el instanceof HTMLElement);
+  const nodes = roots.flatMap((rootEl) =>
+    [...rootEl.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")].filter(
+      (el) => !el.closest("[inert]") && el.tabIndex !== -1,
+    ),
+  );
+  if (!nodes.length) return;
+  const first = nodes[0];
+  const last = nodes[nodes.length - 1];
+  if (!first || !last) return;
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
-window.addEventListener("resize", () => {
-  if (window.matchMedia("(min-width: 840px)").matches) setNavOpen(false);
-});
-
-const progress = document.querySelector<HTMLElement>(".scroll-progress");
+const progress = document.querySelector<HTMLElement>(".scroll-progress-bar");
 const updateProgress = () => {
   if (!progress) return;
   const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -74,31 +111,6 @@ if (!reduce) {
     });
   }, 2500);
 }
-
-const cards = document.querySelectorAll<HTMLButtonElement>("[data-set]");
-const activeName = document.querySelector<HTMLElement>("[data-demo-active-name]");
-const activeChip = document.querySelector<HTMLElement>("[data-demo-active] .key");
-const activeExplain = document.querySelector<HTMLElement>("[data-demo-explain]");
-
-cards.forEach((card) => {
-  card.addEventListener("click", () => {
-    if (card.classList.contains("is-active")) return;
-    cards.forEach((c) => {
-      const on = c === card;
-      c.classList.toggle("is-active", on);
-      c.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-    if (activeName && card.dataset.setName) {
-      activeName.textContent = card.dataset.setName;
-    }
-    if (activeChip && card.dataset.setShortcut) {
-      activeChip.textContent = card.dataset.setShortcut;
-    }
-    if (activeExplain && card.dataset.setExplain) {
-      activeExplain.textContent = card.dataset.setExplain;
-    }
-  });
-});
 
 const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
 const themeColorMeta = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');

@@ -21,7 +21,7 @@ Files land in `dist/`.
 
 ## Screenshots / visuals
 
-The homepage is type-led on a canvas of empty window frames. Set chips and feature rows are copy (plus quiet icons) — no fake desks or screenshot drops.
+The homepage is type-led on a canvas of empty window frames. Feature rows are copy (plus quiet icons) — no fake desks or screenshot drops.
 
 | File | Slot |
 |---|---|
