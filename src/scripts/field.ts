@@ -48,7 +48,7 @@ function hide(into: Box): Box {
 
 /** Compact centered desk. Outer edge is one rectangle. */
 function monitor(vw: number, vh: number): { x: number; y: number; w: number; h: number } {
-  const w = Math.round(Math.min(vw - 40, 1120));
+  const w = Math.round(Math.min(vw - 112, 1120));
   const h = Math.round(Math.min(vh - 108, 660));
   const x = Math.round((vw - w) / 2);
   const y = Math.max(80, Math.round((vh - h) / 2));
@@ -232,8 +232,62 @@ export function mountField(wrap: HTMLElement) {
     };
   }
 
+  function footerTop() {
+    return footer?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY;
+  }
+
+  /** Layout into the space above the footer so windows don’t sit on it. */
+  function deskSize() {
+    const { vw, vh } = size();
+    const top = footerTop();
+    const gap = 72;
+    if (top < vh) return { vw, vh: Math.max(280, top - gap) };
+    return { vw, vh };
+  }
+
   const allSlots = [...document.querySelectorAll<HTMLElement>("[data-slot]")];
   const footer = document.querySelector<HTMLElement>(".footer");
+  const deck = document.querySelector<HTMLElement>("[data-features-deck]");
+  const slides = deck ? [...deck.querySelectorAll<HTMLElement>("[data-slide]")] : [];
+  const nextBtn = deck?.querySelector<HTMLButtonElement>("[data-slide-next]");
+  const prevBtn = deck?.querySelector<HTMLButtonElement>("[data-slide-prev]");
+  let slide = 0;
+  let slideCool = false;
+
+  function slideEl() {
+    return slides[slide] ?? slides[0] ?? null;
+  }
+
+  function layoutName(here: SetPoint | undefined) {
+    if (!here) return "scatter";
+    if (here.name === "deck") return slideEl()?.dataset.layout || "focus";
+    return here.name;
+  }
+
+  function syncDeck() {
+    const on = points[activeIndex]?.name === "deck";
+    slides.forEach((el, i) => el.classList.toggle("is-active", i === slide));
+    document.documentElement.classList.toggle("is-features-deck", on);
+    if (nextBtn) nextBtn.hidden = !on || slide >= slides.length - 1;
+    if (prevBtn) prevBtn.hidden = !on || slide <= 0;
+  }
+
+  function goSlide(next: number, dir: "fwd" | "back") {
+    if (!slides.length || slideCool) return;
+    const i = Math.max(0, Math.min(slides.length - 1, next));
+    if (i === slide) return;
+    slideCool = true;
+    window.setTimeout(() => {
+      slideCool = false;
+    }, 560);
+    slide = i;
+    document.documentElement.dataset.slideDir = dir;
+    lastHere = null;
+    appearAt = performance.now();
+    syncDeck();
+    retarget();
+    start();
+  }
 
   function measure() {
     points = [...document.querySelectorAll<HTMLElement>("[data-field-set]")].map((el) => ({
@@ -247,7 +301,7 @@ export function mountField(wrap: HTMLElement) {
   }
 
   function retarget() {
-    const { vw, vh } = size();
+    const { vw, vh } = deskSize();
     if (!points.length) measure();
     const cursor = window.scrollY + window.innerHeight * 0.5;
     let i = 0;
@@ -256,9 +310,13 @@ export function mountField(wrap: HTMLElement) {
     }
     activeIndex = i;
     const here = points[i]!;
-    boxesFor(here.name, vw, vh).forEach((box, idx) => {
+    if (here.name === "deck" && lastHere && lastHere.dataset.fieldSet === "scatter") {
+      slide = 0;
+    }
+    boxesFor(layoutName(here), vw, vh).forEach((box, idx) => {
       target[idx] = copyBox(box);
     });
+    syncDeck();
   }
 
   function write() {
@@ -313,17 +371,17 @@ export function mountField(wrap: HTMLElement) {
       return;
     }
 
-    const footerTop = footer?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY;
-    const footerIn = footerTop < window.innerHeight * 0.82;
     const here = points[activeIndex];
     if (here?.el && here.el !== lastHere) {
       lastHere = here.el;
       appearAt = performance.now();
     }
-    const { vw, vh } = size();
-    const desk = here && here.name !== "scatter" ? uniquePanes(boxesFor(here.name, vw, vh)) : [];
-    const slots = here ? [...here.el.querySelectorAll<HTMLElement>("[data-slot]")] : [];
-    const ready = !footerIn && !scatterish() && here?.name !== "scatter";
+    const { vw, vh } = deskSize();
+    const setName = layoutName(here);
+    const host = here?.name === "deck" ? slideEl() : here?.el;
+    const desk = here && setName !== "scatter" ? uniquePanes(boxesFor(setName, vw, vh)) : [];
+    const slots = host ? [...host.querySelectorAll<HTMLElement>("[data-slot]")] : [];
+    const ready = !scatterish() && here?.name !== "scatter";
     const placed = ready && desk.length && slots.length ? bindSlots(slots, desk) : [];
     const elapsed = performance.now() - appearAt;
     const parked = new Set<HTMLElement>();
@@ -439,4 +497,85 @@ export function mountField(wrap: HTMLElement) {
   window.addEventListener("resize", onResize);
   document.addEventListener("visibilitychange", onVisibility);
   motionMq.addEventListener("change", start);
+
+  nextBtn?.addEventListener("click", () => goSlide(slide + 1, "fwd"));
+  prevBtn?.addEventListener("click", () => goSlide(slide - 1, "back"));
+
+  let touchX = 0;
+  window.addEventListener(
+    "touchstart",
+    (event) => {
+      touchX = event.changedTouches[0]?.clientX ?? 0;
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    "touchend",
+    (event) => {
+      if (reduced() || points[activeIndex]?.name !== "deck") return;
+      const x = event.changedTouches[0]?.clientX ?? touchX;
+      const dx = x - touchX;
+      if (dx < -48) goSlide(slide + 1, "fwd");
+      else if (dx > 48) goSlide(slide - 1, "back");
+    },
+    { passive: true },
+  );
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (reduced() || points[activeIndex]?.name !== "deck") return;
+      const x = event.deltaX;
+      const y = event.deltaY;
+      if (Math.abs(x) > Math.abs(y) + 4) {
+        if (x > 18 && slide < slides.length - 1) {
+          event.preventDefault();
+          goSlide(slide + 1, "fwd");
+        } else if (x < -18 && slide > 0) {
+          event.preventDefault();
+          goSlide(slide - 1, "back");
+        }
+        return;
+      }
+      if (y > 12 && slide < slides.length - 1) {
+        event.preventDefault();
+        goSlide(slide + 1, "fwd");
+      } else if (y < -12 && slide > 0) {
+        event.preventDefault();
+        goSlide(slide - 1, "back");
+      }
+    },
+    { passive: false },
+  );
+
+  document.addEventListener("keydown", (event) => {
+    if (reduced() || points[activeIndex]?.name !== "deck") return;
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goSlide(slide + 1, "fwd");
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goSlide(slide - 1, "back");
+    }
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href="/#features"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      slide = 0;
+      document.documentElement.dataset.slideDir = "";
+      lastHere = null;
+      appearAt = performance.now();
+      syncDeck();
+      retarget();
+      start();
+    });
+  });
+
+  const hash = window.location.hash;
+  if (hash === "#terminals") slide = Math.max(0, slides.findIndex((el) => el.id === "terminals"));
+  if (hash === "#automate" || hash === "#keys") {
+    slide = Math.max(0, slides.findIndex((el) => el.id === "automate"));
+  }
+  if (slide < 0) slide = 0;
+  syncDeck();
 }

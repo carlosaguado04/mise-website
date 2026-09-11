@@ -3,21 +3,17 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 const items = [
   { href: "/#features", label: "Features", id: "features" },
-  { href: "/#status", label: "Updates", id: "status" },
+  { href: "/#pricing", label: "Pricing", id: "pricing" },
   { href: "/contact", label: "Contact", id: "contact" },
-  { href: "/changelog", label: "Changelog", id: "changelog" },
 ] as const;
 
-const current =
-  path === "/contact" ? "contact" : path === "/changelog" ? "changelog" : undefined;
+const current = path === "/contact" ? "contact" : undefined;
 ---
 
-<a class="mark" href="/" aria-label="Mise home">
-  <span class="mark-frame" aria-hidden="true"></span>
-  <img class="mark-icon" src="/icon.png" width="32" height="32" alt="" />
-</a>
-
 <nav class="set" aria-label="Site">
+  <a class="set-pane set-pane--home" href="/#top" aria-label="Back to top">
+    <img src="/icon.png" width="22" height="22" alt="" />
+  </a>
   {
     items.map((item) => (
       <a

@@ -54,7 +54,7 @@
   --page: 1180px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --space: clamp(1rem, 2.5vw, 2rem);
-  --header-h: 4.25rem;
+  --header-h: 6rem;
 
   --font: "Satoshi", -apple-system, "Helvetica Neue", sans-serif;
   --font-brand: "Anurati", var(--font);
@@ -245,8 +245,15 @@ html.is-staging [data-stage] {
   scroll-snap-stop: always;
 }
 
+html.is-staging [data-stage]:last-of-type {
+  height: calc(100svh + 24vh);
+  min-height: calc(100svh + 24vh);
+}
+
 html.is-staging .footer {
   scroll-snap-align: start;
+  margin-top: 0;
+  padding-top: 4.5rem;
 }
 
 html.is-staging [data-stage] {
@@ -278,6 +285,14 @@ html.is-staging [data-slot].is-slotted {
 html.is-staging [data-slot].is-parked {
   opacity: 1;
   transform: none;
+}
+
+html.is-staging[data-slide-dir="fwd"] [data-slot].is-slotted:not(.is-parked) {
+  transform: translate3d(72px, 0, 0);
+}
+
+html.is-staging[data-slide-dir="back"] [data-slot].is-slotted:not(.is-parked) {
+  transform: translate3d(-72px, 0, 0);
 }
 
 html.is-staging [data-slot].is-parked a,
@@ -436,40 +451,7 @@ html.is-staging .price-card.is-slotted .price-foot {
   }
 }
 
-/* Chrome — home mark + a four-pane Set. */
-
-.mark {
-  position: fixed;
-  top: 1.15rem;
-  left: var(--space);
-  z-index: 80;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  text-decoration: none;
-  line-height: 0;
-}
-
-.mark-frame {
-  position: absolute;
-  inset: 0;
-  border: 1.15px solid color-mix(in srgb, var(--acid) 55%, transparent);
-  border-radius: 12px;
-  pointer-events: none;
-}
-
-.mark-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-}
-
-.mark:hover .mark-frame,
-.mark:focus-visible .mark-frame {
-  border-color: var(--acid);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--acid) 28%, transparent);
-}
+/* Chrome — a four-pane Set, icon home in the first cell. */
 
 .set {
   position: fixed;
@@ -479,7 +461,7 @@ html.is-staging .price-card.is-slotted .price-foot {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  width: min(13.5rem, calc(100vw - 5.5rem));
+  width: min(13.5rem, calc(100vw - 2 * var(--space)));
   border: 1.15px solid color-mix(in srgb, var(--acid) 40%, var(--ink-edge));
   border-radius: 12px;
   overflow: hidden;
@@ -496,6 +478,18 @@ html.is-staging .price-card.is-slotted .price-foot {
   text-decoration: none;
   color: var(--paper-mute);
   background: color-mix(in srgb, var(--ink) 82%, transparent);
+}
+
+.set-pane--home {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.set-pane--home img {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
 }
 
 .set-pane-bar {
@@ -539,6 +533,10 @@ html.is-staging .price-card.is-slotted .price-foot {
   .set-pane {
     min-height: 3rem;
     padding: 0.45rem 0.7rem 0.55rem;
+  }
+
+  .set-pane--home {
+    padding: 0;
   }
 
   .set-pane-label {
@@ -785,6 +783,67 @@ html.is-staging .price-card.is-slotted .price-foot {
 .features {
   margin-top: 96px;
   max-width: 40rem;
+}
+
+.features-deck {
+  margin-top: 96px;
+}
+
+.feature-slide + .feature-slide {
+  margin-top: 64px;
+}
+
+.slide-btn {
+  display: none;
+}
+
+html.is-staging .feature-slide:not(.is-active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+html.is-staging .features-deck {
+  max-width: none;
+}
+
+html.is-staging.is-features-deck .slide-btn:not([hidden]) {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 50%;
+  z-index: 70;
+  width: 32px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--paper) 45%, transparent);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+html.is-staging.is-features-deck .slide-next:not([hidden]) {
+  right: max(0.35rem, env(safe-area-inset-right));
+}
+
+html.is-staging.is-features-deck .slide-prev:not([hidden]) {
+  left: max(0.35rem, env(safe-area-inset-left));
+}
+
+html.is-staging.is-features-deck .slide-btn:hover,
+html.is-staging.is-features-deck .slide-btn:focus-visible {
+  color: var(--acid-text);
+  background: transparent;
+  outline: none;
+}
+
+.slide-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .feature {
@@ -1308,15 +1367,6 @@ html.is-staging .price-card.is-slotted .price-foot {
   color: var(--paper-mute);
 }
 
-@media (min-width: 640px) {
-  .price-cards {
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-}
-
-/* Status */
-
 .status {
   margin-top: 120px;
   max-width: 36rem;
@@ -1334,6 +1384,13 @@ html.is-staging .price-card.is-slotted .price-foot {
 
 .status a {
   color: var(--paper);
+}
+
+@media (min-width: 640px) {
+  .price-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
 }
 
 /* Footer — same slim end as acidity / hilo */
