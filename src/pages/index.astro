@@ -172,16 +172,22 @@ const terminals = [
         <p>
           Search Sets in Raycast and apply them. Listing is free. Applying a Set needs Mise Pro.
         </p>
-        {site.raycastStoreUrl ? (
-          <a class="btn" href={site.raycastStoreUrl} rel="noopener noreferrer" target="_blank">
-            View on Raycast Store
-          </a>
-        ) : (
-          <button class="btn btn-wait" type="button" aria-disabled="true">
-            <span class="btn-idle">View on Raycast Store</span>
-            <span class="btn-alt">Coming soon</span>
-          </button>
-        )}
+        <a
+          href="https://www.raycast.com/carlosaguado04/mise-window-sets"
+          title="Install mise-window-sets Raycast Extension"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            src="https://www.raycast.com/carlosaguado04/mise-window-sets/install_button@2x.png?v=1.1"
+            height="64"
+            style="height: 64px;"
+            width="auto"
+            alt="Install mise-window-sets on Raycast"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
       </article>
     </div>
   </section>

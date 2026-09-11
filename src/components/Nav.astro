@@ -1,55 +1,33 @@
 ---
-const path = Astro.url.pathname;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const items = [
+  { href: "/#features", label: "Features", id: "features" },
+  { href: "/#status", label: "Updates", id: "status" },
+  { href: "/contact", label: "Contact", id: "contact" },
+  { href: "/changelog", label: "Changelog", id: "changelog" },
+] as const;
+
+const current =
+  path === "/contact" ? "contact" : path === "/changelog" ? "changelog" : undefined;
 ---
 
-<div class="scroll-progress" aria-hidden="true">
-  <div class="scroll-progress-bar"></div>
-</div>
+<a class="mark" href="/" aria-label="Mise home">
+  <span class="mark-frame" aria-hidden="true"></span>
+  <img class="mark-icon" src="/icon.png" width="32" height="32" alt="" />
+</a>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a class="brand" href="/" aria-label="Mise home">
-      <img src="/icon.png" width="24" height="24" alt="" />
-      <span class="brand-text">Mise</span>
-    </a>
-    <div class="header-actions">
-      <button
-        type="button"
-        class="theme-toggle"
-        id="theme-toggle"
-        aria-label="Switch to light theme"
+<nav class="set" aria-label="Site">
+  {
+    items.map((item) => (
+      <a
+        class="set-pane"
+        href={item.href}
+        aria-current={current === item.id ? "page" : undefined}
       >
-        <span class="theme-toggle-icon" aria-hidden="true"></span>
-      </button>
-      <button
-        type="button"
-        class="nav-toggle"
-        id="nav-toggle"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="site-nav"
-      >
-        <span data-nav-label>Menu</span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<nav class="nav" id="site-nav" aria-label="Primary" inert>
-  <a href="/#features">
-    <span class="nav-index">01</span>
-    <span class="nav-text">Features</span>
-  </a>
-  <a href="/#status">
-    <span class="nav-index">02</span>
-    <span class="nav-text">Updates</span>
-  </a>
-  <a href="/contact" aria-current={path === "/contact" ? "page" : undefined}>
-    <span class="nav-index">03</span>
-    <span class="nav-text">Contact</span>
-  </a>
-  <a href="/changelog" aria-current={path === "/changelog" ? "page" : undefined}>
-    <span class="nav-index">04</span>
-    <span class="nav-text">Changelog</span>
-  </a>
+        <span class="set-pane-bar" aria-hidden="true"></span>
+        <span class="set-pane-label">{item.label}</span>
+      </a>
+    ))
+  }
 </nav>

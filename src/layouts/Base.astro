@@ -31,9 +31,8 @@ const ogImage = new URL("/og.png", site.url).toString();
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#0C0D10" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0C0D10" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content="website" />
@@ -52,19 +51,7 @@ const ogImage = new URL("/og.png", site.url).toString();
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
     <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem("mise-theme");
-          var theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : window.matchMedia("(prefers-color-scheme: light)").matches
-                ? "light"
-                : "dark";
-          document.documentElement.setAttribute("data-theme", theme);
-        } catch (e) {}
-        document.documentElement.classList.add("js");
-      })();
+      document.documentElement.classList.add("js");
     </script>
   </head>
   <body>

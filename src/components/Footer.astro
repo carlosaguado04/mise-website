@@ -3,69 +3,40 @@ import { site } from "../site";
 ---
 
 <footer class="footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h2>Product</h2>
-        <ul>
-          <li><a href="/#features">Features</a></li>
-          <li><a href="/#automate">Automations</a></li>
-          <li><a href="/#terminals">Terminals</a></li>
-          <li><a href="/#pricing">Pricing</a></li>
-          <li><a href="/#status">Updates</a></li>
-          <li>
-            <span class="footer-wait" aria-disabled="true">
-              <span class="btn-idle">Download</span>
-              <span class="btn-alt">In development</span>
-            </span>
-          </li>
-          <li><a href="/changelog">Changelog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Support</h2>
-        <ul>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href={site.xUrl}>@AppMise</a></li>
-          <li><a href="/privacy#accessibility">Accessibility</a></li>
-          <li><a href="/#keys">Hotkeys</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Company</h2>
-        <ul>
-          <li><a href={site.acidityUrl} rel="noopener noreferrer" target="_blank">Acidity</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Legal</h2>
-        <ul>
-          <li><a href="/privacy">Privacy</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-end">
-      <img src="/icon.png" width="20" height="20" alt="" />
-      <p>
-        <span class="house-line">A product of <a
-          class="house-acidity"
-          href={site.acidityUrl}
+  <div class="wrap footer-inner">
+    <div class="footer-copy">
+      <p class="house">
+        An <a class="brand-word" href={site.acidityUrl} rel="noopener noreferrer" target="_blank">Acidity</a> App.
+      </p>
+      <p class="footer-links">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <a href={site.acidityUrl} rel="noopener noreferrer" target="_blank">acidity.lol</a>
+      </p>
+      <p class="footer-fine">
+        <span>© 2026 Acidity</span>
+        <a
+          class="footer-x"
+          href={site.xUrl}
           rel="noopener noreferrer"
           target="_blank"
-        >Acidity</a></span>
-        <span class="house-note">© 2026 Acidity. Don’t lick the mascot.</span>
-      </p>
-      <div class="footer-mascot-wrap">
-        <button
-          type="button"
-          class="footer-mascot"
-          aria-label="Talk to the Mise mascot"
-          data-mascot
+          aria-label="Mise on X"
         >
-          <img src="/mascot.png" width="36" height="32" alt="" />
-        </button>
-        <div class="mascot-bubble" data-mascot-bubble hidden role="status" aria-live="polite"></div>
-      </div>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.725-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"
+            ></path>
+          </svg>
+        </a>
+        <a href="/privacy">Privacy</a>
+      </p>
+    </div>
+    <div class="footer-mascot-wrap">
+      <button type="button" class="footer-mascot" aria-label="Talk to the Mise mascot" data-mascot>
+        <img src="/mascot.png" width="36" height="32" alt="" />
+      </button>
+      <div class="mascot-bubble" data-mascot-bubble hidden role="status" aria-live="polite"></div>
     </div>
   </div>
 </footer>

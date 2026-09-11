@@ -11,7 +11,7 @@ export const site = {
   minOs: "Apple Silicon (macOS 14+)",
   proPrice: "$9.99",
   freeSetLimit: 2,
-  raycastStoreUrl: "",
+  raycastStoreUrl: "https://www.raycast.com/carlosaguado04/mise-window-sets",
   acidityUrl: "https://acidity.lol",
 } as const;
 
