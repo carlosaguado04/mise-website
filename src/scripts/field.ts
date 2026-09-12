@@ -251,11 +251,104 @@ export function mountField(wrap: HTMLElement) {
   const slides = deck ? [...deck.querySelectorAll<HTMLElement>("[data-slide]")] : [];
   const nextBtn = deck?.querySelector<HTMLButtonElement>("[data-slide-next]");
   const prevBtn = deck?.querySelector<HTMLButtonElement>("[data-slide-prev]");
+  const WHEEL_STEP = 90;
+  const TOUCH_STEP = 72;
+  const GESTURE_IDLE = 320;
+  const PAGE_LOCK = 1000;
   let slide = 0;
-  let slideCool = false;
+  let pages: { el: HTMLElement; slide: number | null }[] = [];
+  let gestureHeld = false;
+  let gestureIdle = 0;
+  let pageLock = false;
+  let pageLockTimer = 0;
+  let wheelCarry = 0;
 
   function slideEl() {
     return slides[slide] ?? slides[0] ?? null;
+  }
+
+  function paging() {
+    return !reduced() && points.length > 1;
+  }
+
+  function wheelPx(event: WheelEvent, axis: "x" | "y") {
+    const raw = axis === "x" ? event.deltaX : event.deltaY;
+    if (event.deltaMode === 1) return raw * 16;
+    if (event.deltaMode === 2) return raw * (axis === "y" ? window.innerHeight : window.innerWidth);
+    return raw;
+  }
+
+  function holdGesture() {
+    gestureHeld = true;
+    wheelCarry = 0;
+    window.clearTimeout(gestureIdle);
+    gestureIdle = window.setTimeout(() => {
+      gestureHeld = false;
+      wheelCarry = 0;
+    }, GESTURE_IDLE);
+  }
+
+  function lockPage() {
+    pageLock = true;
+    window.clearTimeout(pageLockTimer);
+    pageLockTimer = window.setTimeout(() => {
+      pageLock = false;
+    }, PAGE_LOCK);
+  }
+
+  function scrollToEl(el: HTMLElement) {
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top, behavior: "auto" });
+  }
+
+  function currentStop() {
+    if (!pages.length) return 0;
+    const y = window.scrollY + window.innerHeight * 0.45;
+    let el: HTMLElement = pages[0]!.el;
+    for (const page of pages) {
+      const top = page.el.getBoundingClientRect().top + window.scrollY;
+      if (top <= y) el = page.el;
+    }
+    if (deck && el === deck) {
+      const i = pages.findIndex((page) => page.el === deck && page.slide === slide);
+      return i < 0 ? 0 : i;
+    }
+    let idx = 0;
+    pages.forEach((page, n) => {
+      if (page.el === el) idx = n;
+    });
+    return idx;
+  }
+
+  function pageTo(index: number, force = false) {
+    if (!pages.length) return;
+    if (!force && (gestureHeld || pageLock)) {
+      holdGesture();
+      return;
+    }
+    const i = Math.max(0, Math.min(pages.length - 1, index));
+    const now = pages[i]!;
+    const fromEl = pages[currentStop()]?.el;
+    holdGesture();
+    lockPage();
+
+    if (now.slide != null) {
+      if (now.slide !== slide) {
+        document.documentElement.dataset.slideDir = now.slide > slide ? "fwd" : "back";
+        slide = now.slide;
+        lastHere = null;
+        appearAt = performance.now();
+      } else {
+        document.documentElement.dataset.slideDir = "";
+      }
+      if (fromEl !== now.el) scrollToEl(now.el);
+    } else {
+      scrollToEl(now.el);
+    }
+
+    measure();
+    retarget();
+    start();
   }
 
   function layoutName(here: SetPoint | undefined) {
@@ -272,23 +365,6 @@ export function mountField(wrap: HTMLElement) {
     if (prevBtn) prevBtn.hidden = !on || slide <= 0;
   }
 
-  function goSlide(next: number, dir: "fwd" | "back") {
-    if (!slides.length || slideCool) return;
-    const i = Math.max(0, Math.min(slides.length - 1, next));
-    if (i === slide) return;
-    slideCool = true;
-    window.setTimeout(() => {
-      slideCool = false;
-    }, 560);
-    slide = i;
-    document.documentElement.dataset.slideDir = dir;
-    lastHere = null;
-    appearAt = performance.now();
-    syncDeck();
-    retarget();
-    start();
-  }
-
   function measure() {
     points = [...document.querySelectorAll<HTMLElement>("[data-field-set]")].map((el) => ({
       name: el.dataset.fieldSet || "scatter",
@@ -297,6 +373,17 @@ export function mountField(wrap: HTMLElement) {
     }));
     if (!points.length) {
       points = [{ name: "scatter", y: 0, el: wrap }];
+    }
+    pages = [];
+    for (const point of points) {
+      if (deck && point.el === deck && slides.length) {
+        slides.forEach((_, i) => pages.push({ el: point.el, slide: i }));
+      } else {
+        pages.push({ el: point.el, slide: null });
+      }
+    }
+    if (footer && !pages.some((page) => page.el === footer)) {
+      pages.push({ el: footer, slide: null });
     }
   }
 
@@ -308,10 +395,13 @@ export function mountField(wrap: HTMLElement) {
     for (let n = 1; n < points.length; n += 1) {
       if (points[n]!.y <= cursor) i = n;
     }
+    const prevName = points[activeIndex]?.name;
     activeIndex = i;
     const here = points[i]!;
-    if (here.name === "deck" && lastHere && lastHere.dataset.fieldSet === "scatter") {
-      slide = 0;
+    if (here.name === "deck" && prevName !== "deck") {
+      holdGesture();
+      lockPage();
+      wheelCarry = 0;
     }
     boxesFor(layoutName(here), vw, vh).forEach((box, idx) => {
       target[idx] = copyBox(box);
@@ -485,6 +575,13 @@ export function mountField(wrap: HTMLElement) {
     });
   }
 
+  const hash = window.location.hash;
+  if (hash === "#terminals") slide = Math.max(0, slides.findIndex((el) => el.id === "terminals"));
+  if (hash === "#automate" || hash === "#keys") {
+    slide = Math.max(0, slides.findIndex((el) => el.id === "automate"));
+  }
+  if (slide < 0) slide = 0;
+
   measure();
   retarget();
   if (reduced()) {
@@ -498,25 +595,47 @@ export function mountField(wrap: HTMLElement) {
   document.addEventListener("visibilitychange", onVisibility);
   motionMq.addEventListener("change", start);
 
-  nextBtn?.addEventListener("click", () => goSlide(slide + 1, "fwd"));
-  prevBtn?.addEventListener("click", () => goSlide(slide - 1, "back"));
+  nextBtn?.addEventListener("click", () => pageTo(currentStop() + 1, true));
+  prevBtn?.addEventListener("click", () => pageTo(currentStop() - 1, true));
 
   let touchX = 0;
+  let touchY = 0;
   window.addEventListener(
     "touchstart",
     (event) => {
       touchX = event.changedTouches[0]?.clientX ?? 0;
+      touchY = event.changedTouches[0]?.clientY ?? 0;
     },
     { passive: true },
   );
   window.addEventListener(
+    "touchmove",
+    (event) => {
+      if (!paging() || !event.cancelable) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest("a, button, input, textarea, select")) {
+        return;
+      }
+      event.preventDefault();
+    },
+    { passive: false },
+  );
+  window.addEventListener(
     "touchend",
     (event) => {
-      if (reduced() || points[activeIndex]?.name !== "deck") return;
+      if (!paging()) return;
       const x = event.changedTouches[0]?.clientX ?? touchX;
+      const y = event.changedTouches[0]?.clientY ?? touchY;
       const dx = x - touchX;
-      if (dx < -48) goSlide(slide + 1, "fwd");
-      else if (dx > 48) goSlide(slide - 1, "back");
+      const dy = y - touchY;
+      if (gestureHeld || pageLock) return;
+      if (Math.abs(dx) > Math.abs(dy) + 8) {
+        if (dx < -TOUCH_STEP) pageTo(currentStop() + 1);
+        else if (dx > TOUCH_STEP) pageTo(currentStop() - 1);
+        return;
+      }
+      if (dy < -TOUCH_STEP) pageTo(currentStop() + 1);
+      else if (dy > TOUCH_STEP) pageTo(currentStop() - 1);
     },
     { passive: true },
   );
@@ -524,58 +643,95 @@ export function mountField(wrap: HTMLElement) {
   window.addEventListener(
     "wheel",
     (event) => {
-      if (reduced() || points[activeIndex]?.name !== "deck") return;
-      const x = event.deltaX;
-      const y = event.deltaY;
-      if (Math.abs(x) > Math.abs(y) + 4) {
-        if (x > 18 && slide < slides.length - 1) {
-          event.preventDefault();
-          goSlide(slide + 1, "fwd");
-        } else if (x < -18 && slide > 0) {
-          event.preventDefault();
-          goSlide(slide - 1, "back");
-        }
+      if (event.ctrlKey || !paging()) return;
+      event.preventDefault();
+      if (gestureHeld || pageLock) {
+        holdGesture();
         return;
       }
-      if (y > 12 && slide < slides.length - 1) {
-        event.preventDefault();
-        goSlide(slide + 1, "fwd");
-      } else if (y < -12 && slide > 0) {
-        event.preventDefault();
-        goSlide(slide - 1, "back");
+
+      const x = wheelPx(event, "x");
+      const y = wheelPx(event, "y");
+
+      if (Math.abs(x) > Math.abs(y) + 4) {
+        if (x > WHEEL_STEP) pageTo(currentStop() + 1);
+        else if (x < -WHEEL_STEP) pageTo(currentStop() - 1);
+        return;
+      }
+
+      wheelCarry += y;
+      if (wheelCarry >= WHEEL_STEP) {
+        wheelCarry = 0;
+        pageTo(currentStop() + 1);
+      } else if (wheelCarry <= -WHEEL_STEP) {
+        wheelCarry = 0;
+        pageTo(currentStop() - 1);
       }
     },
     { passive: false },
   );
 
   document.addEventListener("keydown", (event) => {
-    if (reduced() || points[activeIndex]?.name !== "deck") return;
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      goSlide(slide + 1, "fwd");
-    } else if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      goSlide(slide - 1, "back");
+    if (!paging()) return;
+    const target = event.target;
+    if (
+      target instanceof HTMLElement &&
+      target.closest("input, textarea, select, [contenteditable]")
+    ) {
+      return;
     }
+    if (event.key === " " && target instanceof HTMLElement && target.closest("button, a")) {
+      return;
+    }
+    const down =
+      event.key === "ArrowDown" ||
+      event.key === "PageDown" ||
+      event.key === "ArrowRight" ||
+      (event.key === " " && !event.shiftKey);
+    const up =
+      event.key === "ArrowUp" ||
+      event.key === "PageUp" ||
+      event.key === "ArrowLeft" ||
+      (event.key === " " && event.shiftKey);
+    if (!down && !up) return;
+    event.preventDefault();
+    if (gestureHeld || pageLock) return;
+    if (down) pageTo(currentStop() + 1);
+    else pageTo(currentStop() - 1);
   });
 
-  document.querySelectorAll<HTMLAnchorElement>('a[href="/#features"]').forEach((link) => {
-    link.addEventListener("click", () => {
-      slide = 0;
-      document.documentElement.dataset.slideDir = "";
-      lastHere = null;
-      appearAt = performance.now();
-      syncDeck();
-      retarget();
-      start();
+  function stopForHash(hash: string) {
+    if (hash === "#top" || hash === "") return 0;
+    if (hash === "#features") return pages.findIndex((page) => page.el === deck && page.slide === 0);
+    if (hash === "#terminals") {
+      const i = Math.max(0, slides.findIndex((el) => el.id === "terminals"));
+      return pages.findIndex((page) => page.el === deck && page.slide === i);
+    }
+    if (hash === "#automate" || hash === "#keys") {
+      const i = Math.max(0, slides.findIndex((el) => el.id === "automate"));
+      return pages.findIndex((page) => page.el === deck && page.slide === i);
+    }
+    if (!hash.startsWith("#") || hash.length < 2) return -1;
+    const el = document.getElementById(hash.slice(1));
+    if (!el) return -1;
+    return pages.findIndex((page) => page.el === el || page.el.contains(el));
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (!paging()) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.pathname.replace(/\/$/, "") !== window.location.pathname.replace(/\/$/, "")) return;
+      const idx = stopForHash(url.hash);
+      if (idx < 0) return;
+      event.preventDefault();
+      pageTo(idx, true);
+      history.pushState(null, "", url.hash || "#top");
     });
   });
 
-  const hash = window.location.hash;
-  if (hash === "#terminals") slide = Math.max(0, slides.findIndex((el) => el.id === "terminals"));
-  if (hash === "#automate" || hash === "#keys") {
-    slide = Math.max(0, slides.findIndex((el) => el.id === "automate"));
-  }
-  if (slide < 0) slide = 0;
+  const hashStop = stopForHash(hash);
+  if (hashStop > 0) pageTo(hashStop, true);
+
   syncDeck();
 }

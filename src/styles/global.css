@@ -235,6 +235,8 @@ html.is-staging .hero-shell {
 
 html.is-staging {
   scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+  overscroll-behavior-y: none;
 }
 
 html.is-staging .hero,
