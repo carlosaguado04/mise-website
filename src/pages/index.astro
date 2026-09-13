@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Desk from "../components/Desk.astro";
 import KeyChip from "../components/KeyChip.astro";
 import DownloadWait from "../components/DownloadWait.astro";
 import { site, jsonLd } from "../site";
@@ -26,79 +27,131 @@ const terminals = [
   { name: "Ghostty", href: "https://ghostty.org/", icon: "/terminals/ghostty.png" },
   { name: "iTerm2", href: "https://iterm2.com/", icon: "/terminals/iterm2.png" },
 ] as const;
+
+const writeWins = [
+  { name: "Safari", icon: "/hero-apps/safari.png", area: "main" },
+  { name: "Notes", icon: "/hero-apps/notes.png", area: "side" },
+  { name: "Pages", icon: "/hero-apps/pages.png", area: "base" },
+] as const;
+
+const codeWins = [
+  { name: "kitty", icon: "/terminals/kitty.png", area: "main", note: "$ tmux attach -t code" },
+  { name: "Safari", icon: "/hero-apps/safari.png", area: "side" },
+  { name: "Preview", icon: "/hero-apps/preview.png", area: "base" },
+] as const;
+
+const editWins = [
+  { name: "Final Cut", icon: "/hero-apps/final-cut.png", area: "main" },
+  { name: "Music", icon: "/hero-apps/music.png", area: "side" },
+  { name: "Safari", icon: "/hero-apps/safari.png", area: "base" },
+] as const;
 ---
 
 <Base jsonLd={jsonLd}>
-  <section class="hero" id="top" data-field-set="scatter">
+  <section class="hero" id="top">
     <div class="hero-shell">
-      <img class="hero-mark" src="/icon.png" width="64" height="64" alt="" />
-      <h1>
-        <span class="hero-line">
-          <span class="hero-word" style="--i: 0"><span>Every</span></span>
-          <span class="hero-word" style="--i: 1"><span>window</span></span>
-          <span class="hero-word" style="--i: 2"><span>where</span></span>
-          <span class="hero-word" style="--i: 3"><span>it</span></span>
-          <span class="hero-word" style="--i: 4"><span>belongs.</span></span>
-        </span>
-        <span class="hero-line">
-          <span class="hero-word" style="--i: 5"><span>In</span></span>
-          <em class="hero-word hero-word--acid" style="--i: 6"><span>one click.</span></em>
-        </span>
-      </h1>
-      <p class="hero-sub">
-        {
-          heroSub.map((word, i) => (
-            <span class="sub-word" style={`--i: ${i}`}>
-              <span>{word}</span>
-            </span>
-          ))
-        }
-      </p>
-      <span class="hero-rule" aria-hidden="true"></span>
-      <div class="hero-actions">
-        <DownloadWait />
-        <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
+      <div class="hero-copy">
+        <img class="hero-mark" src="/icon.png" width="64" height="64" alt="" />
+        <h1>
+          <span class="hero-line">
+            <span class="hero-word" style="--i: 0"><span>Every</span></span>
+            <span class="hero-word" style="--i: 1"><span>window</span></span>
+            <span class="hero-word" style="--i: 2"><span>where</span></span>
+            <span class="hero-word" style="--i: 3"><span>it</span></span>
+            <span class="hero-word" style="--i: 4"><span>belongs.</span></span>
+          </span>
+          <span class="hero-line">
+            <span class="hero-word" style="--i: 5"><span>In</span></span>
+            <em class="hero-word hero-word--acid" style="--i: 6"><span>one click.</span></em>
+          </span>
+        </h1>
+        <p class="hero-sub">
+          {
+            heroSub.map((word, i) => (
+              <span class="sub-word" style={`--i: ${i}`}>
+                <span>{word}</span>
+              </span>
+            ))
+          }
+        </p>
+        <span class="hero-rule" aria-hidden="true"></span>
+        <div class="hero-actions">
+          <DownloadWait />
+          <p class="hero-price-note">{site.minOs} · Free to try · Pro is {site.proPrice} once</p>
+        </div>
+      </div>
+      <Desk name="Write" hotkey="⌃⌥1" live wins={[...writeWins]} />
+    </div>
+  </section>
+
+  <section class="how wrap" id="features">
+    <p class="eyebrow" data-reveal>How a Set works</p>
+    <h2 data-reveal>Arrange the kitchen. Mise remembers the stations.</h2>
+    <ol class="how-steps">
+      <li data-reveal>
+        <span class="how-n">01</span>
+        <h3>Arrange</h3>
+        <p>Put Safari, Notes, the terminal — whatever you actually use — where they already want to live.</p>
+      </li>
+      <li data-reveal>
+        <span class="how-n">02</span>
+        <h3>Capture</h3>
+        <p>
+          Hit Capture. Mise stores the real frames. Not a “smart” guess. Not a template you have to fight.
+        </p>
+      </li>
+      <li data-reveal>
+        <span class="how-n">03</span>
+        <h3>Restore</h3>
+        <p>One click, or <KeyChip k="⌃⌥1" />. Every app launches, sizes, and lands. Including the other display.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="gallery wrap" aria-label="Example Sets">
+    <p class="eyebrow" data-reveal>Sets</p>
+    <h2 data-reveal>A named desk. Not a pile.</h2>
+    <p class="lede" data-reveal>
+      Two Sets free. Name the rest. Each one is a real layout you already made, waiting in the menu bar.
+    </p>
+    <div class="gallery-grid">
+      <div class="gallery-item" data-reveal>
+        <Desk name="Write" hotkey="⌃⌥1" compact wins={[...writeWins]} />
+      </div>
+      <div class="gallery-item" data-reveal>
+        <Desk name="Code" hotkey="⌃⌥2" compact wins={[...codeWins]} />
+      </div>
+      <div class="gallery-item" data-reveal>
+        <Desk name="Edit" hotkey="⌃⌥3" compact wins={[...editWins]} />
       </div>
     </div>
   </section>
 
-  <section class="features-deck wrap" id="features" data-field-set="deck" data-stage data-features-deck>
-    <div class="feature-slide is-active" data-slide data-layout="pair">
-      <article class="feature" data-slot="copy">
-        <div class="feature-icon" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6.5" y="10.5" width="28" height="20" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
-            <rect x="16.5" y="18.5" width="25" height="19" rx="6" stroke="currentColor" stroke-width="1.5"></rect>
-          </svg>
-        </div>
-        <div class="feature-copy">
-          <h2>Capture what’s already there.</h2>
-          <p>Arrange once. Hit Capture. Mise stores the real frames — not a “smart” guess.</p>
-        </div>
-      </article>
-      <article class="feature" data-slot="copy">
-        <div class="feature-icon" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
-            <rect x="26.5" y="12.5" width="18" height="23" rx="5" stroke="currentColor" stroke-width="1.5"></rect>
-          </svg>
-        </div>
-        <div class="feature-copy">
-          <h2>Across every display. <span class="pro-tag">Pro</span></h2>
-          <p>Each window remembers its monitor. Unplug, replug, stop playing 52-card pickup.</p>
-        </div>
-      </article>
+  <section class="band wrap" id="displays">
+    <article class="band-copy" data-reveal>
+      <h2>Across every display. <span class="pro-tag">Pro</span></h2>
+      <p>Each window remembers its monitor. Unplug, replug, stop playing 52-card pickup.</p>
+    </article>
+    <div class="monitors" aria-hidden="true" data-reveal>
+      <div class="monitor monitor--lg">
+        <span class="monitor-label">Built-in</span>
+        <span class="monitor-pane"></span>
+        <span class="monitor-pane monitor-pane--wide"></span>
+      </div>
+      <div class="monitor">
+        <span class="monitor-label">Studio</span>
+        <span class="monitor-pane"></span>
+      </div>
     </div>
+  </section>
 
-    <div class="feature-slide" data-slide data-layout="dev" id="terminals">
-    <div class="stage-copy" data-slot="copy">
+  <section class="band wrap band--flip" id="terminals">
+    <article class="band-copy" data-reveal>
       <h2>Restore the tmux session. <span class="pro-tag">Pro</span></h2>
       <p>
-        Name a tmux session on a slot. Still running? Attach. Dead? Recreate it. Closing the window
-        doesn’t murder the work.
+        Name a tmux session on a slot. Still running? Attach. Dead? Recreate it. Closing the window doesn’t
+        murder the work.
       </p>
-    </div>
-    <div class="term-pane" data-slot="card">
       <ul class="term-list">
         {
           terminals.map((term) => (
@@ -112,12 +165,11 @@ const terminals = [
         }
       </ul>
       <p class="term-note">
-        Other terminals still open and land in their frames, but without a saved command or session.
-        Those apps can’t launch a new window with a command from the shell. Warp and Hyper are two
-        examples.
+        Other terminals still open and land in their frames, but without a saved command or session. Those
+        apps can’t launch a new window with a command from the shell. Warp and Hyper are two examples.
       </p>
-    </div>
-    <div class="keys" id="keys" data-slot="card">
+    </article>
+    <div class="keys" id="keys" data-reveal>
       <h2>A key for each Set. <span class="pro-tag">Pro</span></h2>
       <ul class="shortcuts">
         <li>
@@ -134,15 +186,13 @@ const terminals = [
         </li>
       </ul>
     </div>
-    </div>
+  </section>
 
-    <div class="feature-slide" data-slide data-layout="split" id="automate">
-    <div class="stage-copy" data-slot="copy">
-      <h2>Automate with Shortcuts and Raycast.</h2>
-      <p class="automate-lead">Same Sets. Apple Shortcuts or Raycast. No extra ritual.</p>
-    </div>
+  <section class="automate wrap" id="automate">
+    <h2 data-reveal>Automate with Shortcuts and Raycast.</h2>
+    <p class="automate-lead" data-reveal>Same Sets. Apple Shortcuts or Raycast. No extra ritual.</p>
     <div class="automate-cards">
-      <article class="automate-card" data-slot="card">
+      <article class="automate-card" data-reveal>
         <header class="automate-card-head">
           <img src="/integrations/shortcuts.svg" width="28" height="28" alt="" class="automate-icon automate-icon--shortcuts" />
           <div>
@@ -151,8 +201,8 @@ const terminals = [
           </div>
         </header>
         <p>
-          Mise shows up in the Shortcuts app as native actions. Search Mise, add Apply Set, pick a
-          layout. Run it — every window launches, sizes, and lands.
+          Mise shows up in the Shortcuts app as native actions. Search Mise, add Apply Set, pick a layout.
+          Run it — every window launches, sizes, and lands.
         </p>
         <ul class="automate-features">
           <li>Apply Set — same restore as the menu bar</li>
@@ -161,7 +211,7 @@ const terminals = [
           <li>Drop it into Focus, login, or any larger shortcut</li>
         </ul>
       </article>
-      <article class="automate-card" data-slot="card">
+      <article class="automate-card" data-reveal>
         <header class="automate-card-head">
           <img src="/integrations/raycast.svg" width="28" height="28" alt="" class="automate-icon" />
           <div>
@@ -169,9 +219,7 @@ const terminals = [
             <p class="automate-tag">Mise Window Sets</p>
           </div>
         </header>
-        <p>
-          Search Sets in Raycast and apply them. Listing is free. Applying a Set needs Mise Pro.
-        </p>
+        <p>Search Sets in Raycast and apply them. Listing is free. Applying a Set needs Mise Pro.</p>
         <a
           href="https://www.raycast.com/carlosaguado04/mise-window-sets"
           title="Install mise-window-sets Raycast Extension"
@@ -190,27 +238,13 @@ const terminals = [
         </a>
       </article>
     </div>
-    </div>
-
-    <button type="button" class="slide-btn slide-prev" data-slide-prev hidden aria-label="Previous feature">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </button>
-    <button type="button" class="slide-btn slide-next" data-slide-next aria-label="More features">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </button>
   </section>
 
-  <section class="pricing wrap" id="pricing" data-field-set="write" data-stage>
-    <div class="stage-copy" data-slot="copy">
-      <h2>Two Sets for free. The rest is $9.99 once.</h2>
-      <p class="price-note">Unlocks on your Mac. No account. No drip.</p>
-    </div>
+  <section class="pricing wrap" id="pricing">
+    <h2 data-reveal>Two Sets for free. The rest is $9.99 once.</h2>
+    <p class="price-note" data-reveal>Unlocks on your Mac. No account. No drip.</p>
     <div class="price-cards">
-      <article class="price-card" data-slot="card">
+      <article class="price-card" data-reveal>
         <h3>Free</h3>
         <p class="price-amount">$0</p>
         <p class="price-line">Forever. Two Sets.</p>
@@ -221,7 +255,7 @@ const terminals = [
         </ul>
         <p class="price-foot">Enough to know if you’re the kind of person who notices.</p>
       </article>
-      <article class="price-card price-card--pro" data-slot="card">
+      <article class="price-card price-card--pro" data-reveal>
         <h3>Pro</h3>
         <p class="price-amount">{site.proPrice}</p>
         <p class="price-line">One-time. Yours.</p>
@@ -237,13 +271,11 @@ const terminals = [
     </div>
   </section>
 
-  <section class="status wrap" id="status" data-field-set="focus" data-stage>
-    <div class="stage-copy" data-slot="copy">
-      <h2>Still cooking.</h2>
-      <p>
-        Download isn’t up yet. Follow <a href={site.xUrl}>@AppMise</a> if you like waiting with your
-        windows already where they belong, in spirit.
-      </p>
-    </div>
+  <section class="status wrap" id="status">
+    <h2 data-reveal>Still cooking.</h2>
+    <p data-reveal>
+      Download isn’t up yet. Follow <a href={site.xUrl}>@AppMise</a> if you like waiting with your windows
+      already where they belong, in spirit.
+    </p>
   </section>
 </Base>

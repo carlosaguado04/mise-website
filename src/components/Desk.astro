@@ -1,0 +1,46 @@
+---
+interface Win {
+  name: string;
+  icon: string;
+  area: string;
+  note?: string;
+}
+
+interface Props {
+  name: string;
+  hotkey?: string;
+  live?: boolean;
+  compact?: boolean;
+  wins: Win[];
+}
+
+const { name, hotkey = "⌃⌥1", live = false, compact = false, wins } = Astro.props;
+---
+
+<figure class:list={["desk", live && "desk--live", compact && "desk--compact"]}>
+  <figcaption class="desk-bar">
+    <span class="desk-dots" aria-hidden="true">
+      <i></i><i></i><i></i>
+    </span>
+    <span class="desk-name">{name}</span>
+    <kbd class="desk-hotkey">{hotkey}</kbd>
+  </figcaption>
+  <div class="desk-stage">
+    {
+      wins.map((win, i) => (
+        <article class={`win win--${win.area}`} style={`--i: ${i}`}>
+          <header class="win-chrome">
+            <span class="win-lights" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </span>
+            <img src={win.icon} width="14" height="14" alt="" />
+            <span class="win-title">{win.name}</span>
+          </header>
+          <div class="win-body">
+            {win.note ? <p class="win-note">{win.note}</p> : <div class="win-sketch" aria-hidden="true"><span></span><span></span><span></span></div>}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</figure>
