@@ -98,6 +98,8 @@
   border-radius: 0.28rem;
   background: var(--floater);
   color: var(--void);
+  -webkit-text-fill-color: var(--void);
+  color-scheme: light;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -118,13 +120,24 @@
 
 a.floater {
   text-decoration: none;
-  color: var(--void);
   cursor: pointer;
+  transition: background-color 180ms var(--ease-out);
+}
+a.floater:link,
+a.floater:visited,
+a.floater:hover,
+a.floater:active,
+a.floater:focus-visible {
+  color: var(--void);
+  -webkit-text-fill-color: var(--void);
 }
 a.floater:hover,
 a.floater:focus-visible {
-  color: var(--void);
-  filter: brightness(1.08);
+  background: color-mix(in srgb, var(--floater) 82%, white);
+}
+a.floater.is-pressed,
+a.floater:active {
+  background: color-mix(in srgb, var(--floater) 82%, black);
 }
 
 .beat:nth-child(1) .floater { --tilt: -6deg; }

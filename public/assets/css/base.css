@@ -58,7 +58,7 @@ a {
   transition: color var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out);
 }
 
-a:hover {
+a:hover:not(.floater) {
   color: var(--acid);
 }
 

@@ -164,7 +164,7 @@
   animation-delay: 0.35s;
 }
 .home-hops a.floater.is-pressed {
-  filter: brightness(0.92);
+  background: color-mix(in srgb, var(--floater) 82%, black);
 }
 
 .page-home.is-booting .hero-line,
