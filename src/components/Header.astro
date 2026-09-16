@@ -1,0 +1,33 @@
+---
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+const items = [
+  { href: "/", label: "Home" },
+  { href: "/features", label: "Features" },
+  { href: "/pro", label: "Pricing" },
+] as const;
+---
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <button
+      class="nav-toggle"
+      type="button"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      aria-label="Menu"
+    >
+      <span></span>
+    </button>
+    <nav class="primary-nav" id="primary-nav" data-primary-nav aria-label="Primary">
+      {
+        items.map((item) => (
+          <a href={item.href} aria-current={path === item.href ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

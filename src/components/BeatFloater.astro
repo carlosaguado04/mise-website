@@ -1,0 +1,10 @@
+---
+interface Props {
+  label: string;
+  tone?: "acid" | "ember" | "heat";
+}
+
+const { label, tone = "acid" } = Astro.props;
+---
+
+<span class:list={["floater", `floater--${tone}`]} data-floater>{label}</span>

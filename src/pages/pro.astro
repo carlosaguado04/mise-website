@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import DownloadCtas from "../components/DownloadCtas.astro";
+import { site } from "../site";
+---
+
+<Base
+  page="pro"
+  title={`Pricing — ${site.name}`}
+  description={`Two Sets free. Mise Pro is ${site.proPrice} once. No subscription.`}
+>
+  <header class="page-head">
+    <p class="page-kicker">Unlock</p>
+    <h1 class="page-title">Pricing</h1>
+  </header>
+
+  <p class="unlock-lead" data-unlock-lead>
+    Two Sets free. The rest is {site.proPrice} once.
+  </p>
+
+  <div class="unlock" data-unlock>
+    <article class="unlock-free" data-unlock-panel>
+      <h2>Free</h2>
+      <p class="unlock-price">$0</p>
+      <p class="unlock-term">Forever</p>
+      <ul>
+        <li>2 Sets</li>
+        <li>Capture + restore + edit</li>
+        <li>Menu bar</li>
+      </ul>
+    </article>
+
+    <article class="unlock-pro" data-unlock-panel>
+      <h2>Pro</h2>
+      <p class="unlock-price">$9.99</p>
+      <p class="unlock-term">One-time</p>
+      <ul>
+        <li>Unlimited Sets</li>
+        <li>Multi-display</li>
+        <li>Global hotkeys</li>
+        <li>Terminal / tmux slots</li>
+        <li>Raycast apply</li>
+      </ul>
+      <p class="unlock-soon">Coming soon</p>
+    </article>
+  </div>
+
+  <p class="unlock-note">No subscription. No account drip.</p>
+
+  <section class="pro-download" aria-labelledby="pro-download-title">
+    <h2 id="pro-download-title">Download</h2>
+    <p>Raycast if that’s home. Direct install when the DMG is up.</p>
+    <DownloadCtas />
+  </section>
+</Base>

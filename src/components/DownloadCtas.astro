@@ -1,0 +1,41 @@
+---
+import { site } from "../site";
+
+interface Props {
+  compact?: boolean;
+  raycast?: boolean;
+}
+
+const { compact = false, raycast = true } = Astro.props;
+---
+
+<div class:list={["dl-ctas", compact ? null : "dl-ctas--row"]}>
+  {
+    raycast && (
+      <a
+        class="raycast-badge"
+        href={site.raycastStoreUrl}
+        title="Install mise-window-sets Raycast Extension"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <img
+          src={site.raycastBadgeUrl}
+          height="64"
+          width="256"
+          alt="Install mise-window-sets on Raycast"
+          decoding="async"
+        />
+      </a>
+    )
+  }
+  {
+    site.dmgUrl ? (
+      <a class="btn btn-ghost" href={site.dmgUrl} download>
+        Apple Silicon
+      </a>
+    ) : (
+      <p class="dl-soon">Apple Silicon · Coming soon</p>
+    )
+  }
+</div>

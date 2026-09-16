@@ -5,4 +5,7 @@ export default defineConfig({
   output: "static",
   trailingSlash: "never",
   compressHTML: true,
+  redirects: {
+    "/contact": "/",
+  },
 });

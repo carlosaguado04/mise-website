@@ -2,7 +2,7 @@
 
 Marketing site for [Mise](https://usemise.dev), a macOS menu-bar app that restores saved window arrangements.
 
-Static Astro output. No client framework, no webfonts. The shell loads Vercel Analytics and Speed Insights (disclosed on the privacy page).
+Product of [Acidity Studio](https://www.acidity.lol). Static Astro. Same void/acid tokens as the studio site — built around Sets and the desk, not a studio clone.
 
 ## Develop
 
@@ -17,27 +17,4 @@ npm run dev
 npm run build
 ```
 
-Files land in `dist/`.
-
-## Screenshots / visuals
-
-The homepage is type-led on drifting empty frames. A schematic Set (Safari, Notes, Pages, and friends) snaps into place — the product, not a screenshot.
-
-| File | Slot |
-|---|---|
-| `demo.mp4` | 30-second demo (wire into a dialog when you have it) |
-| `Mise.dmg` | Download target (`src/site.ts`) |
-
-`icon.png`, `favicon.png`, `apple-touch-icon.png`, and `og.png` are generated from the app icon set. Rebuild them with a Pillow environment:
-
-```sh
-python3 -m venv .venv
-.venv/bin/pip install Pillow
-.venv/bin/python scripts/generate-assets.py
-```
-
-Canonical URL, download path, and contact email live in `src/site.ts`.
-
----
-
-_Pin-watch test: 2026-08-23T22:58:30Z_
+Canonical URL, Raycast store, and contact live in `src/site.ts`. There is no live DMG in the repo; the Apple Silicon CTA reads Coming soon until one exists.

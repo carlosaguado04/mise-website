@@ -1,0 +1,120 @@
+---
+import Base from "../layouts/Base.astro";
+import BeatFloater from "../components/BeatFloater.astro";
+import { site } from "../site";
+---
+
+<Base
+  page="features"
+  title={`Features — ${site.name}`}
+  description="Capture a Set, apply it in one click, keep windows on the right display."
+>
+  <header class="page-head">
+    <p class="page-kicker">How a Set works</p>
+    <h1 class="page-title">Features</h1>
+  </header>
+
+  <div class="story" data-story>
+    <aside class="story-rail" aria-label="Beats">
+      <ol class="story-nav">
+        <li><a href="#capture" data-rail="capture">01 Capture</a></li>
+        <li><a href="#apply" data-rail="apply">02 Apply</a></li>
+        <li><a href="#displays" data-rail="displays">03 Displays</a></li>
+        <li><a href="#reach" data-rail="reach">04 Reach</a></li>
+        <li><a href="#shortcuts" data-rail="shortcuts">05 Shortcuts</a></li>
+        <li><a href="#raycast" data-rail="raycast">06 Raycast</a></li>
+      </ol>
+    </aside>
+
+    <div class="story-beats">
+      <section class="beat" id="capture" data-beat="capture">
+        <p class="beat-num">01</p>
+        <div class="beat-head">
+          <h2>Capture a Set</h2>
+          <BeatFloater label="Capture" tone="acid" />
+        </div>
+        <p>
+          Save the desk you’re looking at. The real frames — not a template you have to fight, not a
+          guess at where things “should” go.
+        </p>
+      </section>
+
+      <section class="beat" id="apply" data-beat="apply">
+        <p class="beat-num">02</p>
+        <div class="beat-head">
+          <h2>Apply in one click</h2>
+          <BeatFloater label="Apply" tone="acid" />
+        </div>
+        <p>
+          Apps launch, size, and land. The desk comes back. That’s the whole trick — and the whole
+          product.
+        </p>
+      </section>
+
+      <section class="beat" id="displays" data-beat="displays">
+        <p class="beat-num">03</p>
+        <div class="beat-head">
+          <h2>Multi-display + reconnect</h2>
+          <BeatFloater label="Locked" tone="ember" />
+        </div>
+        <p>
+          Layouts respect the displays they’re on. Unplug, replug — stop playing 52-card pickup.
+        </p>
+        <p class="beat-lock">
+          Lock display keeps a window pinned to its display UUID so it never jumps monitors on Apply
+          or reconnect.
+        </p>
+      </section>
+
+      <section class="beat" id="reach" data-beat="reach">
+        <p class="beat-num">04</p>
+        <div class="beat-head">
+          <h2>Hotkeys + menu bar</h2>
+          <BeatFloater label="Ctrl-Opt 3" tone="heat" />
+        </div>
+        <p>
+          Control-Option and a number if you want it. The menu bar is always there if you don’t —
+          capture, apply, edit, without opening a window about windows.
+        </p>
+      </section>
+
+      <section class="beat" id="shortcuts" data-beat="shortcuts">
+        <p class="beat-num">05</p>
+        <div class="beat-head">
+          <h2>Apple Shortcuts</h2>
+          <BeatFloater label="Shortcuts" tone="acid" />
+        </div>
+        <p>
+          Same Sets, in Shortcuts. Apply Set is a native action — drop it into Focus, login, or
+          Siri. No extra ritual.
+        </p>
+      </section>
+
+      <section class="beat" id="raycast" data-beat="raycast">
+        <p class="beat-num">06</p>
+        <div class="beat-head">
+          <h2>Raycast</h2>
+          <a
+            class="raycast-badge"
+            href={site.raycastStoreUrl}
+            title="Install mise-window-sets Raycast Extension"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              src={site.raycastBadgeUrl}
+              height="64"
+              width="256"
+              alt="Install mise-window-sets on Raycast"
+              decoding="async"
+            />
+          </a>
+        </div>
+        <p>
+          Search a Set, apply it. Listing is free. Applying needs Pro. If Raycast is already home,
+          this is the door.
+        </p>
+      </section>
+    </div>
+  </div>
+</Base>

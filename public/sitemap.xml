@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://usemise.dev/</loc></url>
+  <url><loc>https://usemise.dev/features</loc></url>
+  <url><loc>https://usemise.dev/pro</loc></url>
   <url><loc>https://usemise.dev/privacy</loc></url>
-  <url><loc>https://usemise.dev/contact</loc></url>
 </urlset>
