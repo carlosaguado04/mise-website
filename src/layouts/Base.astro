@@ -1,5 +1,6 @@
 ---
 import { site } from "../site";
+import { asset } from "../asset";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Analytics from "@vercel/analytics/astro";
@@ -53,11 +54,11 @@ const boot = page === "home";
     <meta name="twitter:image" content={ogImage} />
     <link rel="preload" href="/fonts/Satoshi-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/tokens.css" />
-    <link rel="stylesheet" href="/assets/css/base.css" />
-    <link rel="stylesheet" href="/assets/css/shell.css" />
-    <link rel="stylesheet" href="/assets/css/home.css" />
-    <link rel="stylesheet" href="/assets/css/inner.css" />
+    <link rel="stylesheet" href={asset("/assets/css/tokens.css")} />
+    <link rel="stylesheet" href={asset("/assets/css/base.css")} />
+    <link rel="stylesheet" href={asset("/assets/css/shell.css")} />
+    <link rel="stylesheet" href={asset("/assets/css/home.css")} />
+    <link rel="stylesheet" href={asset("/assets/css/inner.css")} />
     {
       jsonLd && (
         <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -78,9 +79,9 @@ const boot = page === "home";
     <SpeedInsights />
     <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script is:inline src="/assets/js/main.js"></script>
-    <script is:inline src="/assets/js/motion.js"></script>
-    <script is:inline src="/assets/js/interact.js"></script>
-    <script is:inline src="/assets/js/transit.js"></script>
+    <script is:inline src={asset("/assets/js/main.js")}></script>
+    <script is:inline src={asset("/assets/js/motion.js")}></script>
+    <script is:inline src={asset("/assets/js/interact.js")}></script>
+    <script is:inline src={asset("/assets/js/transit.js")}></script>
   </body>
 </html>
