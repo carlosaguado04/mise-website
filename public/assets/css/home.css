@@ -149,16 +149,23 @@
 .home-hops {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.9rem;
-  font-weight: 700;
+  gap: 0.85rem;
 }
-.home-hops a {
-  text-decoration: none;
-  color: var(--ink-mute);
+.home-hops .floater {
+  font-size: 0.82rem;
+  padding: 0.52rem 1.05rem;
 }
-.home-hops a:hover { color: var(--acid); }
-.home-hops-dot { color: var(--ink-dim); }
+.home-hops .floater:first-child {
+  --tilt: -6deg;
+}
+.home-hops .floater:last-child {
+  --tilt: 5deg;
+  animation-duration: 3.8s;
+  animation-delay: 0.35s;
+}
+.home-hops a.floater.is-pressed {
+  filter: brightness(0.92);
+}
 
 .page-home.is-booting .hero-line,
 .page-home.is-booting .hero-sub,

@@ -116,6 +116,17 @@
 .floater--ember { --floater: var(--ember); }
 .floater--heat { --floater: var(--heat); }
 
+a.floater {
+  text-decoration: none;
+  color: var(--void);
+  cursor: pointer;
+}
+a.floater:hover,
+a.floater:focus-visible {
+  color: var(--void);
+  filter: brightness(1.08);
+}
+
 .beat:nth-child(1) .floater { --tilt: -6deg; }
 .beat:nth-child(2) .floater {
   --tilt: 5deg;

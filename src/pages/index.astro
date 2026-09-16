@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import BeatFloater from "../components/BeatFloater.astro";
 import DownloadCtas from "../components/DownloadCtas.astro";
 import { site, jsonLd } from "../site";
 
@@ -40,9 +41,8 @@ const sets = [
     <div class="home-cta">
       <DownloadCtas compact raycast={false} />
       <nav class="home-hops" aria-label="More">
-        <a href="/features">Features</a>
-        <span class="home-hops-dot" aria-hidden="true">·</span>
-        <a href="/pro">Pricing</a>
+        <BeatFloater label="Features" tone="acid" href="/features" />
+        <BeatFloater label="Pricing" tone="heat" href="/pro" />
       </nav>
     </div>
   </section>

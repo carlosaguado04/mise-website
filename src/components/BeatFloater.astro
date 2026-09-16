@@ -2,9 +2,20 @@
 interface Props {
   label: string;
   tone?: "acid" | "ember" | "heat";
+  href?: string;
 }
 
-const { label, tone = "acid" } = Astro.props;
+const { label, tone = "acid", href } = Astro.props;
 ---
 
-<span class:list={["floater", `floater--${tone}`]} data-floater>{label}</span>
+{
+  href ? (
+    <a class:list={["floater", `floater--${tone}`]} data-floater href={href}>
+      {label}
+    </a>
+  ) : (
+    <span class:list={["floater", `floater--${tone}`]} data-floater>
+      {label}
+    </span>
+  )
+}
